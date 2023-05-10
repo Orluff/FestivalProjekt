@@ -1,0 +1,125 @@
+﻿@page "/booking"
+@page "/booking/{objektid}"
+@using Client.Services;
+
+<h1 class="mb-3 mt-3">Book your shelter</h1>
+<EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="col-md-12 mb-3">
+        <label for="Fornavn">Fornavn:</label>
+        <InputText id="Fornavn" @bind-Value="bookingItem.fornavn" class="form-control" />
+    </div>
+    <div class="col-md-12 mb-3">
+        <label for="Efternavn">Efternavn:</label>
+        <InputText id="Efternavn" @bind-Value="bookingItem.efternavn" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="Telefon">Telefon:</label>
+        <InputNumber id="Telefon" @bind-Value="bookingItem.tlf" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="Adresse">Adresse:</label>
+        <InputText id="Adresse" @bind-Value="bookingItem.adresse" class="form-control" />
+    </div>
+    <div class="col-md-12 mb-3">
+        <label for="Email">Email:</label>
+        <InputText id="Email" @bind-Value="bookingItem.email" class="form-control" />
+    </div>
+    <div class="col-md-12 mb-3">
+        <label for="StartDate">Startdato:</label>
+        <InputDate id="StartDate" @bind-Value="bookingItem.start" class="form-control" />
+    </div>
+    <div class="col-md-12 mb-3">
+        <label for="SlutDate">Slutdato:</label>
+        <InputDate id="SlutDate" @bind-Value="bookingItem.slut" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="Antal_pers">Antal personer:</label>
+        <InputNumber id="Antal_pers" @bind-Value="bookingItem.antal_pers" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="Kommentar">Kommentar:</label>
+        <InputText id="Kommentar" @bind-Value="bookingItem.kommentar" class="form-control" />
+    </div>
+
+    <div class="col-12 mb-3">
+        <button type="submit" @onclick="@TimeTester" class="btn btn-primary">Book!</button>
+    </div>
+</EditForm>
+
+
+@code {
+
+    /*Gammel kode
+    //fang den tidligere insans for at kunne tilgå under booking
+    [Parameter]
+    public string? objektid { get; set; }
+
+    private BookingItems bookingItem = new BookingItems();
+
+    private BookingItems[]? bookingForm = new BookingItems[0];
+
+    private EditContext aEditContext;
+
+    protected override void OnInitialized()
+    {
+        aEditContext = new EditContext(bookingItem);
+    }
+
+    public async Task HandleValidSubmit()
+    {
+        await AddBookingItem();
+    }
+
+    private async Task AddBookingItem()
+    {
+        //tidligere instans objektid fra shelter siden
+        bookingItem.objekt_id = objektid;
+        await Http.PostAsJsonAsync<BookingItems>("https://localhost:7201/api/booking", bookingItem);
+        bookingItem = new(); // clear fields in form
+    }
+
+    //bevis på at koden udskriver rigtige data (mongoDB gør ikke)
+    private void TimeTester()
+    {
+        Console.WriteLine(bookingItem.start);
+        Console.WriteLine(bookingItem.slut);
+    }*/
+
+    //Ny kode
+    BookingItems booking = new();
+
+    [Parameter]
+    public string? objektid { get; set; }
+
+    [Inject]
+    private IBookingService mService { get; set; }
+
+    private BookingItems bookingItem = new BookingItems();
+
+    private EditContext aEditContext;
+
+    protected override void OnInitialized()
+    {
+        aEditContext = new EditContext(bookingItem);
+    }
+
+    public async Task HandleValidSubmit()
+    {
+        await AddBookingItem(); // clear fields in form
+    }
+
+    private async Task AddBookingItem()
+    {
+        //tidligere instans objektid fra shelter siden
+        bookingItem.objekt_id = objektid;
+        await mService.Book(bookingItem);
+        bookingItem = new(); // clear fields in form
+    }
+    private void TimeTester()
+    {
+        Console.WriteLine(bookingItem.start);
+        Console.WriteLine(bookingItem.slut);
+    }
+}
