@@ -2,7 +2,7 @@
 using Client;
 namespace Client.Services
 {
-	public interface IBookingService
+	public interface IShiftService
 	{
 		Task<IEnumerable<BookingItems>> getBookings();
 		Task Book(BookingItems item);

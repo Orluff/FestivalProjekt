@@ -6,10 +6,10 @@ using static System.Net.WebRequestMethods;
 
 namespace Client.Services
 {
-    public class BookingService : IBookingService
+    public class ShiftService : IShiftService
     {
         HttpClient http;
-        public BookingService(HttpClient http)
+        public ShiftService(HttpClient http)
         {
             this.http = http;
         }
