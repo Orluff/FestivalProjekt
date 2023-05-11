@@ -10,26 +10,27 @@ namespace Server.Repositories
         private const string connectionString = @"mongodb+srv://admin:Uyq39fea@shelter.poainkb.mongodb.net/test";
         private const string databaseName = "shelterdb";
         private const string bookingCollection = "bookings";
-        public IMongoCollection<Shift> shift_collection;
+        public IMongoCollection<ShiftDTO> shift_collection;
 
         public ShiftRepository()
         {
             var client = new MongoClient(connectionString);
             var database = client.GetDatabase(databaseName);
-            shift_collection = database.GetCollection<Shift>(bookingCollection);
+            shift_collection = database.GetCollection<ShiftDTO>(bookingCollection);
         }
 
-        Shift[] IShiftRepository.getShifts()
+        ShiftDTO[] IShiftRepository.getShifts()
         {
             return shift_collection.Find(i => true).ToList().ToArray();
         }
 
-        void IShiftRepository.AddShift(Shift item)
+        void IShiftRepository.AddShift(ShiftDTO item)
         {
             shift_collection.InsertOne(item);
         }
 
-        void IShiftRepository.TakeShift(Shift item)
+        //SKAL REDIGERES - Tror jeg
+        void IShiftRepository.TakeShift(ShiftDTO item)
         {
             shift_collection.InsertOne(item);
         }

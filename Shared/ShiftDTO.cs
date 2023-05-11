@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 [BsonIgnoreExtraElements]
 
 
-public class Shift
+public class ShiftDTO
 {
     public int shift_id { get; set; }
 

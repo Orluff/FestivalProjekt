@@ -14,18 +14,18 @@ namespace Client.Services
             this.http = http;
         }
 
-        public async Task<IEnumerable<Shift>> getShifts()
+        public async Task<IEnumerable<ShiftDTO>> getShifts()
         {
-            var shifts = await http.GetFromJsonAsync<Shift[]>("https://localhost:7201/api/booking");
+            var shifts = await http.GetFromJsonAsync<ShiftDTO[]>("https://localhost:7201/api/booking");
             return shifts;
         }
 
-        public async Task TakeShift(Shift item)
+        public async Task TakeShift(ShiftDTO item)
         {
-            await http.PostAsJsonAsync<Shift>("https://localhost:7201/api/booking", item);
+            await http.PostAsJsonAsync<ShiftDTO>("https://localhost:7201/api/booking", item);
         }
 
-        public async Task ReleaseShift(Shift item)
+        public async Task ReleaseShift(ShiftDTO item)
         {
             await http.DeleteAsync($"https://localhost:7201/api/booking/{item.BookingId}");
         }

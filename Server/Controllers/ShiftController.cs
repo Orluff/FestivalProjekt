@@ -26,7 +26,7 @@ namespace Server.Controllers
         //Poster informationer fra shifts formen til koordinator siden
         [EnableCors("policy")]
         [HttpPost]
-        public void Take(Shift shift)
+        public void Take(ShiftDTO shift)
         {
             mRepo.TakeShift(shift);
         }
@@ -35,7 +35,7 @@ namespace Server.Controllers
         //Fanger postede informationer til koordinator siden
         [EnableCors("policy")]
         [HttpGet]
-        public IEnumerable<Shift> Get()
+        public IEnumerable<ShiftDTO> Get()
         {
             return mRepo.getShifts();
         }

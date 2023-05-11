@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 [BsonIgnoreExtraElements]
 
 
-public class ShiftPriority
+public class ShiftPriorityDTO
 {
     public int priority_id { get; set; }
 

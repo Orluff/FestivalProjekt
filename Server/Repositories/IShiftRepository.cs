@@ -3,9 +3,9 @@ namespace Server.Repositories
 {
     public interface IShiftRepository
     {
-        Shift[] getShifts();
-        void AddShift(Shift item);
-        void TakeShift(Shift item);
+        ShiftDTO[] getShifts();
+        void AddShift(ShiftDTO item);
+        void TakeShift(ShiftDTO item);
         void ReleaseShift(int id);
     }
 }

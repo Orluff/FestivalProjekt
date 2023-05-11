@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 [BsonIgnoreExtraElements]
 
 
-public class User
+public class UserDTO
 {
     public int user_id { get; set; }
 
