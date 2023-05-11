@@ -50,43 +50,6 @@
 
 
 @code {
-
-    /*Gammel kode
-    //fang den tidligere insans for at kunne tilgå under booking
-    [Parameter]
-    public string? objektid { get; set; }
-
-    private BookingItems bookingItem = new BookingItems();
-
-    private BookingItems[]? bookingForm = new BookingItems[0];
-
-    private EditContext aEditContext;
-
-    protected override void OnInitialized()
-    {
-        aEditContext = new EditContext(bookingItem);
-    }
-
-    public async Task HandleValidSubmit()
-    {
-        await AddBookingItem();
-    }
-
-    private async Task AddBookingItem()
-    {
-        //tidligere instans objektid fra shelter siden
-        bookingItem.objekt_id = objektid;
-        await Http.PostAsJsonAsync<BookingItems>("https://localhost:7201/api/booking", bookingItem);
-        bookingItem = new(); // clear fields in form
-    }
-
-    //bevis på at koden udskriver rigtige data (mongoDB gør ikke)
-    private void TimeTester()
-    {
-        Console.WriteLine(bookingItem.start);
-        Console.WriteLine(bookingItem.slut);
-    }*/
-
     //Ny kode
     BookingItems booking = new();
 

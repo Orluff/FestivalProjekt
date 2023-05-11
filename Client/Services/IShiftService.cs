@@ -4,9 +4,9 @@ namespace Client.Services
 {
 	public interface IShiftService
 	{
-		Task<IEnumerable<BookingItems>> getBookings();
-		Task Book(BookingItems item);
-		Task RemoveItem(BookingItems item);
+		Task<IEnumerable<Shift>> getShifts();
+		Task TakeShift(Shift item);
+		Task ReleaseShift(Shift item);
 	}
 }
 

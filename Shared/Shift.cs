@@ -6,20 +6,18 @@ using MongoDB.Bson.Serialization.Attributes;
 
 public class Shift
 {
-    public string objekt_id { get; set; }
+    public int shift_id { get; set; }
 
-    public Boolean priority { get; set; }
+    public DateTime startDateTime { get; set; }
 
-    public DateTime start { get; set; } = DateTime.Now.AddHours(+2);
-
-    public DateTime end { get; set; } = DateTime.Now.AddHours(+2).AddDays(+3);
+    public DateTime endDateTime { get; set; }
 
     public double duration { get; set; } = 0;
 
-    public string person_id { get; set; } = "";
+    public int category_id  { get; set; }
 
-    public string area { get; set; } = "";
+    public int user_id { get; set; }
 
-    public string description { get; set; } = "";
+    public int status_id { get; set; }
 }
 
