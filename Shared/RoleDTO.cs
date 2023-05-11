@@ -10,5 +10,5 @@ public class RoleDTO
 
     public string roleName { get; set; }
 
-    public string description { get; set; }
+    public string? description { get; set; }
 }
