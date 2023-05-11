@@ -10,7 +10,6 @@ namespace Server.Repositories
         private const string connectionString = @"mongodb+srv://admin:Uyq39fea@shelter.poainkb.mongodb.net/test";
         private const string databaseName = "shelterdb";
         private const string bookingCollection = "bookings";
-        private const string shelterCollection = "shelters";
         public IMongoCollection<Shift> shift_collection;
 
         public ShiftRepository()
