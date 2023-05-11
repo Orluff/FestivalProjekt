@@ -14,19 +14,19 @@ namespace Server.Controllers
     [Route("api/shelter")]
     public class ShelterController : ControllerBase 
 	{
-        private IBookingRepository mRepo;
+        private IShiftRepository mRepo;
 
         public ShelterController()
 		{
-            this.mRepo = new BookingRepository();
+            this.mRepo = new ShiftRepository();
         }
 
         //Fanger informationer om shelters
         [EnableCors("policy")]
         [HttpGet]
-        public IEnumerable<ShelterItems> Get()
+        public IEnumerable<ShiftDTO> Get()
         {
-            return mRepo.getShelters();
+            return mRepo.getShifts();
         }
     }
 }
