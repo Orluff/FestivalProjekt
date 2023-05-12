@@ -16,8 +16,8 @@ public class ShiftDTO
 
     public int category_id  { get; set; }
 
-    public int? user_id { get; set; }
+    public bool priority { get; set; }
 
-    public int status_id { get; set; }
+    public int spots { get; set; }
 }
 
