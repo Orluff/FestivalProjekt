@@ -12,7 +12,7 @@
     "http": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "shift",
+      "launchUrl": "user",
       "applicationUrl": "http://localhost:5188",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
@@ -22,7 +22,7 @@
     "https": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/shift",
+      "launchUrl": "api/user",
       "applicationUrl": "https://localhost:7201;http://localhost:5188",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
@@ -32,7 +32,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "shift",
+      "launchUrl": "user",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

@@ -8,39 +8,40 @@ using Npgsql;
 
 namespace Server.Repositories
 {
-    public class ShiftRepository : IShiftRepository
+    public class UserRepository : IUserRepository
     {
         private const string connString = "UserID=dulxtoup;Password=14RylFQESpWlaG33iASfr1zUZgyh5JyS;Host=abul.db.elephantsql.com;Port=5432;Database=dulxtoup;";
 
-        public ShiftRepository()
+        public UserRepository()
         {
             
         }
 
-        public ShiftDTO[] getShifts()
+        public UserDTO[] getUsers()
         {
-            var result = new List<ShiftDTO>();
+            var result = new List<UserDTO>();
             using (var connection = new NpgsqlConnection(connString))
             {
                 connection.Open();
 
                 var command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM \"Shifts\"";
+                command.CommandText = "SELECT * FROM \"Users\"";
 
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        var ShiftID = reader.GetInt32(0);
-                        Console.WriteLine("Id=" + ShiftID);
-                        var StartDateTime = reader.GetDateTime(1);
-                        var EndDateTime = reader.GetDateTime(2);
-                        var Duration = reader.GetDouble(3);
-                        var Category_id = reader.GetInt32(4);
-                        var Priority = reader.GetBoolean(5);
-                        var Spots = reader.GetInt32(6);
+                        var UserID = reader.GetInt32(0);
+                        Console.WriteLine("Id=" + UserID);
+                        var Name = reader.GetString(1);
+                        var Lastname = reader.GetString(2);
+                        var Address = reader.GetString(3);
+                        var Email = reader.GetString(4);
+                        var Telephone = reader.GetString(5);
+                        var Birthdate = reader.GetDateTime(6);
+                        var RoleID = reader.GetInt32(7);
 
-                        ShiftDTO b = new ShiftDTO { shift_id = ShiftID, startDateTime = StartDateTime, endDateTime = EndDateTime, duration = Duration, category_id = Category_id, priority = Priority, spots = Spots };
+                        UserDTO b = new UserDTO { user_id = UserID, name = Name, lastName = Lastname, address = Address, email = Email, telephone = Telephone, birthDate = Birthdate, role_id = RoleID };
                         result.Add(b);
                     }
                 }
@@ -48,7 +49,7 @@ namespace Server.Repositories
             return result.ToArray();
         }
 
-        public void AddShift(ShiftDTO shift)
+        public void AddUser(UserDTO user)
         {
             using (var connection = new NpgsqlConnection(connString))
             {
@@ -67,15 +68,7 @@ namespace Server.Repositories
             }
         }
 
-        public void ReleaseShift(int shift_id)
-        {
-            using (var connection = new NpgsqlConnection(connString))
-            {
-                
-            }
-        }
-
-        public void TakeShift(ShiftDTO shift)
+        public void RemoveUser(int user_id)
         {
             using (var connection = new NpgsqlConnection(connString))
             {
