@@ -6,6 +6,6 @@ namespace Server.Repositories
         ShiftDTO[] getShifts();
         void AddShift(ShiftDTO item);
         void TakeShift(ShiftDTO item);
-        void ReleaseShift(int id);
+        void RemoveShift(int id);
     }
 }

@@ -20,14 +20,14 @@ namespace Client.Services
             return users;
         }
 
-        public async Task AddUser(UserDTO item)
+        public async Task AddUser(UserDTO user)
         {
-            await http.PostAsJsonAsync<UserDTO>("https://localhost:7201/api/booking", item);
+            await http.PostAsJsonAsync<UserDTO>("https://localhost:7201/api/booking", user);
         }
 
-        public async Task RemoveUser(UserDTO item)
+        public async Task RemoveUser(UserDTO user)
         {
-            await http.DeleteAsync($"https://localhost:7201/api/booking/{item.BookingId}");
+            await http.DeleteAsync($"https://localhost:7201/api/booking/{user.user_id}");
         }
     }
 }

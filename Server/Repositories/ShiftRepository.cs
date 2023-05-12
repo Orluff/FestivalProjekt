@@ -52,26 +52,29 @@ namespace Server.Repositories
         {
             using (var connection = new NpgsqlConnection(connString))
             {
-                /*
                 connection.Open();
                 var command = connection.CreateCommand();
 
-                command.CommandText = @"INSERT INTO Bike (Brand, Model, Description, Price, ImageUrl) VALUES ($brand, $model, $desc, $price, $imgurl)";
-                command.Parameters.AddWithValue("$brand", bike.Brand);
-                command.Parameters.AddWithValue("$model", bike.Model);
-                command.Parameters.AddWithValue("$desc", bike.Description);
-                command.Parameters.AddWithValue("$price", bike.Price);
-                command.Parameters.AddWithValue("$imgurl", bike.ImageUrl);
+                command.CommandText = "INSERT INTO \"Shifts\" (\"startDateTime\", \"endDateTime\", duration, category_id, priority, spots)" +
+                    " VALUES ($startDateTime, $endDateTime, $duration, $category_id, $priority, $spots)";
+                command.Parameters.AddWithValue("$startDateTime", shift.startDateTime);
+                command.Parameters.AddWithValue("$endDateTime", shift.endDateTime);
+                command.Parameters.AddWithValue("$duration", shift.duration);
+                command.Parameters.AddWithValue("$category_id", shift.category_id);
+                command.Parameters.AddWithValue("$priority", shift.priority);
+                command.Parameters.AddWithValue("$spots", shift.spots);
                 command.ExecuteNonQuery();
-                */
             }
         }
 
-        public void ReleaseShift(int shift_id)
+        public void RemoveShift(int shift_id)
         {
             using (var connection = new NpgsqlConnection(connString))
             {
-                
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText = $"DELETE FROM \"Shifts\" WHERE shift_id = {shift_id};";
             }
         }
 

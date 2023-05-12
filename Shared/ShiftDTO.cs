@@ -8,9 +8,9 @@ public class ShiftDTO
 {
     public int shift_id { get; set; }
 
-    public DateTime startDateTime { get; set; }
+    public DateTime startDateTime { get; set; } = DateTime.Now;
 
-    public DateTime endDateTime { get; set; }
+    public DateTime endDateTime { get; set; } = DateTime.Now;
 
     public double duration { get; set; } = 0;
 

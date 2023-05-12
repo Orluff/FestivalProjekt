@@ -1,0 +1,69 @@
+﻿@page "/createshift"
+@page "/createshift/{shiftid}"
+@using Client.Services;
+
+<h1 class="mb-3 mt-3">Book your shelter</h1>
+<EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="col-md-12 mb-3">
+        <label for="startDateTime">Start Tidspunkt:</label>
+        <InputDate id="startDateTime" @bind-Value="shiftItem.startDateTime" class="form-control" />
+    </div>
+    <div class="col-md-12 mb-3">
+        <label for="endDateTime">Slut Tidspunkt:</label>
+        <InputDate id="endDateTime" @bind-Value="shiftItem.endDateTime" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="duration">Længde:</label>
+        <InputNumber id="duration" @bind-Value="shiftItem.duration" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="category_id">Kategori ID:</label>
+        <InputNumber id="category_id" @bind-Value="shiftItem.category_id" class="form-control" />
+    </div>
+    <div class="col-md-12 mb-3">
+        <label for="priority">Prioritet:</label>
+        <InputCheckbox id="priority" @bind-Value="shiftItem.priority" class="form-control" />
+    </div>
+    <div class="col-md-12 mb-3">
+        <label for="spots">Pladser:</label>
+        <InputNumber id="spots" @bind-Value="shiftItem.spots" class="form-control" />
+    </div>
+    <div class="col-12 mb-3">
+        <button type="submit" class="btn btn-primary">Lav vagt</button>
+    </div>
+</EditForm>
+
+
+@code {
+    ShiftDTO shift = new();
+
+    [Parameter]
+    public int shiftid { get; set; }
+
+    [Inject]
+    private IShiftService mService { get; set; }
+
+    private ShiftDTO shiftItem = new ShiftDTO();
+
+    private EditContext aEditContext;
+
+    protected override void OnInitialized()
+    {
+        aEditContext = new EditContext(shiftItem);
+    }
+
+    public async Task HandleValidSubmit()
+    {
+        await AddShift(); // clear fields in form
+    }
+
+    private async Task AddShift()
+    {
+        //tidligere instans objektid fra shelter siden
+        shiftItem.shift_id = shiftid;
+        await mService.AddShift(shiftItem);
+        shiftItem = new(); // clear fields in form
+    }
+}

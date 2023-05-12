@@ -26,9 +26,9 @@ namespace Server.Controllers
         //Poster informationer fra shifts formen til koordinator siden
         [EnableCors("policy")]
         [HttpPost]
-        public void Take(ShiftDTO shift)
+        public void Add(ShiftDTO shift)
         {
-            mRepo.TakeShift(shift);
+            mRepo.AddShift(shift);
         }
 
         //Get
@@ -42,12 +42,13 @@ namespace Server.Controllers
 
         //Delete
         //Sletter informationer fra koordinator siden
+        [EnableCors("policy")]
         [HttpDelete]
         [Route("{id}")]
 
-        public void Release(int id)
+        public void Remove(int id)
         {
-            mRepo.ReleaseShift(id);
+            mRepo.RemoveShift(id);
         }
     }
 }
