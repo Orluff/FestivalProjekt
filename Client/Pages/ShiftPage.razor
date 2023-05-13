@@ -55,5 +55,7 @@
     private async Task RemoveShift(ShiftDTO id)
     {
         await mService.RemoveShift(id);
+        shiftList = (await mService.getShifts()).ToArray();
+        StateHasChanged();
     }
 }
