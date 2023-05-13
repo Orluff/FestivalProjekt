@@ -15,11 +15,11 @@ namespace Server.Controllers
     [Route("api/shift")]
     public class ShiftController : ControllerBase
     {
-        private IShiftRepository mRepo;
+        private IShiftRepository shiftRepo;
 
         public ShiftController()
         {
-            this.mRepo = new ShiftRepository();
+            this.shiftRepo = new ShiftRepository();
         }
 
         //Post
@@ -28,7 +28,7 @@ namespace Server.Controllers
         [HttpPost]
         public void Add(ShiftDTO shift)
         {
-            mRepo.AddShift(shift);
+            shiftRepo.AddShift(shift);
         }
 
         //Get
@@ -37,7 +37,7 @@ namespace Server.Controllers
         [HttpGet]
         public IEnumerable<ShiftDTO> Get()
         {
-            return mRepo.getShifts();
+            return shiftRepo.getShifts();
         }
 
         //Delete
@@ -48,7 +48,7 @@ namespace Server.Controllers
 
         public void Remove(int id)
         {
-            mRepo.RemoveShift(id);
+            shiftRepo.RemoveShift(id);
         }
     }
 }
