@@ -7,8 +7,8 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        var connString = "UserID=dulxtoup;Password=14RylFQESpWlaG33iASfr1zUZgyh5JyS;Host=abul.db.elephantsql.com;Port=5432;Database=dulxtoup;";
-        var sql = "SELECT * FROM \"User\"";
+        var connString = "UserID=baune_admin;Password=Gruppe32023;Host=baunesfestival.postgres.database.azure.com;Port=5432;Database=postgres;";
+        var sql = "SELECT * FROM \"Users\"";
 
         using (var connection = new NpgsqlConnection(connString))
         {
@@ -47,7 +47,6 @@ public class Program
         app.UseCors("policy");
 
         app.UseAuthorization();
-
 
         app.MapControllers();
 
