@@ -1,63 +1,65 @@
-﻿@page "/user"
+@page "/users"
 @using Client.Services;
 @inject HttpClient Http;
 
-<h1 class="mb-3 mt-3">Vagt Liste</h1>
+<h1 class="mb-3 mt-3">User Liste</h1>
 <table class="table table-striped">
-    <thead>                     
+    <thead>
         <tr>
-            <th>Vagt ID</th>
-            <th>Start Tidspunkt</th>
-            <th>Slut Tidspunkt</th>
-            <th>Længde</th>
-            <th>Kategori ID</th>
-            <th>Prioritet</th>
-            <th>Pladser</th>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Lastname</th>
+            <th>Address</th>
+            <th>Email</th>
+            <th>Telephone</th>
+            <th>Birthdate</th>
+            <th>Role ID</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var shift in shiftList)
+        @foreach (var user in userList)
         {
             <tr>
-                <td>@shift.shift_id</td>
-                <td>@shift.startDateTime</td>
-                <td>@shift.endDateTime</td>
-                <td>@shift.duration</td>
-                <td>@shift.category_id</td>
-                <td>@shift.priority</td>
-                <td>@shift.spots</td>
-                <td><button type="button" @onclick="() => RemoveShift(shift)">X</button></td>
+                <td>@user.user_id.</td>
+                <td>@user.name</td>
+                <td>@user.lastName</td>
+                <td>@user.address</td>
+                <td>@user.email</td>
+                <td>@user.telephone</td>
+                <td>@user.birthDate</td>
+                <td>@user.role_id</td>
+                <td><button type="button" @onclick="() => RemoveUser(user)">X</button></td>
             </tr>
         }
     </tbody>
 </table>
 
 @code {
-    private ShiftDTO[]? shiftList = new ShiftDTO[0];
+    private UserDTO[]? userList = new UserDTO[0];
 
     [Inject]
-    private IShiftService mService { get; set; }
+    private IUserService mService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        shiftList = (await mService.getShifts()).ToArray();
+        userList = (await mService.getUsers()).ToArray();
     }
 
-    private ShiftDTO shift = new ShiftDTO();
+    private UserDTO user = new UserDTO();
 
     private EditContext aEditContext;
 
     protected override void OnInitialized()
     {
-        aEditContext = new EditContext(shift);
+        aEditContext = new EditContext(user);
     }
 
-    private async Task RemoveShift(ShiftDTO id)
+    private async Task RemoveUser(UserDTO id)
     {
-        await mService.RemoveShift(id);
+        await mService.RemoveUser(id);
 
         //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
-        shiftList = (await mService.getShifts()).ToArray();
+        userList = (await mService.getUsers()).ToArray();
         StateHasChanged();
     }
 }

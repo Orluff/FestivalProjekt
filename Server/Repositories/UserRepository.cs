@@ -10,11 +10,11 @@ namespace Server.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private const string connString = "UserID=baune_admin;Password=Gruppe32023;Host=baunesfestival.postgres.database.azure.com;Port=5432;Database=postgres;";
+        private const string connString = "UserID=baune_admin;Password=Gruppe32023;Host=baunesfestival.postgres.database.azure.com;Port=5432;Database=postgres";
 
         public UserRepository()
         {
-            
+
         }
 
         public UserDTO[] getUsers()
@@ -56,8 +56,8 @@ namespace Server.Repositories
                 connection.Open();
                 var command = connection.CreateCommand();
 
-                command.CommandText = "INSERT INTO \"Users\" (name, lastName, address, email, telephone, birthDate, role_id)" +
-                    " VALUES (@name, @lastName, @address, @email, @telephone, @birthDate, @role_id)";
+                command.CommandText = "INSERT INTO \"Users\" (name, \"lastName\", address, email, telephone, \"birthDate\", role_id, password)" +
+                    " VALUES (@name, @lastName, @address, @email, @telephone, @birthDate, @role_id, @password)";
                 command.Parameters.AddWithValue("@name", user.name);
                 command.Parameters.AddWithValue("@lastName", user.lastName);
                 command.Parameters.AddWithValue("@address", user.address);
@@ -65,18 +65,21 @@ namespace Server.Repositories
                 command.Parameters.AddWithValue("@telephone", user.telephone);
                 command.Parameters.AddWithValue("@birthDate", user.birthDate);
                 command.Parameters.AddWithValue("@role_id", user.role_id);
+                command.Parameters.AddWithValue("@password", user.password);
                 command.ExecuteNonQuery();
             }
-
         }
 
         public void RemoveUser(int user_id)
         {
             using (var connection = new NpgsqlConnection(connString))
             {
-                
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText = $"DELETE FROM \"Users\" WHERE user_id = {user_id};";
+                command.ExecuteNonQuery();
             }
         }
     }
 }
-
