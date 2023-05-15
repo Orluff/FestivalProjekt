@@ -2,7 +2,7 @@
 @page "/createuser/{userid}"
 @using Client.Services;
 
-<h1 class="mb-3 mt-3">Create a user</h1>
+<h1 class="mb-3 mt-3">Opret bruger:</h1>
 <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -31,14 +31,18 @@
         <InputDate id="birthDate" @bind-Value="userItem.birthDate" class="form-control" />
     </div>
     <div class="col-md-6 mb-3">
-        <label for="role_id">Rolle: Koordinator = 0, Frivillig = 1</label>
-        <InputDate id="role_id" @bind-Value="userItem.role_id" class="form-control" />
+        <label for="role_id">Rolle: Koordinator = 1, Frivillig = 2</label>
+        <InputNumber id="role_id" @bind-Value="userItem.role_id" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="password">Password:</label>
+        <InputText id="password" @bind-Value="userItem.password" class="form-control" />
     </div>
 
 
 
     <div class="col-12 mb-3">
-        <button type="submit" class="btn btn-primary">Lav vagt</button>
+        <button type="submit" class="btn btn-primary">Opret bruger</button>
     </div>
 </EditForm>
 
