@@ -5,8 +5,8 @@ namespace Client.Services
 	public interface IShiftService
 	{
 		Task<IEnumerable<ShiftDTO>> getShifts();
-		Task TakeShift(ShiftDTO item);
-		Task ReleaseShift(ShiftDTO item);
+		Task AddShift(ShiftDTO shift);
+		Task RemoveShift(ShiftDTO shift);
 	}
 }
 
