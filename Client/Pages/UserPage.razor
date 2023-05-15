@@ -1,0 +1,65 @@
+﻿@page "/users"
+@using Client.Services;
+@inject HttpClient Http;
+
+<h1 class="mb-3 mt-3">User Liste</h1>
+<table class="table table-striped">
+    <thead>                     
+        <tr>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Lastname</th>
+            <th>Address</th>
+            <th>Email</th>
+            <th>Telephone</th>
+            <th>Birthdate</th>
+            <th>Role ID</th>
+        </tr>
+    </thead>
+    <tbody> 
+        @foreach (var user in userList)
+        {
+            <tr>
+                <td>@user.user_id.</td>
+                <td>@user.name</td>
+                <td>@user.lastName</td>
+                <td>@user.address</td>
+                <td>@user.email</td>
+                <td>@user.telephone</td>
+                <td>@user.birthDate</td>
+                <td>@user.role_id</td>
+                <td><button type="button" @onclick="() => RemoveUser(user)">X</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private UserDTO[]? userList = new UserDTO[0];
+
+    [Inject]
+    private IUserService mService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        userList = (await mService.getUsers()).ToArray();
+    }
+
+    private UserDTO user = new UserDTO();
+
+    private EditContext aEditContext;
+
+    protected override void OnInitialized()
+    {
+        aEditContext = new EditContext(user);
+    }
+
+    private async Task RemoveUser(UserDTO id)
+    {
+        await mService.RemoveUser(id);
+
+        //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
+        userList = (await mService.getUsers()).ToArray();
+        StateHasChanged();
+    }
+}

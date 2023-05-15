@@ -31,4 +31,8 @@ public class UserDTO
     public DateTime birthDate { get; set; }
 
     public int role_id { get; set; }
+
+    //Validering af password
+    [MinLength(8, ErrorMessage = "Password skal være mindst 8 tegn")]
+    public string password { get; set; }
 }
