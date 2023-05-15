@@ -74,9 +74,14 @@ namespace Server.Repositories
         {
             using (var connection = new NpgsqlConnection(connString))
             {
-                
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText = $"DELETE FROM \"Users\" WHERE user_id = {user_id};";
+                command.ExecuteNonQuery();
             }
         }
+        }
     }
-}
+
 
