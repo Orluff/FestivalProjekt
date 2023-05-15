@@ -1,0 +1,71 @@
+﻿@page "/login"
+@page "/login/{userid}"
+@using Client.Services;
+
+<h1 class="mb-3 mt-3">Book your shelter</h1>
+<EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="col-md-6 mb-3">
+        <label for="email">Email:</label>
+        <InputText id="email" @bind-Value="userItem.email" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="password">Password:</label>
+        <InputText id="password" type="password" @bind-Value="userItem.password" class="form-control" />
+    </div>
+    <div class="col-12 mb-3">
+        <button type="submit" class="btn btn-primary">Lav vagt</button>
+    </div>
+</EditForm>
+
+
+@code {
+    private UserDTO[]? userList = new UserDTO[0];
+    UserDTO user = new();
+
+    [Parameter]
+    public int userid { get; set; }
+
+    [Inject]
+    private IUserService mService { get; set; }
+
+    private UserDTO userItem = new UserDTO();
+
+    private EditContext aEditContext;
+
+    protected override async Task OnInitializedAsync()
+    {
+        userList = (await mService.getUsers()).ToArray();
+    }
+
+    protected override void OnInitialized()
+    {
+        aEditContext = new EditContext(userItem);
+    }
+
+    public async Task HandleValidSubmit()
+    {
+        await Login(); // clear fields in form
+    }
+
+    private async Task Login()
+    {
+        //tidligere instans objektid fra shelter siden
+        foreach (var user in userList)
+        {
+            if (user.email == userItem.email)
+            {
+                userItem.user_id = userid;
+                Console.WriteLine("Du er logget ind!");
+            }
+            else
+            {
+                Console.WriteLine("Oplysninger matcher ikke!");
+            }
+        }
+
+        //await mService.AddShift(shiftItem);
+        //shiftItem = new();
+    }
+}
