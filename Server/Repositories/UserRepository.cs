@@ -10,7 +10,7 @@ namespace Server.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private const string connString = "UserID=dulxtoup;Password=14RylFQESpWlaG33iASfr1zUZgyh5JyS;Host=abul.db.elephantsql.com;Port=5432;Database=dulxtoup;";
+        private const string connString = "UserID=baune_admin;Password=Gruppe32023;Host=baunesfestival.postgres.database.azure.com;Port=5432;Database=postgres";
 
         public UserRepository()
         {

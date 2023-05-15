@@ -16,7 +16,7 @@ namespace Client.Services
 
         public async Task<IEnumerable<UserDTO>> getUsers()
         {
-            var users = await http.GetFromJsonAsync<UserDTO[]>("https://localhost:7201/api/booking");
+            var users = await http.GetFromJsonAsync<UserDTO[]>("https://localhost:7201/api/user");
             return users;
         }
 
