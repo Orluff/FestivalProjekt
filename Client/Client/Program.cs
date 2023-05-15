@@ -20,6 +20,11 @@ public class Program
             client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
         });
 
+        builder.Services.AddHttpClient<IUserService, UserService>(client =>
+        {
+            client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
+        });
+
         await builder.Build().RunAsync();
     }
 }
