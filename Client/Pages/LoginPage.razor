@@ -54,10 +54,10 @@
         //tidligere instans objektid fra shelter siden
         foreach (var user in userList)
         {
-            if (user.email == userItem.email)
+            if (user.email == userItem.email && user.password == userItem.password)
             {
                 userItem.user_id = userid;
-                Console.WriteLine("Du er logget ind!");
+                Console.WriteLine("Logget ind!");
             }
             else
             {
