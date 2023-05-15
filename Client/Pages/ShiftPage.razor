@@ -55,6 +55,8 @@
     private async Task RemoveShift(ShiftDTO id)
     {
         await mService.RemoveShift(id);
+
+        //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
         shiftList = (await mService.getShifts()).ToArray();
         StateHasChanged();
     }
