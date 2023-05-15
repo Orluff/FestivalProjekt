@@ -53,19 +53,21 @@ namespace Server.Repositories
         {
             using (var connection = new NpgsqlConnection(connString))
             {
-                /*
                 connection.Open();
                 var command = connection.CreateCommand();
 
-                command.CommandText = @"INSERT INTO Bike (Brand, Model, Description, Price, ImageUrl) VALUES ($brand, $model, $desc, $price, $imgurl)";
-                command.Parameters.AddWithValue("$brand", bike.Brand);
-                command.Parameters.AddWithValue("$model", bike.Model);
-                command.Parameters.AddWithValue("$desc", bike.Description);
-                command.Parameters.AddWithValue("$price", bike.Price);
-                command.Parameters.AddWithValue("$imgurl", bike.ImageUrl);
+                command.CommandText = "INSERT INTO \"Users\" (name, lastName, address, email, telephone, birthDate, role_id)" +
+                    " VALUES (@name, @lastName, @address, @email, @telephone, @birthDate, @role_id)";
+                command.Parameters.AddWithValue("@name", user.name);
+                command.Parameters.AddWithValue("@lastName", user.lastName);
+                command.Parameters.AddWithValue("@address", user.address);
+                command.Parameters.AddWithValue("@email", user.email);
+                command.Parameters.AddWithValue("@telephone", user.telephone);
+                command.Parameters.AddWithValue("@birthDate", user.birthDate);
+                command.Parameters.AddWithValue("@role_id", user.role_id);
                 command.ExecuteNonQuery();
-                */
             }
+
         }
 
         public void RemoveUser(int user_id)

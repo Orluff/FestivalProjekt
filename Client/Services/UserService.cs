@@ -22,12 +22,12 @@ namespace Client.Services
 
         public async Task AddUser(UserDTO user)
         {
-            await http.PostAsJsonAsync<UserDTO>("https://localhost:7201/api/booking", user);
+            await http.PostAsJsonAsync<UserDTO>("https://localhost:7201/api/user", user);
         }
 
         public async Task RemoveUser(UserDTO user)
         {
-            await http.DeleteAsync($"https://localhost:7201/api/booking/{user.user_id}");
+            await http.DeleteAsync($"https://localhost:7201/api/user/{user.user_id}");
         }
     }
 }

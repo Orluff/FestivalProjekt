@@ -2,34 +2,41 @@
 @page "/createuser/{userid}"
 @using Client.Services;
 
-<h1 class="mb-3 mt-3">Book your shelter</h1>
+<h1 class="mb-3 mt-3">Create a user</h1>
 <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div class="col-md-12 mb-3">
-        <label for="startDateTime">Start Tidspunkt:</label>
-        <InputDate id="startDateTime" @bind-Value="shiftItem.startDateTime" class="form-control" />
+        <label for="name">Fornavn:</label>
+        <InputText id="name" @bind-Value="userItem.name" class="form-control" />
     </div>
     <div class="col-md-12 mb-3">
-        <label for="endDateTime">Slut Tidspunkt:</label>
-        <InputDate id="endDateTime" @bind-Value="shiftItem.endDateTime" class="form-control" />
+        <label for="lastName">Efternavn:</label>
+        <InputText id="lastName" @bind-Value="userItem.lastName" class="form-control" />
     </div>
     <div class="col-md-6 mb-3">
-        <label for="duration">Længde:</label>
-        <InputNumber id="duration" @bind-Value="shiftItem.duration" class="form-control" />
+        <label for="address">Adresse:</label>
+        <InputText id="address" @bind-Value="userItem.address" class="form-control" />
     </div>
     <div class="col-md-6 mb-3">
-        <label for="category_id">Kategori ID:</label>
-        <InputNumber id="category_id" @bind-Value="shiftItem.category_id" class="form-control" />
+        <label for="email">Email:</label>
+        <InputText id="email" @bind-Value="userItem.email" class="form-control" />
     </div>
-    <div class="col-md-12 mb-3">
-        <label for="priority">Prioritet:</label>
-        <InputCheckbox id="priority" @bind-Value="shiftItem.priority" class="checkbox" style="width: 20px; height: 20px;" />
+    <div class="col-md-6 mb-3">
+        <label for="telephone">Telefonnummer:</label>
+        <InputText id="telephone" @bind-Value="userItem.telephone" class="form-control" />
     </div>
-    <div class="col-md-12 mb-3">
-        <label for="spots">Pladser:</label>
-        <InputNumber id="spots" @bind-Value="shiftItem.spots" class="form-control" />
+    <div class="col-md-6 mb-3">
+        <label for="birthDate">Fødselsdato:</label>
+        <InputDate id="birthDate" @bind-Value="userItem.birthDate" class="form-control" />
     </div>
+    <div class="col-md-6 mb-3">
+        <label for="role_id">Rolle: Koordinator = 0, Frivillig = 1</label>
+        <InputDate id="role_id" @bind-Value="userItem.role_id" class="form-control" />
+    </div>
+
+
+
     <div class="col-12 mb-3">
         <button type="submit" class="btn btn-primary">Lav vagt</button>
     </div>
@@ -37,33 +44,33 @@
 
 
 @code {
-    ShiftDTO shift = new();
+    UserDTO user = new();
 
     [Parameter]
-    public int shiftid { get; set; }
+    public int userid { get; set; }
 
     [Inject]
-    private IShiftService mService { get; set; }
+    private IUserService mService { get; set; }
 
-    private ShiftDTO shiftItem = new ShiftDTO();
+    private UserDTO userItem = new UserDTO();
 
     private EditContext aEditContext;
 
     protected override void OnInitialized()
     {
-        aEditContext = new EditContext(shiftItem);
+        aEditContext = new EditContext(userItem);
     }
 
     public async Task HandleValidSubmit()
     {
-        await AddShift(); // clear fields in form
+        await AddUser(); // clear fields in form
     }
 
-    private async Task AddShift()
+    private async Task AddUser()
     {
         //tidligere instans objektid fra shelter siden
-        shiftItem.shift_id = shiftid;
-        await mService.AddShift(shiftItem);
-        shiftItem = new(); // clear fields in form
+        userItem.user_id = userid;
+        await mService.AddUser(userItem);
+        userItem = new(); // clear fields in form
     }
 }
