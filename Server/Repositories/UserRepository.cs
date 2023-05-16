@@ -40,8 +40,10 @@ namespace Server.Repositories
                         var Telephone = reader.GetString(5);
                         var Birthdate = reader.GetDateTime(6);
                         var RoleID = reader.GetInt32(7);
+                        var Password = reader.GetString(8);
 
-                        UserDTO b = new UserDTO { user_id = UserID, name = Name, lastName = Lastname, address = Address, email = Email, telephone = Telephone, birthDate = Birthdate, role_id = RoleID };
+                        UserDTO b = new UserDTO { user_id = UserID, name = Name, lastName = Lastname, address = Address, email = Email, telephone = Telephone, birthDate = Birthdate, role_id = RoleID,
+                        password = Password};
                         result.Add(b);
                     }
                 }

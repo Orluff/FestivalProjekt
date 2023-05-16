@@ -17,7 +17,6 @@
         <label for="endDateTime">Slut Tidspunkt:</label>
         <SfDateTimePicker id="endDateTime" @bind-Value="shiftItem.endDateTime" class="form-control" />
     </div>
-
         <div class="col-md-6 mb-3">
             <label for="duration">Længde:</label>
             <InputNumber id="duration" @bind-Value="shiftItem.duration" class="form-control" />
@@ -38,7 +37,31 @@
             <button type="submit" class="btn btn-primary">Lav vagt</button>
         </div>
     </EditForm>
-
+    <div class="col-md-6 mb-3">
+        <label for="duration">Længde:</label>
+        <InputNumber id="duration" @bind-Value="shiftItem.duration" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="category_id">Kategori:</label>
+        <select @bind="@shift.category.categoryName">
+            @foreach (var category in shiftCategoryList)
+            {
+                <option value="@category.categoryName">@category.categoryName</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-12 mb-3">
+        <label for="priority">Prioritet:</label>
+        <InputCheckbox id="priority" @bind-Value="shiftItem.priority" class="checkbox" style="width: 20px; height: 20px;" />
+    </div>
+    <div class="col-md-12 mb-3">
+        <label for="spots">Pladser:</label>
+        <InputNumber id="spots" @bind-Value="shiftItem.spots" class="form-control" />
+    </div>
+    <div class="col-12 mb-3">
+        <button type="submit" class="btn btn-primary">Lav vagt</button>
+    </div>
+</EditForm>
 
     @code {
         ShiftDTO shift = new();

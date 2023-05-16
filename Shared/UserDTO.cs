@@ -33,6 +33,6 @@ public class UserDTO
     public int role_id { get; set; }
 
     //Validering af password
-    [MinLength(8, ErrorMessage = "Password skal være mindst 8 tegn")]
+    [MinLength(5, ErrorMessage = "Password skal være mindst 5 tegn")]
     public string password { get; set; }
 }

@@ -79,6 +79,8 @@
 
         var shifts = await mService.getShifts();
 
+        //shiftList = shifts.ToArray();
+
         // Fang de forskellige shift categories
         shiftCategoryList = shifts.Select(s => s.category).Distinct().ToArray();
     }

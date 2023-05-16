@@ -78,12 +78,18 @@ namespace Server.Repositories
                 connection.Open();
                 var command = connection.CreateCommand();
 
+                command.CommandText = "SELECT category_id FROM \"ShiftCategories\" WHERE categoryName = @categoryName";
+                command.Parameters.AddWithValue("@categoryName", shift.category.categoryName);
+
+                //var categoryId = (int)command.ExecuteScalar();
+
                 command.CommandText = "INSERT INTO \"Shifts\" (\"startDateTime\", \"endDateTime\", duration, category_id, priority, spots)" +
-                    " VALUES (@startDateTime, @endDateTime, @duration, @category_id, @priority, @spots)";
+                    " VALUES (@startDateTime, @endDateTime, @duration, c.category_id, @priority, @spots)" +
+                    "FROM \"ShiftCategories\" c WHERE c.category_id = @category_id";
                 command.Parameters.AddWithValue("@startDateTime", shift.startDateTime);
                 command.Parameters.AddWithValue("@endDateTime", shift.endDateTime);
                 command.Parameters.AddWithValue("@duration", shift.duration);
-                command.Parameters.AddWithValue("@category_id", shift.category_id);
+                command.Parameters.AddWithValue("@category_id", shift.category.category_id);
                 command.Parameters.AddWithValue("@priority", shift.priority);
                 command.Parameters.AddWithValue("@spots", shift.spots);
                 command.ExecuteNonQuery();
