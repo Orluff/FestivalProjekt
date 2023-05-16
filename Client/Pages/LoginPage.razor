@@ -1,5 +1,6 @@
 ﻿@page "/login"
 @inject NavigationManager NavigationManager
+@inject HttpClient Http;
 @using Client.Services;
 
 <h1 class="mb-3 mt-3">Book your shelter</h1>
@@ -23,9 +24,6 @@
 @code {
     private UserDTO[]? userList = new UserDTO[0];
     UserDTO user = new();
-
-    [Parameter]
-    public int userid { get; set; }
 
     [Inject]
     private IUserService mService { get; set; }
@@ -56,9 +54,8 @@
         {
             if (user.email == userItem.email && user.password == userItem.password)
             {
-                userItem.user_id = userid;
                 Console.WriteLine("Logget ind!");
-                NavigationManager.NavigateTo($"https://localhost:7299/user/{user.user_id}");
+                NavigationManager.NavigateTo($"/userinfo/{user.user_id}");
             }
             else
             {
