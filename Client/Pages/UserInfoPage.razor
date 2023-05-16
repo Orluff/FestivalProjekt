@@ -1,0 +1,80 @@
+﻿@page "/userinfo"
+@page "/userinfo/{userid}"
+@using Client.Services;
+
+<h1 class="mb-3 mt-3">Opret bruger:</h1>
+<EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="col-md-12 mb-3">
+        <label for="name">Fornavn:</label>
+        <InputText id="name" @bind-Value="userItem.name" class="form-control" />
+    </div>
+    <div class="col-md-12 mb-3">
+        <label for="lastName">Efternavn:</label>
+        <InputText id="lastName" @bind-Value="userItem.lastName" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="address">Adresse:</label>
+        <InputText id="address" @bind-Value="userItem.address" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="email">Email:</label>
+        <InputText id="email" @bind-Value="userItem.email" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="telephone">Telefonnummer:</label>
+        <InputText id="telephone" @bind-Value="userItem.telephone" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="birthDate">Fødselsdato:</label>
+        <InputDate id="birthDate" @bind-Value="userItem.birthDate" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="role_id">Rolle: Koordinator = 1, Frivillig = 2</label>
+        <InputNumber id="role_id" @bind-Value="userItem.role_id" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="password">Password:</label>
+        <InputText id="password" @bind-Value="userItem.password" class="form-control" />
+    </div>
+
+
+
+    <div class="col-12 mb-3">
+        <button type="submit" class="btn btn-primary">Opret bruger</button>
+    </div>
+</EditForm>
+
+
+@code {
+    UserDTO user = new();
+
+    [Parameter]
+    public int userid { get; set; }
+
+    [Inject]
+    private IUserService mService { get; set; }
+
+    private UserDTO userItem = new UserDTO();
+
+    private EditContext aEditContext;
+
+    protected override void OnInitialized()
+    {
+        aEditContext = new EditContext(userItem);
+    }
+
+    public async Task HandleValidSubmit()
+    {
+        await AddUser(); // clear fields in form
+    }
+
+    private async Task AddUser()
+    {
+        //tidligere instans objektid fra shelter siden
+        userItem.user_id = userid;
+        await mService.AddUser(userItem);
+        userItem = new(); // clear fields in form
+    }
+}
