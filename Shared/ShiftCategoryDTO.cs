@@ -13,5 +13,6 @@ public class ShiftCategoryDTO
     public string? description { get; set; }
 
     public string area { get; set; }
+
 }
 
