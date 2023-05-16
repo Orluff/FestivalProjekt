@@ -1,9 +1,9 @@
-﻿@page "/login"
+﻿@page "/"
 @inject NavigationManager NavigationManager
 @inject HttpClient Http;
 @using Client.Services;
 
-<h1 class="mb-3 mt-3">Book your shelter</h1>
+<h1 class="mb-3 mt-3">Login</h1>
 <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
