@@ -46,7 +46,7 @@
         <select @bind="@shift.category.categoryName">
             @foreach (var category in shiftCategoryList)
             {
-                <option value="@category.categoryName">@category.categoryName</option>
+                <option value="@category.category.categoryName">@category.category.categoryName</option>
             }
         </select>
     </div>
@@ -61,10 +61,11 @@
     <div class="col-12 mb-3">
         <button type="submit" class="btn btn-primary">Lav vagt</button>
     </div>
-</EditForm>
 
     @code {
         ShiftDTO shift = new();
+
+        private ShiftDTO[]? shiftCategoryList = new ShiftDTO[0];
 
         [Parameter]
         public int shiftid { get; set; }
