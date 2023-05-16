@@ -1,5 +1,5 @@
 ﻿@page "/userinfo"
-@page "/userinfo/{userid}"
+@page "/userinfo/{userid:int}"
 @using Client.Services;
 
 <h1 class="mb-3 mt-3">Opret bruger:</h1>
@@ -48,7 +48,7 @@
 
 
 @code {
-    UserDTO user = new();
+    //UserDTO user = new();
 
     [Parameter]
     public int userid { get; set; }
