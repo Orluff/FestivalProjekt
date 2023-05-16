@@ -3,8 +3,17 @@
 @inject HttpClient Http;
 
 <h1 class="mb-3 mt-3">Vagt Liste</h1>
+
+<label>Sorter efter: </label>
+
+<select @bind="SelectedSort">
+    <option value="priority">Prioritet</option>
+    <option value="pladser">Antal pladser tilbage</option>
+    <option value="tidspunkt">Næstkommende vagter</option>
+</select>
+
 <table class="table table-striped">
-    <thead>                     
+    <thead>
         <tr>
             <th>Vagt ID</th>
             <th>Start Tidspunkt</th>
@@ -33,6 +42,21 @@
 </table>
 
 @code {
+
+    private string selectedSort;
+
+    public string SelectedSort
+    {
+        get { return selectedSort; }
+        set
+        {
+            selectedSort = value;
+            selectedSortDictionary[selectedSort]();
+        }
+    }
+
+    Dictionary<string, Action> selectedSortDictionary;
+
     private ShiftDTO[]? shiftList = new ShiftDTO[0];
 
     [Inject]
@@ -41,6 +65,12 @@
     protected override async Task OnInitializedAsync()
     {
         shiftList = (await mService.getShifts()).ToArray();
+        selectedSortDictionary = new Dictionary<string, Action>
+        {
+            ["priority"] = () => shiftList = shiftList.OrderBy(s => s.priority ? 0 : 1).ToArray(),
+            ["pladser"] = () => shiftList = shiftList.OrderByDescending(s => s.spots).ToArray(),
+            ["tidspunkt"] = () => shiftList = shiftList.OrderBy(s => s.startDateTime).ToArray()
+        };
     }
 
     private ShiftDTO shift = new ShiftDTO();
@@ -60,4 +90,5 @@
         shiftList = (await mService.getShifts()).ToArray();
         StateHasChanged();
     }
+
 }
