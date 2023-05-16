@@ -1,5 +1,7 @@
 ﻿@page "/shifts"
 @using Client.Services;
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.DropDowns
 @inject HttpClient Http;
 
 <h1 class="mb-3 mt-3">Vagt Liste</h1>
@@ -26,7 +28,7 @@
     </thead>
     <tbody>
         @foreach (var shift in shiftList)
-        {
+            {
             <tr>
                 <td>@shift.shift_id</td>
                 <td>@shift.startDateTime</td>
@@ -37,58 +39,60 @@
                 <td>@shift.spots</td>
                 <td><button type="button" @onclick="() => RemoveShift(shift)">X</button></td>
             </tr>
-        }
+
+            }
     </tbody>
+
 </table>
 
 @code {
 
     private string selectedSort;
 
-    public string SelectedSort
-    {
-        get { return selectedSort; }
-        set
+        public string SelectedSort
         {
-            selectedSort = value;
-            selectedSortDictionary[selectedSort]();
+            get { return selectedSort; }
+            set
+            {
+                selectedSort = value;
+                selectedSortDictionary[selectedSort]();
+            }
         }
-    }
 
-    Dictionary<string, Action> selectedSortDictionary;
+        Dictionary<string, Action> selectedSortDictionary;
 
-    private ShiftDTO[]? shiftList = new ShiftDTO[0];
+        private ShiftDTO[]? shiftList = new ShiftDTO[0];
 
-    [Inject]
-    private IShiftService mService { get; set; }
+        [Inject]
+        private IShiftService mService { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
-        shiftList = (await mService.getShifts()).ToArray();
-        selectedSortDictionary = new Dictionary<string, Action>
+        protected override async Task OnInitializedAsync()
         {
-            ["priority"] = () => shiftList = shiftList.OrderBy(s => s.priority ? 0 : 1).ToArray(),
-            ["pladser"] = () => shiftList = shiftList.OrderByDescending(s => s.spots).ToArray(),
-            ["tidspunkt"] = () => shiftList = shiftList.OrderBy(s => s.startDateTime).ToArray()
-        };
+            shiftList = (await mService.getShifts()).ToArray();
+            selectedSortDictionary = new Dictionary<string, Action>
+            {
+                ["priority"] = () => shiftList = shiftList.OrderBy(s => s.priority ? 0 : 1).ToArray(),
+                ["pladser"] = () => shiftList = shiftList.OrderByDescending(s => s.spots).ToArray(),
+                ["tidspunkt"] = () => shiftList = shiftList.OrderBy(s => s.startDateTime).ToArray()
+            };
+        }
+
+        private ShiftDTO shift = new ShiftDTO();
+
+        private EditContext aEditContext;
+
+        protected override void OnInitialized()
+        {
+            aEditContext = new EditContext(shift);
+        }
+
+        private async Task RemoveShift(ShiftDTO id)
+        {
+            await mService.RemoveShift(id);
+
+            //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
+            shiftList = (await mService.getShifts()).ToArray();
+            StateHasChanged();
+        }
+
     }
-
-    private ShiftDTO shift = new ShiftDTO();
-
-    private EditContext aEditContext;
-
-    protected override void OnInitialized()
-    {
-        aEditContext = new EditContext(shift);
-    }
-
-    private async Task RemoveShift(ShiftDTO id)
-    {
-        await mService.RemoveShift(id);
-
-        //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
-        shiftList = (await mService.getShifts()).ToArray();
-        StateHasChanged();
-    }
-
-}
