@@ -96,7 +96,6 @@ else
     protected override async Task OnInitializedAsync()
     {
         userid = await sessionStorage.GetItemAsync<int>("userid");
-        Console.WriteLine(userid);
         if (userid == 0)
         {
             NavigationManager.NavigateTo($"/");
