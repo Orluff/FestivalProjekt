@@ -102,7 +102,7 @@ namespace Server.Repositories
             }
         }
 
-        public ShiftCategoryDTO[] getCategories()
+        /*public ShiftCategoryDTO[] getCategories()
         {
             var result = new List<ShiftCategoryDTO>();
             using (var connection = new NpgsqlConnection(connString))
@@ -134,7 +134,7 @@ namespace Server.Repositories
                 }
             }
             return result.ToArray();
-        }
+        }*/
     }
 }
 
