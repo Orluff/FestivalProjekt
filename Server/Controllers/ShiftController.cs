@@ -50,14 +50,5 @@ namespace Server.Controllers
         {
             shiftRepo.RemoveShift(id);
         }
-
-        ////Put
-        ////Poster informationer fra shifts formen til koordinator siden
-        //[EnableCors("policy")]
-        //[HttpPut]
-        //public void Take(ShiftDTO shift, UserDTO user)
-        //{
-        //    shiftRepo.TakeShift(shift, user);
-        //}
     }
 }

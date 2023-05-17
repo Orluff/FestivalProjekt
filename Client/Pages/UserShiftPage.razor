@@ -1,5 +1,5 @@
 ﻿@page "/usershifts"
-@*@page "/usershifts/{userid:int}"*@
+@page "/usershifts/{userid:int}"
 @using Client.Services;
 @inject HttpClient Http;
 
@@ -23,7 +23,7 @@
                 <td>@shift.endDateTime</td>
                 <td>@shift.duration</td>
                 <td>@shift.category_id</td>
-                <td><button type="button" @onclick="() => TakeShift(userShift)">Y</button></td>
+                <td><button type="button" @onclick="() => TakeShift(userShift, shift)">Y</button></td>
             </tr>
         }
     </tbody>
@@ -61,12 +61,12 @@
         aEditContext = new EditContext(userShift);
     }
 
-    private async Task TakeShift(UserShiftDTO userShift)
+    private async Task TakeShift(UserShiftDTO userShift, ShiftDTO shift)
     {
         userShift.shift_id = shift.shift_id;
         userShift.user_id = userid;
 
-        await uService.TakeShift(userShift);
+        await uService.TakeShift(userShift, shift);
 
         //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
         userShiftList = (await uService.GetUserShifts()).ToArray();

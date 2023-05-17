@@ -20,9 +20,14 @@ namespace Client.Services
             return userShifts;
         }
 
-        public async Task TakeShift(UserShiftDTO userShift)
+        public async Task TakeShift(UserShiftDTO userShift, ShiftDTO shift)
         {
             await http.PostAsJsonAsync<UserShiftDTO>("https://localhost:7201/api/usershift", userShift);
+        }
+
+        public async Task RemoveUserShift(ShiftDTO shift)
+        {
+            await http.DeleteAsync($"https://localhost:7201/api/usershift/{shift.shift_id}");
         }
     }
 }
