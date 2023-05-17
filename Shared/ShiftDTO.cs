@@ -1,8 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using MongoDB.Bson.Serialization.Attributes;
-[BsonIgnoreExtraElements]
-
 
 public class ShiftDTO
 {
@@ -19,7 +16,5 @@ public class ShiftDTO
     public bool priority { get; set; }
 
     public int spots { get; set; }
-
-    public ShiftCategoryDTO category { get; set; }
 }
 
