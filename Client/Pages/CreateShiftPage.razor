@@ -3,7 +3,7 @@
 @using Client.Services;
 @using System;
 @using Microsoft.AspNetCore.Components.Forms;
-@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Calendars;
 
 <h1 class="mb-3 mt-3">Opret vagter:</h1>
 <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
@@ -23,7 +23,7 @@
     </div>
     <div class="col-md-6 mb-3">
         <label for="category_id">Kategori:</label>
-        <InputSelect id="category_id" @bind-Value="@catItem.category_id">
+        <InputSelect id="category_id" @bind-Value="@shiftItem.category_id">
             @foreach (var cat in catList)
             {
                 <option value="@cat.category_id">@cat.categoryName</option>
@@ -85,13 +85,11 @@
 
     private async Task AddShift()
     {
-        shiftItem.category = catList.FirstOrDefault(c => c.category_id == catItem.category_id);
+        //shiftItem.category = catList.FirstOrDefault(c => c.category_id == catItem.category_id);
         //tidligere instans objektid fra shift siden
         shiftItem.shift_id = shiftid;
-        //catItem.category_id = categoryid;
-        //shiftItem.category = new ShiftCategoryDTO { category_id = shiftItem.category_id };
+        shiftItem.category = new ShiftCategoryDTO { category_id = shiftItem.category_id };
         await mService.AddShift(shiftItem);
-        await cService.AddCategory(catItem);
         catItem = new();
         shiftItem = new(); // clear fields in form
     }
