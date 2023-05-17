@@ -8,7 +8,6 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Vagt ID</th>
             <th>Start Tidspunkt</th>
             <th>Slut Tidspunkt</th>
             <th>Længde</th>
@@ -19,7 +18,6 @@
         @foreach (var shift in shiftList)
         {
             <tr>
-                <td>@shift.shift_id</td>
                 <td>@shift.startDateTime</td>
                 <td>@shift.endDateTime</td>
                 <td>@shift.duration</td>
