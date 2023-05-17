@@ -38,6 +38,9 @@
     [Inject]
     private IShiftService mService { get; set; }
 
+    [Inject]
+    private IUserShiftService uService { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         shiftList = (await mService.getShifts()).ToArray();
@@ -45,15 +48,19 @@
 
     private ShiftDTO shift = new ShiftDTO();
 
+    private UserShiftDTO userShift = new UserShiftDTO();
+
     private EditContext aEditContext;
 
     protected override void OnInitialized()
     {
         aEditContext = new EditContext(shift);
+        aEditContext = new EditContext(userShift);
     }
 
     private async Task RemoveShift(ShiftDTO id)
     {
+        await uService.RemoveUserShift(id);
         await mService.RemoveShift(id);
 
         //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.

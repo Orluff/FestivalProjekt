@@ -25,7 +25,7 @@ namespace Server.Controllers
         //Post
         //Poster informationer fra shifts formen til koordinator siden
         [EnableCors("policy")]
-        [HttpPut]
+        [HttpPost]
         public void Take(UserShiftDTO shift)
         {
             shiftRepo.TakeShift(shift);
@@ -38,6 +38,17 @@ namespace Server.Controllers
         public IEnumerable<UserShiftDTO> Get()
         {
             return shiftRepo.GetUserShifts();
+        }
+
+        //Delete
+        //Sletter informationer fra koordinator siden
+        [EnableCors("policy")]
+        [HttpDelete]
+        [Route("{id}")]
+
+        public void Remove(int id)
+        {
+            shiftRepo.RemoveShift(id);
         }
     }
 }

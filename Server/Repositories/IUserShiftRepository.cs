@@ -5,5 +5,6 @@ namespace Server.Repositories
     {
         UserShiftDTO[] GetUserShifts();
         void TakeShift(UserShiftDTO userShift);
+        void RemoveShift(int id);
     }
 }
