@@ -5,7 +5,6 @@ namespace Server.Repositories
     {
         UserDTO[] getUsers();
         void AddUser(UserDTO item);
-
         void UpdateUser(UserDTO item);
         void RemoveUser(int id);
     }

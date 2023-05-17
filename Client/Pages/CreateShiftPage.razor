@@ -41,7 +41,7 @@
 
 @code {
 
-    private ShiftDTO shift = new ShiftDTO();
+    ShiftDTO shift = new();
 
     [Parameter]
     public int shiftid { get; set; }
@@ -65,9 +65,9 @@
 
     private async Task AddShift()
     {
-        //tidligere instans objektid fra shelter siden
+        //tidligere instans objektid fra shift siden
         shiftItem.shift_id = shiftid;
         await mService.AddShift(shiftItem);
-        shiftItem = new ShiftDTO(); // clear fields in form
+        shiftItem = new(); // clear fields in form
     }
 }

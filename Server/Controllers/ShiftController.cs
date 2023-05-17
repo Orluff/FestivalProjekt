@@ -50,13 +50,5 @@ namespace Server.Controllers
         {
             shiftRepo.RemoveShift(id);
         }
-
-        /*Get
-        [EnableCors("policy")]
-        [HttpGet]
-        public IEnumerable<ShiftCategoryDTO> GetCat()
-        {
-            return shiftRepo.getCategories();
-        }*/
     }
 }

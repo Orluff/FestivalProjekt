@@ -79,13 +79,13 @@ namespace Server.Repositories
                 var command = connection.CreateCommand();
 
                 command.CommandText = "INSERT INTO \"Shifts\" (\"startDateTime\", \"endDateTime\", duration, category_id, priority, spots)" +
-                    " VALUES (@startDateTime, @endDateTime, @duration, @category_id, @priority, @spots)";
-                command.Parameters.AddWithValue("@startDateTime", shift.startDateTime);
-                command.Parameters.AddWithValue("@endDateTime", shift.endDateTime);
-                command.Parameters.AddWithValue("@category_id", shift.category_id);
-                command.Parameters.AddWithValue("@duration", shift.duration);
-                command.Parameters.AddWithValue("@priority", shift.priority);
-                command.Parameters.AddWithValue("@spots", shift.spots);
+                    " VALUES ($startDateTime, $endDateTime, $duration, $category_id, $priority, $spots)";
+                command.Parameters.AddWithValue("$startDateTime", shift.startDateTime);
+                command.Parameters.AddWithValue("$endDateTime", shift.endDateTime);
+                command.Parameters.AddWithValue("$duration", shift.duration);
+                command.Parameters.AddWithValue("$category_id", shift.category_id);
+                command.Parameters.AddWithValue("$priority", shift.priority);
+                command.Parameters.AddWithValue("$spots", shift.spots);
                 command.ExecuteNonQuery();
             }
         }
@@ -101,40 +101,6 @@ namespace Server.Repositories
                 command.ExecuteNonQuery();
             }
         }
-
-        /*public ShiftCategoryDTO[] getCategories()
-        {
-            var result = new List<ShiftCategoryDTO>();
-            using (var connection = new NpgsqlConnection(connString))
-            {
-                connection.Open();
-
-                var command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM \"ShiftCategories\"";
-
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        var category_id = reader.GetInt32(0);
-                        var CategoryName = reader.GetString(1);
-                        var Area = reader.GetString(2);
-                        var Description = reader.GetString(3);
-
-                        ShiftCategoryDTO a = new ShiftCategoryDTO
-                        {
-                            category_id = category_id,
-                            categoryName = CategoryName,
-                            area = Area,
-                            description = Description
-                        };
-
-                        result.Add(a);
-                    }
-                }
-            }
-            return result.ToArray();
-        }*/
     }
 }
 

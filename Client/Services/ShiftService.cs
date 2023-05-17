@@ -29,11 +29,5 @@ namespace Client.Services
         {
             await http.DeleteAsync($"https://localhost:7201/api/shift/{shift.shift_id}");
         }
-
-        /*public async Task<IEnumerable<ShiftCategoryDTO>> getCategories()
-        {
-            var cat = await http.GetFromJsonAsync<ShiftCategoryDTO[]>("https://localhost:7201/api/shift");
-            return cat;
-        }*/
     }
 }
