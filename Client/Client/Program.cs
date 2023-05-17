@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Client;
 using Client.Services;
 using Syncfusion.Blazor;
+using Blazored.LocalStorage;
+using Blazored.SessionStorage;
 
 namespace Client;
 
@@ -31,6 +33,10 @@ public class Program
         {
             client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
         });
+
+        builder.Services.AddBlazoredLocalStorage();
+
+        builder.Services.AddBlazoredSessionStorage();
 
         await builder.Build().RunAsync();
     }

@@ -1,6 +1,8 @@
 ﻿@page "/userinfo"
-@page "/userinfo/{userid:int}"
 @using Client.Services;
+@inject NavigationManager NavigationManager
+@inject Blazored.LocalStorage.ILocalStorageService localStorage;
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
 <h1 class="mb-3 mt-3">Mine oplysninger:</h1>
 
@@ -75,14 +77,13 @@
             }
         </div>
     </div>
-    }
-    else
-    {
-   
+}
+else
+{
+
     <p>Brugeroplysninger blev ikke fundet.</p>
-    }
+}
 @code {
-    [Parameter]
     public int userid { get; set; }
 
     [Inject]
@@ -94,7 +95,21 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadUserData();
+        userid = await sessionStorage.GetItemAsync<int>("userid");
+        Console.WriteLine(userid);
+        if (userid == 0)
+        {
+            NavigationManager.NavigateTo($"/");
+        }
+
+        try
+        {
+            await LoadUserData();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
     }
 
     private async Task LoadUserData()
