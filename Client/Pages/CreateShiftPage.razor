@@ -67,6 +67,7 @@
     {
         //tidligere instans objektid fra shift siden
         shiftItem.shift_id = shiftid;
+        shiftItem.category = new ShiftCategoryDTO { category_id = shiftItem.category_id };
         await mService.AddShift(shiftItem);
         shiftItem = new(); // clear fields in form
     }

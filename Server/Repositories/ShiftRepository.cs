@@ -79,13 +79,13 @@ namespace Server.Repositories
                 var command = connection.CreateCommand();
 
                 command.CommandText = "INSERT INTO \"Shifts\" (\"startDateTime\", \"endDateTime\", duration, category_id, priority, spots)" +
-                    " VALUES ($startDateTime, $endDateTime, $duration, $category_id, $priority, $spots)";
-                command.Parameters.AddWithValue("$startDateTime", shift.startDateTime);
-                command.Parameters.AddWithValue("$endDateTime", shift.endDateTime);
-                command.Parameters.AddWithValue("$duration", shift.duration);
-                command.Parameters.AddWithValue("$category_id", shift.category_id);
-                command.Parameters.AddWithValue("$priority", shift.priority);
-                command.Parameters.AddWithValue("$spots", shift.spots);
+                    " VALUES (@startDateTime, @endDateTime, @duration, @category_id, @priority, @spots)";
+                command.Parameters.AddWithValue("@startDateTime", shift.startDateTime);
+                command.Parameters.AddWithValue("@endDateTime", shift.endDateTime);
+                command.Parameters.AddWithValue("@duration", shift.duration);
+                command.Parameters.AddWithValue("@category_id", shift.category_id);
+                command.Parameters.AddWithValue("@priority", shift.priority);
+                command.Parameters.AddWithValue("@spots", shift.spots);
                 command.ExecuteNonQuery();
             }
         }
