@@ -14,7 +14,7 @@ namespace Server.Repositories
 
         public ShiftRepository()
         {
-            
+
         }
 
         public ShiftDTO[] getShifts()
