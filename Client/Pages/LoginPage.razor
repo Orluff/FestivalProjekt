@@ -56,7 +56,7 @@
         {
             if (user.email == userItem.email && user.password == userItem.password)
             {
-                Console.WriteLine("Logget ind!");
+                Console.WriteLine("Logget ind");
                 await sessionStorage.SetItemAsync("userid", user.user_id);
                 NavigationManager.NavigateTo($"/userinfo/");
             }
