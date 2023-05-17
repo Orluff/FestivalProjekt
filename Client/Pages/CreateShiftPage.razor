@@ -1,9 +1,11 @@
 ﻿@page "/createshift"
 @page "/createshift/{shiftid}"
 @using Client.Services;
-@using Syncfusion.Blazor.Calendars;
+@using System;
+@using Microsoft.AspNetCore.Components.Forms;
+@using Syncfusion.Blazor.Calendars
 
-<h1 class="mb-3 mt-3">Book your shelter</h1>
+<h1 class="mb-3 mt-3">Opret vagter:</h1>
 <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -38,6 +40,7 @@
 
 
 @code {
+
     ShiftDTO shift = new();
 
     [Parameter]
@@ -62,8 +65,9 @@
 
     private async Task AddShift()
     {
-        //tidligere instans objektid fra shelter siden
+        //tidligere instans objektid fra shift siden
         shiftItem.shift_id = shiftid;
+        shiftItem.category = new ShiftCategoryDTO { category_id = shiftItem.category_id };
         await mService.AddShift(shiftItem);
         shiftItem = new(); // clear fields in form
     }
