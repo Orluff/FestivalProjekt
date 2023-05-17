@@ -9,4 +9,3 @@ namespace Client.Services
 		Task RemoveShift(ShiftDTO shift);
 	}
 }
-

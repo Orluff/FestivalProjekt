@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using Dapper;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using MongoDB.Driver.Core.Configuration;
 using Npgsql;
 
 namespace Server.Repositories
@@ -117,7 +114,5 @@ namespace Server.Repositories
                 command.ExecuteNonQuery();
             }
         }
-        }
     }
-
-
+}
