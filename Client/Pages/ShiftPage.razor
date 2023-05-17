@@ -12,7 +12,7 @@
     <option value="tidspunkt">Næstkommende vagter</option>
 </select>
 
-<table class="table table-striped">
+<table class="styled-table" >
     <thead>
         <tr>
             <th>Kategori</th>
@@ -23,12 +23,13 @@
             <th>Længde</th>
             <th>Pladser</th>
             <th>Prioritet</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var shift in shiftList)
         {
-            <tr>
+            <tr class="active-row">
                 <td>@shift.category.categoryName</td>
                 <td>@shift.category.area</td>
                 <td>@shift.category.description</td>

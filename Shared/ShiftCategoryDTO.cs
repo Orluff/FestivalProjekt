@@ -8,7 +8,7 @@ public class ShiftCategoryDTO
 {
     public int category_id { get; set; }
 
-    public string categoryName { get; set; } = String.Empty;
+    public string categoryName { get; set; }
 
     public string? description { get; set; } = String.Empty;
 

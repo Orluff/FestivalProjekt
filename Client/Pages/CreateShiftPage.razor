@@ -22,8 +22,13 @@
         <InputNumber id="duration" @bind-Value="shiftItem.duration" class="form-control" />
     </div>
     <div class="col-md-6 mb-3">
-        <label for="category_id">Kategori ID:</label>
-        <InputNumber id="category_id" @bind-Value="shiftItem.category_id" class="form-control" />
+        <label for="category_id">Kategori:</label>
+        <InputSelect id="category_id" @bind-Value="@catItem.category_id">
+            @foreach (var cat in catList)
+            {
+                <option value="@cat.category_id">@cat.categoryName</option>
+            }
+        </InputSelect>
     </div>
     <div class="col-md-12 mb-3">
         <label for="priority">Prioritet:</label>
@@ -43,19 +48,34 @@
 
     ShiftDTO shift = new();
 
+    ShiftCategoryDTO category = new();
+
+    private ShiftCategoryDTO catItem = new ShiftCategoryDTO();
+
+    private ShiftCategoryDTO[]? catList = new ShiftCategoryDTO[0];
+
     [Parameter]
     public int shiftid { get; set; }
 
     [Inject]
     private IShiftService mService { get; set; }
 
+    [Inject]
+    private ICategoryService cService { get; set; }
+
     private ShiftDTO shiftItem = new ShiftDTO();
 
     private EditContext aEditContext;
 
+    protected override async Task OnInitializedAsync()
+    {
+        catList = (await cService.getCategories()).ToArray();
+    }
+
     protected override void OnInitialized()
     {
         aEditContext = new EditContext(shiftItem);
+        aEditContext = new EditContext(catItem);
     }
 
     public async Task HandleValidSubmit()
@@ -65,10 +85,14 @@
 
     private async Task AddShift()
     {
+        shiftItem.category = catList.FirstOrDefault(c => c.category_id == catItem.category_id);
         //tidligere instans objektid fra shift siden
         shiftItem.shift_id = shiftid;
-        shiftItem.category = new ShiftCategoryDTO { category_id = shiftItem.category_id };
+        //catItem.category_id = categoryid;
+        //shiftItem.category = new ShiftCategoryDTO { category_id = shiftItem.category_id };
         await mService.AddShift(shiftItem);
+        await cService.AddCategory(catItem);
+        catItem = new();
         shiftItem = new(); // clear fields in form
     }
 }
