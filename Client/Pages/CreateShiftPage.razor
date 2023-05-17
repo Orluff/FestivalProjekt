@@ -1,7 +1,8 @@
 ﻿@page "/createshift"
-@page "/createshift/{shiftid}"
 @using Client.Services;
 @using Syncfusion.Blazor.Calendars;
+@inject NavigationManager NavigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
 <h1 class="mb-3 mt-3">Book your shelter</h1>
 <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
@@ -38,6 +39,7 @@
 
 
 @code {
+    public int userid { get; set; }
     ShiftDTO shift = new();
 
     [Parameter]
@@ -49,6 +51,15 @@
     private ShiftDTO shiftItem = new ShiftDTO();
 
     private EditContext aEditContext;
+
+    protected override async Task OnInitializedAsync()
+    {
+        userid = await sessionStorage.GetItemAsync<int>("userid");
+        if (userid == 0)
+        {
+            NavigationManager.NavigateTo($"/");
+        }
+    }
 
     protected override void OnInitialized()
     {

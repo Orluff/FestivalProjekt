@@ -1,10 +1,12 @@
 ﻿@page "/users"
 @using Client.Services;
 @inject HttpClient Http;
+@inject NavigationManager NavigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
 <h1 class="mb-3 mt-3">User Liste</h1>
 <table class="table table-striped">
-    <thead>                     
+    <thead>
         <tr>
             <th>User ID</th>
             <th>Name</th>
@@ -16,7 +18,7 @@
             <th>Role ID</th>
         </tr>
     </thead>
-    <tbody> 
+    <tbody>
         @foreach (var user in userList)
         {
             <tr>
@@ -35,6 +37,7 @@
 </table>
 
 @code {
+    public int userid { get; set; }
     private UserDTO[]? userList = new UserDTO[0];
 
     [Inject]
@@ -42,7 +45,20 @@
 
     protected override async Task OnInitializedAsync()
     {
-        userList = (await mService.getUsers()).ToArray();
+        userid = await sessionStorage.GetItemAsync<int>("userid");
+        if (userid == 0)
+        {
+            NavigationManager.NavigateTo($"/");
+        }
+
+        try
+        {
+            userList = (await mService.getUsers()).ToArray();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
     }
 
     private UserDTO user = new UserDTO();

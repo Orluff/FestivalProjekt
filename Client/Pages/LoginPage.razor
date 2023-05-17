@@ -1,9 +1,9 @@
 ﻿@page "/"
-@inject NavigationManager NavigationManager
 @inject HttpClient Http;
 @using Client.Services;
-@inject Blazored.LocalStorage.ILocalStorageService localStorage;
+@inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
+@*@inject Blazored.LocalStorage.ILocalStorageService localStorage;*@
 
 <h1 class="mb-3 mt-3">Login</h1>
 <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
@@ -37,6 +37,7 @@
     protected override async Task OnInitializedAsync()
     {
         userList = (await mService.getUsers()).ToArray();
+        await sessionStorage.SetItemAsync("isLoggedIn", false);
     }
 
     protected override void OnInitialized()
@@ -56,17 +57,14 @@
         {
             if (user.email == userItem.email && user.password == userItem.password)
             {
-                Console.WriteLine("Logget ind");
                 await sessionStorage.SetItemAsync("userid", user.user_id);
-                NavigationManager.NavigateTo($"/userinfo/");
+                await sessionStorage.SetItemAsync("isLoggedIn", true);
+                NavigationManager.NavigateTo($"/userinfo/", forceLoad: true);
             }
             else
             {
                 Console.WriteLine("Oplysninger matcher ikke!");
             }
         }
-
-        //await mService.AddShift(shiftItem);
-        //shiftItem = new();
     }
 }

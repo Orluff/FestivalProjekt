@@ -1,7 +1,8 @@
 ﻿@page "/shifts"
-@page "/shifts/{userid:int}"
 @using Client.Services;
 @inject HttpClient Http;
+@inject NavigationManager NavigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
 <h1 class="mb-3 mt-3">Vagt Liste</h1>
 <table class="table table-striped">
@@ -34,7 +35,6 @@
 </table>
 
 @code {
-    [Parameter]
     public int userid { get; set; }
 
     private ShiftDTO[]? shiftList = new ShiftDTO[0];
@@ -47,7 +47,20 @@
 
     protected override async Task OnInitializedAsync()
     {
-        shiftList = (await mService.getShifts()).ToArray();
+        userid = await sessionStorage.GetItemAsync<int>("userid");
+        if (userid == 0)
+        {
+            NavigationManager.NavigateTo($"/");
+        }
+
+        try
+        {
+            shiftList = (await mService.getShifts()).ToArray();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
     }
 
     private ShiftDTO shift = new ShiftDTO();
