@@ -37,7 +37,7 @@
 </table>
 
 @code {
-    public int userid { get; set; }
+    public int userId { get; set; }
     private UserDTO[]? userList = new UserDTO[0];
 
     [Inject]
@@ -45,8 +45,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        userid = await sessionStorage.GetItemAsync<int>("userid");
-        if (userid == 0)
+        userId = await sessionStorage.GetItemAsync<int>("userId");
+        if (userId == 0)
         {
             NavigationManager.NavigateTo($"/");
         }

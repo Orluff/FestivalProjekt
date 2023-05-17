@@ -28,7 +28,7 @@
             }
         </div>
         <div class="nav-item px-3">
-            @if (isLoggedIn)
+            @if (isLoggedIn && userRoleId == 1)
             {
                 <NavLink class="nav-link" href="shifts">
                     <span class="oi oi-list-rich" aria-hidden="true"></span> Vagter
@@ -36,34 +36,34 @@
             }
         </div>
         <div class="nav-item px-3">
-            @if (isLoggedIn)
-            {
+            @if (isLoggedIn && userRoleId == 2)
+                {
                 <NavLink class="nav-link" href="usershifts">
                     <span class="oi oi-list-rich" aria-hidden="true"></span> Mine Vagter
                 </NavLink>
             }
         </div>
         <div class="nav-item px-3">
-            @if (isLoggedIn)
-            {
+            @if (isLoggedIn && userRoleId == 1)
+                {
                 <NavLink class="nav-link" href="createshift">
                     <span class="oi oi-list-rich" aria-hidden="true"></span> Lav Vagter
                 </NavLink>
             }
         </div>
         <div class="nav-item px-3">
-            @if (isLoggedIn)
-            {
+            @if (isLoggedIn && userRoleId == 1)
+                {
                 <NavLink class="nav-link" href="users">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> User
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Brugere
                 </NavLink>
             }
         </div>
         <div class="nav-item px-3">
-            @if (isLoggedIn)
-            {
+            @if (isLoggedIn && userRoleId == 1)
+                {
                 <NavLink class="nav-link" href="createuser">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Lav bruger
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Lav Bruger
                 </NavLink>
             }
         </div>
@@ -73,6 +73,8 @@
 @code {
     public bool isLoggedIn = false;
 
+    public int userRoleId { get; set; }
+
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
@@ -80,6 +82,7 @@
     protected override async Task OnInitializedAsync()
     {
         isLoggedIn = await sessionStorage.GetItemAsync<bool>("isLoggedIn");
+        userRoleId = await sessionStorage.GetItemAsync<int>("userRoleId");
     }
 
     private void ToggleNavMenu()

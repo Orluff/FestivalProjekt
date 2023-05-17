@@ -83,7 +83,7 @@ else
     <p>Brugeroplysninger blev ikke fundet.</p>
 }
 @code {
-    public int userid { get; set; }
+    public int userId { get; set; }
 
     [Inject]
     private IUserService mService { get; set; }
@@ -94,8 +94,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        userid = await sessionStorage.GetItemAsync<int>("userid");
-        if (userid == 0)
+        userId = await sessionStorage.GetItemAsync<int>("userId");
+        if (userId == 0)
         {
             NavigationManager.NavigateTo($"/");
         }
@@ -112,7 +112,7 @@ else
 
     private async Task LoadUserData()
     {
-        userItem = await mService.GetUserById(userid);
+        userItem = await mService.GetUserById(userId);
         originalUserItem = new UserDTO
         {
             name = userItem.name,

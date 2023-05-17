@@ -49,7 +49,7 @@
 
 
 @code {
-    public int userid { get; set; }
+    public int userId { get; set; }
     UserDTO user = new();
 
     [Inject]
@@ -61,8 +61,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        userid = await sessionStorage.GetItemAsync<int>("userid");
-        if (userid == 0)
+        userId = await sessionStorage.GetItemAsync<int>("userId");
+        if (userId == 0)
         {
             NavigationManager.NavigateTo($"/");
         }
@@ -81,7 +81,7 @@
     private async Task AddUser()
     {
         //tidligere instans objektid fra shelter siden
-        userItem.user_id = userid;
+        userItem.user_id = userId;
         await mService.AddUser(userItem);
         userItem = new(); // clear fields in form
     }

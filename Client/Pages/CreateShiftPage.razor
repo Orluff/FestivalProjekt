@@ -39,7 +39,7 @@
 
 
 @code {
-    public int userid { get; set; }
+    public int userId { get; set; }
     ShiftDTO shift = new();
 
     [Parameter]
@@ -54,8 +54,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        userid = await sessionStorage.GetItemAsync<int>("userid");
-        if (userid == 0)
+        userId = await sessionStorage.GetItemAsync<int>("userId");
+        if (userId == 0)
         {
             NavigationManager.NavigateTo($"/");
         }
