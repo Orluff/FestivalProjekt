@@ -1,6 +1,7 @@
 ﻿@page "/createshift"
 @page "/createshift/{shiftid}"
 @using Client.Services;
+@using Syncfusion.Blazor.Calendars;
 
 <h1 class="mb-3 mt-3">Book your shelter</h1>
 <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
@@ -8,19 +9,24 @@
     <ValidationSummary />
     <div class="col-md-12 mb-3">
         <label for="startDateTime">Start Tidspunkt:</label>
-        <InputDate id="startDateTime" @bind-Value="shiftItem.startDateTime" class="form-control" />
+        <SfDateTimePicker id="startDateTime" @bind-Value="shiftItem.startDateTime" class="form-control" />
     </div>
     <div class="col-md-12 mb-3">
         <label for="endDateTime">Slut Tidspunkt:</label>
-        <InputDate id="endDateTime" @bind-Value="shiftItem.endDateTime" class="form-control" />
+        <SfDateTimePicker id="endDateTime" @bind-Value="shiftItem.endDateTime" class="form-control" />
     </div>
     <div class="col-md-6 mb-3">
         <label for="duration">Længde:</label>
         <InputNumber id="duration" @bind-Value="shiftItem.duration" class="form-control" />
     </div>
     <div class="col-md-6 mb-3">
-        <label for="category_id">Kategori ID:</label>
-        <InputNumber id="category_id" @bind-Value="shiftItem.category_id" class="form-control" />
+        <label for="category_id">Kategori:</label>
+        <select @bind="@shift.category.categoryName">
+            @foreach (var category in shiftCategoryList)
+            {
+                <option value="@category.categoryName">@category.categoryName</option>
+            }
+        </select>
     </div>
     <div class="col-md-12 mb-3">
         <label for="priority">Prioritet:</label>

@@ -5,7 +5,10 @@ namespace Client.Services
 	public interface IUserService
 	{
 		Task<IEnumerable<UserDTO>> getUsers();
-		Task AddUser(UserDTO item);
+        Task<UserDTO> GetUserById(int userId);
+        Task AddUser(UserDTO item);
+
+		Task UpdateUser(UserDTO item);
 		Task RemoveUser(UserDTO item);
 	}
 }

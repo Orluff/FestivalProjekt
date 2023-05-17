@@ -25,7 +25,7 @@ namespace Server.Repositories
                 connection.Open();
 
                 var command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM \"Shifts\"";
+                command.CommandText = "SELECT * FROM \"Shifts\" s JOIN \"ShiftCategories\" c ON s.category_id = c.category_id";
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -39,10 +39,32 @@ namespace Server.Repositories
                         var Category_id = reader.GetInt32(4);
                         var Priority = reader.GetBoolean(5);
                         var Spots = reader.GetInt32(6);
+                        var category_id = reader.GetInt32(7);
+                        var CategoryName = reader.GetString(8);
+                        var Area = reader.GetString(9);
+                        var Description = reader.GetString(10);
 
-                        ShiftDTO b = new ShiftDTO { shift_id = ShiftID, startDateTime = StartDateTime, endDateTime = EndDateTime,
-                            duration = Duration, category_id = Category_id, priority = Priority, spots = Spots };
-                        result.Add(b);
+                        ShiftDTO a = new ShiftDTO
+                        {
+                            shift_id = ShiftID,
+                            startDateTime = StartDateTime,
+                            endDateTime = EndDateTime,
+                            duration = Duration,
+                            category_id = Category_id,
+                            priority = Priority,
+                            spots = Spots
+                        };
+
+                        //Vi joiner vores ShiftDTO med vores ShiftCategoryDTO
+                        a.category = new ShiftCategoryDTO
+                        {
+                            category_id = category_id,
+                            categoryName = CategoryName,
+                            area = Area,
+                            description = Description
+                        };
+
+                        result.Add(a);
                     }
                 }
             }
@@ -56,12 +78,18 @@ namespace Server.Repositories
                 connection.Open();
                 var command = connection.CreateCommand();
 
+                command.CommandText = "SELECT category_id FROM \"ShiftCategories\" WHERE categoryName = @categoryName";
+                command.Parameters.AddWithValue("@categoryName", shift.category.categoryName);
+
+                //var categoryId = (int)command.ExecuteScalar();
+
                 command.CommandText = "INSERT INTO \"Shifts\" (\"startDateTime\", \"endDateTime\", duration, category_id, priority, spots)" +
-                    " VALUES (@startDateTime, @endDateTime, @duration, @category_id, @priority, @spots)";
+                    " VALUES (@startDateTime, @endDateTime, @duration, c.category_id, @priority, @spots)" +
+                    "FROM \"ShiftCategories\" c WHERE c.category_id = @category_id";
                 command.Parameters.AddWithValue("@startDateTime", shift.startDateTime);
                 command.Parameters.AddWithValue("@endDateTime", shift.endDateTime);
                 command.Parameters.AddWithValue("@duration", shift.duration);
-                command.Parameters.AddWithValue("@category_id", shift.category_id);
+                command.Parameters.AddWithValue("@category_id", shift.category.category_id);
                 command.Parameters.AddWithValue("@priority", shift.priority);
                 command.Parameters.AddWithValue("@spots", shift.spots);
                 command.ExecuteNonQuery();

@@ -19,5 +19,7 @@ public class ShiftDTO
     public bool priority { get; set; }
 
     public int spots { get; set; }
+
+    public ShiftCategoryDTO category { get; set; }
 }
 
