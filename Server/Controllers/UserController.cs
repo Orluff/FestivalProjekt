@@ -31,15 +31,6 @@ namespace Server.Controllers
             mRepo.AddUser(user);
         }
 
-        //Post
-        //Poster informationer fra shifts formen til koordinator siden
-        [EnableCors("policy")]
-        [HttpPut]
-        public void Update(UserDTO user)
-        {
-            mRepo.UpdateUser(user);
-        }
-
         //Get
         //Fanger postede informationer til koordinator siden
         [EnableCors("policy")]

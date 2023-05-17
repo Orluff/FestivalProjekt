@@ -75,20 +75,20 @@
             }
         </div>
     </div>
-    }
-    else
-    {
+}
+else
+{
    
-    <p>Brugeroplysninger blev ikke fundet.</p>
-    }
-    @code {
-    [Parameter]
-    public int userid { get; set; }
+<p>Brugeroplysninger blev ikke fundet.</p>
+}
+@code {
+[Parameter]
+public int userid { get; set; }
 
         [Inject]
         private IUserService mService { get; set; }
 
-    private UserDTO userItem;
+private UserDTO userItem;
     private bool isEditMode = false;
     private UserDTO originalUserItem;
 
@@ -141,7 +141,15 @@
 
     private async Task SaveChanges()
     {
-        await mService.UpdateUser(userItem);
-        isEditMode = false;
+        // Save the changes to the SQL database using your IUserService implementation
+        try
+        {
+            await mService.AddUser(userItem);
+            isEditMode = false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Fejl ved opdatering af brugeroplysninger: {ex.Message}");
+        }
     }
 }

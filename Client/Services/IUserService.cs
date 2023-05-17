@@ -7,8 +7,6 @@ namespace Client.Services
 		Task<IEnumerable<UserDTO>> getUsers();
         Task<UserDTO> GetUserById(int userId);
         Task AddUser(UserDTO item);
-
-		Task UpdateUser(UserDTO item);
 		Task RemoveUser(UserDTO item);
 	}
 }

@@ -14,7 +14,7 @@ namespace Server.Repositories
 
         public UserRepository()
         {
-
+            
         }
 
         public UserDTO[] getUsers()
@@ -42,18 +42,8 @@ namespace Server.Repositories
                         var RoleID = reader.GetInt32(7);
                         var Password = reader.GetString(8);
 
-                        UserDTO b = new UserDTO
-                        {
-                            user_id = UserID,
-                            name = Name,
-                            lastName = Lastname,
-                            address = Address,
-                            email = Email,
-                            telephone = Telephone,
-                            birthDate = Birthdate,
-                            role_id = RoleID,
-                            password = Password
-                        };
+                        UserDTO b = new UserDTO { user_id = UserID, name = Name, lastName = Lastname, address = Address, email = Email, telephone = Telephone, birthDate = Birthdate, role_id = RoleID,
+                        password = Password};
                         result.Add(b);
                     }
                 }
@@ -78,30 +68,6 @@ namespace Server.Repositories
                 command.Parameters.AddWithValue("@birthDate", user.birthDate);
                 command.Parameters.AddWithValue("@role_id", user.role_id);
                 command.Parameters.AddWithValue("@password", user.password);
-                command.ExecuteNonQuery();
-            }
-        }
-
-        public void UpdateUser(UserDTO user)
-        {
-
-            using (var connection = new NpgsqlConnection(connString))
-            {
-                connection.Open();
-                var command = connection.CreateCommand();
-
-                command.CommandText = "UPDATE \"Users\" SET \"name\" = @name, \"lastName\" = @lastName, address = @address, email = @email, telephone = @telephone, \"birthDate\" = @birthDate, role_id = @role_id, \"password\" = @password WHERE user_id = @id";
-
-                command.Parameters.AddWithValue("@name", user.name);
-                command.Parameters.AddWithValue("@lastName", user.lastName);
-                command.Parameters.AddWithValue("@address", user.address);
-                command.Parameters.AddWithValue("@email", user.email);
-                command.Parameters.AddWithValue("@telephone", user.telephone);
-                command.Parameters.AddWithValue("@birthDate", user.birthDate);
-                command.Parameters.AddWithValue("@role_id", user.role_id);
-                command.Parameters.AddWithValue("@password", user.password);
-                command.Parameters.AddWithValue("@id", user.user_id);
-
                 command.ExecuteNonQuery();
             }
         }
