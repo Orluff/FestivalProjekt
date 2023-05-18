@@ -36,7 +36,4 @@
   <ItemGroup>
     <None Include="Client.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Remove="Pages\OpenShiftPage.razor" />
-  </ItemGroup>
 </Project>
