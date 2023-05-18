@@ -11,51 +11,43 @@ namespace Server.Controllers
 {
     // Dette repository vil håndtere datalagring og -hentning relateret til shifts i API'en
     [ApiController]
-    [Route("api/user")]
-    public class UserController : ControllerBase
+    [Route("api/usershift")]
+    public class UserShiftController : ControllerBase
     {
-        private IUserRepository userRepo;
+        private IUserShiftRepository shiftRepo;
 
-        public UserController()
+        public UserShiftController()
         {
-            this.userRepo = new UserRepository();
+            this.shiftRepo = new UserShiftRepository();
         }
 
         //Post
         //Poster informationer fra shifts formen til koordinator siden
         [EnableCors("policy")]
         [HttpPost]
-        public void Add(UserDTO user)
+        public void Take(UserShiftDTO shift)
         {
-            userRepo.AddUser(user);
-        }
-
-        //Post
-        //Poster informationer fra shifts formen til koordinator siden
-        [EnableCors("policy")]
-        [HttpPut]
-        public void Update(UserDTO user)
-        {
-            userRepo.UpdateUser(user);
+            shiftRepo.TakeShift(shift);
         }
 
         //Get
         //Fanger postede informationer til koordinator siden
         [EnableCors("policy")]
         [HttpGet]
-        public IEnumerable<UserDTO> Get()
+        public IEnumerable<UserShiftDTO> Get()
         {
-            return userRepo.getUsers();
+            return shiftRepo.GetUserShifts();
         }
 
         //Delete
         //Sletter informationer fra koordinator siden
+        [EnableCors("policy")]
         [HttpDelete]
         [Route("{id}")]
 
         public void Remove(int id)
         {
-            userRepo.RemoveUser(id);
+            shiftRepo.RemoveShift(id);
         }
     }
 }

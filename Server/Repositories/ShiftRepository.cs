@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using Dapper;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using MongoDB.Driver.Core.Configuration;
 using Npgsql;
 
 namespace Server.Repositories
@@ -25,7 +22,7 @@ namespace Server.Repositories
                 connection.Open();
 
                 var command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM \"Shifts\" s JOIN \"ShiftCategories\" c ON s.category_id = c.category_id";
+                command.CommandText = "SELECT * FROM \"Shifts\"";
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -39,32 +36,10 @@ namespace Server.Repositories
                         var Category_id = reader.GetInt32(4);
                         var Priority = reader.GetBoolean(5);
                         var Spots = reader.GetInt32(6);
-                        var category_id = reader.GetInt32(7);
-                        var CategoryName = reader.GetString(8);
-                        var Area = reader.GetString(9);
-                        var Description = reader.GetString(10);
 
-                        ShiftDTO a = new ShiftDTO
-                        {
-                            shift_id = ShiftID,
-                            startDateTime = StartDateTime,
-                            endDateTime = EndDateTime,
-                            duration = Duration,
-                            category_id = Category_id,
-                            priority = Priority,
-                            spots = Spots
-                        };
-
-                        //Vi joiner vores ShiftDTO med vores ShiftCategoryDTO
-                        a.category = new ShiftCategoryDTO
-                        {
-                            category_id = category_id,
-                            categoryName = CategoryName,
-                            area = Area,
-                            description = Description
-                        };
-
-                        result.Add(a);
+                        ShiftDTO b = new ShiftDTO { shift_id = ShiftID, startDateTime = StartDateTime, endDateTime = EndDateTime,
+                            duration = Duration, category_id = Category_id, priority = Priority, spots = Spots };
+                        result.Add(b);
                     }
                 }
             }
@@ -103,4 +78,3 @@ namespace Server.Repositories
         }
     }
 }
-

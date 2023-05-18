@@ -1,0 +1,86 @@
+﻿@page "/usershifts"
+@using Client.Services;
+@inject HttpClient Http;
+@inject NavigationManager NavigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
+
+<h1 class="mb-3 mt-3">Vagt Liste</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Start Tidspunkt</th>
+            <th>Slut Tidspunkt</th>
+            <th>Længde</th>
+            <th>Kategori ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var shift in shiftList)
+        {
+            <tr>
+                <td>@shift.startDateTime</td>
+                <td>@shift.endDateTime</td>
+                <td>@shift.duration</td>
+                <td>@shift.category_id</td>
+                <td><button type="button" @onclick="() => TakeShift(userShift, shift)">Y</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    public int userId { get; set; }
+
+    private ShiftDTO[]? shiftList = new ShiftDTO[0];
+
+    private UserShiftDTO[]? userShiftList = new UserShiftDTO[0];
+
+    [Inject]
+    private IShiftService mService { get; set; }
+
+    [Inject]
+    private IUserShiftService uService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        userId = await sessionStorage.GetItemAsync<int>("userId");
+        if (userId == 0)
+        {
+            NavigationManager.NavigateTo($"/");
+        }
+
+        try
+        {
+            shiftList = (await mService.getShifts()).ToArray();
+            userShiftList = (await uService.GetUserShifts()).ToArray();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+    }
+
+    private ShiftDTO shift = new ShiftDTO();
+
+    private UserShiftDTO userShift = new UserShiftDTO();
+
+    private EditContext aEditContext;
+
+    protected override void OnInitialized()
+    {
+        aEditContext = new EditContext(shift);
+        aEditContext = new EditContext(userShift);
+    }
+
+    private async Task TakeShift(UserShiftDTO userShift, ShiftDTO shift)
+    {
+        userShift.shift_id = shift.shift_id;
+        userShift.user_id = userId;
+
+        await uService.TakeShift(userShift, shift);
+
+        //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
+        userShiftList = (await uService.GetUserShifts()).ToArray();
+        StateHasChanged();
+    }
+}
