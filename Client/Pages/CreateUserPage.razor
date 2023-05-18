@@ -39,6 +39,12 @@
         <label for="password">Password:</label>
         <InputText id="password" @bind-Value="userItem.password" class="form-control" />
     </div>
+    <div class="col-md-6 mb-3">
+        <label for="role_id">Rolle: Koordinator = 0, Frivillig = 1</label>
+        <InputDate id="role_id" @bind-Value="userItem.role_id" class="form-control" />
+    </div>
+
+
 
     <div class="col-12 mb-3">
         <button type="submit" class="btn btn-primary">Opret bruger</button>
@@ -48,10 +54,17 @@
 
 @code {
     public int userId { get; set; }
-    UserDTO user = new();
 
     [Inject]
     private IUserService mService { get; set; }
+
+    UserDTO user = new();
+
+    [Parameter]
+    public int userid { get; set; }
+
+    [Inject]
+    private IUserService uService { get; set; }
 
     private UserDTO userItem = new UserDTO();
 
@@ -81,6 +94,11 @@
         //tidligere instans objektid fra shelter siden
         userItem.user_id = userId;
         await mService.AddUser(userItem);
+        userItem = new(); // clear fields in form
+    }
+}
+        userItem.user_id = userid;
+        await uService.AddUser(userItem);
         userItem = new(); // clear fields in form
     }
 }

@@ -11,22 +11,25 @@
             <th>Start Tidspunkt</th>
             <th>Slut Tidspunkt</th>
             <th>Længde</th>
-            <th>Kategori ID</th>
+            <th>Kategori</th>
+            <th>Beskrivelse</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var shift in shiftList)
         {
-            <tr>
-                <td>@shift.shift_id</td>
-                <td>@shift.startDateTime</td>
-                <td>@shift.endDateTime</td>
-                <td>@shift.duration</td>
-                <td>@shift.category_id</td>
-                <td>@shift.priority</td>
-                <td>@shift.spots</td>
-                <td><button type="button" @onclick="() => TakeShift(userShift, shift)">X</button></td>
-            </tr>
+            var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
+            if (category != null)
+            {
+                <tr>
+                    <td>@shift.startDateTime</td>
+                    <td>@shift.endDateTime</td>
+                    <td>@shift.duration</td>
+                    <td>@category.categoryName</td>
+                    <td>@category.description</td>
+                    <td><button type="button" @onclick="() => TakeShift(userShift, shift)">Vælg</button></td>
+                </tr>
+            }
         }
     </tbody>
 </table>
@@ -38,11 +41,16 @@
 
     private UserShiftDTO[]? userShiftList = new UserShiftDTO[0];
 
+    private ShiftCategoryDTO[]? catList = new ShiftCategoryDTO[0];
+
     [Inject]
     private IShiftService mService { get; set; }
 
     [Inject]
     private IUserShiftService uService { get; set; }
+
+    [Inject]
+    private ICategoryService cService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -56,6 +64,7 @@
         {
             shiftList = (await mService.getShifts()).ToArray();
             userShiftList = (await uService.GetUserShifts()).ToArray();
+            catList = (await cService.getCategories()).ToArray();
         }
         catch (Exception ex)
         {
@@ -67,12 +76,15 @@
 
     private UserShiftDTO userShift = new UserShiftDTO();
 
+    private ShiftCategoryDTO category = new ShiftCategoryDTO();
+
     private EditContext aEditContext;
 
     protected override void OnInitialized()
     {
         aEditContext = new EditContext(shift);
         aEditContext = new EditContext(userShift);
+        aEditContext = new EditContext(category);
     }
 
     private async Task TakeShift(UserShiftDTO userShift, ShiftDTO shift)

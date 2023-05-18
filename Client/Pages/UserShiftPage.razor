@@ -4,15 +4,15 @@
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
-<h1 class="mb-3 mt-3">Vagt Liste</h1>
+<h1 class="mb-3 mt-3">Mine vagter</h1>
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Start Tidspunkt</th>
             <th>Slut Tidspunkt</th>
             <th>Længde</th>
-            <th>Kategori ID</th>
-            <th>Fjern Vagt</th>
+            <th>Kategori</th>
+            <th>Beskrivelse</th>
         </tr>
     </thead>
     <tbody>
@@ -24,20 +24,17 @@
                 {
                     @if (user.shift_id == shift.shift_id)
                     {
-                        <tr>
-                            <td>@shift.startDateTime</td>
-                            <td>@shift.endDateTime</td>
-                            <td>@shift.duration</td>
-                            <td>@shift.category_id</td>
-                            @if (shift.startDateTime! < DateTime.Now.AddHours(48))
-                            {
-                                <td></td>
-                            }
-                            else
-                            {
-                                <td><button type="button" @onclick="() => RemoveUserShift(shift)">X</button></td>
-                            }
-                        </tr>
+                        var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
+                        if (category != null)
+                        {
+                            <tr>
+                                <td>@shift.startDateTime</td>
+                                <td>@shift.endDateTime</td>
+                                <td>@shift.duration</td>
+                                <td>@category.categoryName</td>
+                                <td>@category.description</td>
+                            </tr>
+                        }
                     }
                 }
             }
@@ -52,11 +49,16 @@
 
     private UserShiftDTO[]? userShiftList = new UserShiftDTO[0];
 
+    private ShiftCategoryDTO[]? catList = new ShiftCategoryDTO[0];
+
     [Inject]
     private IShiftService mService { get; set; }
 
     [Inject]
     private IUserShiftService uService { get; set; }
+
+    [Inject]
+    private ICategoryService cService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -70,6 +72,7 @@
         {
             shiftList = (await mService.getShifts()).ToArray();
             userShiftList = (await uService.GetUserShifts()).ToArray();
+            catList = (await cService.getCategories()).ToArray();
         }
         catch (Exception ex)
         {
@@ -81,12 +84,15 @@
 
     private UserShiftDTO userShift = new UserShiftDTO();
 
+    private ShiftCategoryDTO category = new ShiftCategoryDTO();
+
     private EditContext aEditContext;
 
     protected override void OnInitialized()
     {
         aEditContext = new EditContext(shift);
         aEditContext = new EditContext(userShift);
+        aEditContext = new EditContext(category);
     }
 
     private async Task RemoveUserShift(ShiftDTO id)
