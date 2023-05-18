@@ -44,10 +44,14 @@
     //Egenskaber
     private UserDTO[]? userList = new UserDTO[0];
     private UserDTO user = new UserDTO();
+    private RoleDTO[]? roleList = new RoleDTO[0];
+    private ShiftCategoryDTO roleItem = new ShiftCategoryDTO();
 
     //Tjeneste til vores service
     [Inject]
     private IUserService mService { get; set; }
+    [Inject]
+    private IRoleService rService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -75,6 +79,7 @@
     protected override void OnInitialized()
     {
         aEditContext = new EditContext(user);
+        aEditContext = new EditContext(roleItem);
     }
 
     private async Task RemoveUser(UserDTO id)

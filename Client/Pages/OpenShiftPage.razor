@@ -17,10 +17,10 @@
     </thead>
     <tbody>
         @foreach (var shift in shiftList)
+        {
+            var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
+            if (category != null)
             {
-                var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
-                if (category != null)
-                { 
             <tr>
                 <td>@shift.startDateTime</td>
                 <td>@shift.endDateTime</td>
@@ -29,8 +29,8 @@
                 <td>@category.description</td>
                 <td><button type="button" @onclick="() => TakeShift(userShift, shift)">Vælg</button></td>
             </tr>
-                }
             }
+        }
     </tbody>
 </table>
 

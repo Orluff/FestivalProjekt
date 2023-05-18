@@ -2,7 +2,7 @@
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static void Main(string[] args) 
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -26,14 +26,14 @@ public class Program
 
         // Configure the HTTP request pipeline.
 
-        app.UseHttpsRedirection();
+        app.UseHttpsRedirection(); 
 
         app.UseCors("policy");
 
         app.UseAuthorization();
 
 
-        app.MapControllers();
+        app.MapControllers(); 
 
         app.Run();
     }
