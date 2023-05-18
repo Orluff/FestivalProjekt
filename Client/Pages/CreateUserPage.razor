@@ -31,14 +31,14 @@
         <label for="birthDate">Fødselsdato:</label>
         <InputDate id="birthDate" @bind-Value="userItem.birthDate" class="form-control" />
     </div>
+
         <div class="col-md-6 mb-3">
             <label for="role_id">Rolle:</label>
             <InputSelect id="role_id" @bind-Value="@userItem.role_id">
                 @foreach (var rol in roleList)
-                {
+                    {
                     <option value="@rol.role_id">@rol.roleName</option>
-                }
-
+                    }
             </InputSelect>
         </div>
         <div class="col-md-6 mb-3">
@@ -54,7 +54,6 @@
 
 @code {
     public int userId { get; set; }
-    UserDTO user = new();
 
     private ShiftCategoryDTO roleItem = new ShiftCategoryDTO();
     private RoleDTO[]? roleList = new RoleDTO[0];
@@ -64,6 +63,15 @@
 
     [Inject]
     private IRoleService rService { get; set; }
+
+    UserDTO user = new();
+
+    [Parameter]
+    public int userid { get; set; }
+
+    [Inject]
+    private IUserService uService { get; set; }
+
 
     private UserDTO userItem = new UserDTO();
 
