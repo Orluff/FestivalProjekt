@@ -31,26 +31,24 @@
         <label for="birthDate">Fødselsdato:</label>
         <InputDate id="birthDate" @bind-Value="userItem.birthDate" class="form-control" />
     </div>
-    <div class="col-md-6 mb-3">
-        <label for="role_id">Rolle: Koordinator = 1, Frivillig = 2</label>
-        <InputNumber id="role_id" @bind-Value="userItem.role_id" class="form-control" />
-    </div>
-    <label for="role_id">Rolle:</label>
-    <InputSelect id="role_id" @bind-Value="@userItem.role_id">
-        @foreach (var rol in roleList)
-        {
-            <option value="@rol.role_id">@rol.roleName</option>
-        }
-    </InputSelect>
+        <div class="col-md-6 mb-3">
+            <label for="role_id">Rolle:</label>
+            <InputSelect id="role_id" @bind-Value="@userItem.role_id">
+                @foreach (var rol in roleList)
+                {
+                    <option value="@rol.role_id">@rol.roleName</option>
+                }
 
-    <div class="col-md-6 mb-3">
-        <label for="password">Password:</label>
-        <InputText id="password" @bind-Value="userItem.password" class="form-control" />
-    </div>
+            </InputSelect>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="password">Password:</label>
+            <InputText id="password" @bind-Value="userItem.password" class="form-control" />
+        </div>
 
-    <div class="col-12 mb-3"> 
-        <button type="submit" class="btn btn-primary">Opret bruger</button>
-    </div>
+        <div class="col-12 mb-3">
+            <button type="submit" class="btn btn-primary">Opret bruger</button>
+        </div>
 </EditForm>
 
 
@@ -58,6 +56,7 @@
     public int userId { get; set; }
     UserDTO user = new();
 
+    private ShiftCategoryDTO roleItem = new ShiftCategoryDTO();
     private RoleDTO[]? roleList = new RoleDTO[0];
 
     [Inject]
@@ -77,11 +76,13 @@
         {
             NavigationManager.NavigateTo($"/");
         }
+        roleList = (await rService.getRole()).ToArray();
     }
 
     protected override void OnInitialized()
     {
         aEditContext = new EditContext(userItem);
+        aEditContext = new EditContext(roleItem);
     }
 
     public async Task HandleValidSubmit()
@@ -95,5 +96,6 @@
         userItem.user_id = userId;
         await mService.AddUser(userItem);
         userItem = new(); // clear fields in form
+        roleItem = new();
     }
 }
