@@ -1,4 +1,4 @@
-﻿@page "/usershifts"
+﻿@page "/openshifts"
 @using Client.Services;
 @inject HttpClient Http;
 @inject NavigationManager NavigationManager
@@ -15,23 +15,18 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var user in userShiftList)
+        @foreach (var shift in shiftList)
         {
-            @if (user.user_id == userId)
-            {
-                @foreach (var shift in shiftList)
-                {
-                    @if (user.shift_id == shift.shift_id)
-                    {
-                        <tr>
-                            <td>@shift.startDateTime</td>
-                            <td>@shift.endDateTime</td>
-                            <td>@shift.duration</td>
-                            <td>@shift.category_id</td>
-                        </tr>
-                    }
-                }
-            }
+            <tr>
+                <td>@shift.shift_id</td>
+                <td>@shift.startDateTime</td>
+                <td>@shift.endDateTime</td>
+                <td>@shift.duration</td>
+                <td>@shift.category_id</td>
+                <td>@shift.priority</td>
+                <td>@shift.spots</td>
+                <td><button type="button" @onclick="() => TakeShift(userShift, shift)">X</button></td>
+            </tr>
         }
     </tbody>
 </table>
@@ -78,5 +73,17 @@
     {
         aEditContext = new EditContext(shift);
         aEditContext = new EditContext(userShift);
+    }
+
+    private async Task TakeShift(UserShiftDTO userShift, ShiftDTO shift)
+    {
+        userShift.shift_id = shift.shift_id;
+        userShift.user_id = userId;
+
+        await uService.TakeShift(userShift, shift);
+
+        //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
+        userShiftList = (await uService.GetUserShifts()).ToArray();
+        StateHasChanged();
     }
 }
