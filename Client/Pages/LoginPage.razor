@@ -9,6 +9,9 @@
 <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
+    <ul class="validation-errors" style="display: @(isMatchFound ? "none" : "block")">
+        <li class="validation-message">Oplysninger matcher ikke</li>
+    </ul>
     <div class="col-md-6 mb-3">
         <label for="email">Email:</label>
         <InputText id="email" @bind-Value="userItem.email" class="form-control" />
@@ -50,6 +53,8 @@
         await Login(); // clear fields in form
     }
 
+    public bool isMatchFound = true;
+
     private async Task Login()
     {
         //tidligere instans objektid fra shelter siden
@@ -61,10 +66,10 @@
                 await sessionStorage.SetItemAsync("userRoleId", user.role_id);
                 await sessionStorage.SetItemAsync("isLoggedIn", true);
                 NavigationManager.NavigateTo($"/userinfo/", forceLoad: true);
-            }
-            else
+                isMatchFound = true;
+            } else
             {
-                Console.WriteLine("Oplysninger matcher ikke!");
+                isMatchFound = false;
             }
         }
     }
