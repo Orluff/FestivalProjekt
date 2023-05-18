@@ -10,7 +10,7 @@ namespace Server.Repositories
 
         public CategoryRepository()
         {
-
+            Console.WriteLine();
         }
 
         public ShiftCategoryDTO[] getCategories()
