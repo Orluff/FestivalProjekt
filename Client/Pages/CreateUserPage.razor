@@ -1,6 +1,7 @@
 ﻿@page "/createuser"
-@page "/createuser/{userid}"
 @using Client.Services;
+@inject NavigationManager NavigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
 <h1 class="mb-3 mt-3">Opret bruger:</h1>
 <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
@@ -46,10 +47,8 @@
 
 
 @code {
+    public int userId { get; set; }
     UserDTO user = new();
-
-    [Parameter]
-    public int userid { get; set; }
 
     [Inject]
     private IUserService mService { get; set; }
@@ -57,6 +56,15 @@
     private UserDTO userItem = new UserDTO();
 
     private EditContext aEditContext;
+
+    protected override async Task OnInitializedAsync()
+    {
+        userId = await sessionStorage.GetItemAsync<int>("userId");
+        if (userId == 0)
+        {
+            NavigationManager.NavigateTo($"/");
+        }
+    }
 
     protected override void OnInitialized()
     {
@@ -71,7 +79,7 @@
     private async Task AddUser()
     {
         //tidligere instans objektid fra shelter siden
-        userItem.user_id = userid;
+        userItem.user_id = userId;
         await mService.AddUser(userItem);
         userItem = new(); // clear fields in form
     }

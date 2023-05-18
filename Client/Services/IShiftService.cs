@@ -6,7 +6,6 @@ namespace Client.Services
 	{
 		Task<IEnumerable<ShiftDTO>> getShifts();
 		Task AddShift(ShiftDTO shift);
-        Task RemoveShift(ShiftDTO shift);
-    }
+		Task RemoveShift(ShiftDTO shift);
+	}
 }
-
