@@ -19,10 +19,10 @@
     </thead>
     <tbody>
         @foreach (var user in userList)
-        {
-            var rol = roleList.FirstOrDefault(r => r.role_id == user.role_id);
-            if (rol != null)
             {
+                var rol = roleList.FirstOrDefault(r => r.role_id == user.role_id);
+                if (rol != null)
+                {
     <tr>
         <td>@user.user_id</td>
         <td>@user.name</td>
@@ -34,8 +34,8 @@
         <td>@user.role_id</td>
         <td><button type="button" @onclick="() => RemoveUser(user)">X</button></td>
     </tr>
-    }
-    }
+                }
+            }
     </tbody>
 </table>
 
