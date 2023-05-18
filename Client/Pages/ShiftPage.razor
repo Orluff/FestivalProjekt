@@ -17,34 +17,37 @@
 <table class="table table-striped" >
     <thead>
         <tr>
-            <th>Vagt ID</th>
+            <th>Kategori</th>
+            <th>Område</th>
+            <th>Beskrivelse</th>
             <th>Start Tidspunkt</th>
             <th>Slut Tidspunkt</th>
             <th>Længde</th>
-            <th>Kategori ID</th>
             <th>Prioritet</th>
             <th>Pladser</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var cat in catList)
+        @foreach (var shift in shiftList)
         {
-            <tr>
-                <td>@cat.categoryName</td>
-                <td>@cat.area</td>
-                <td>@cat.description</td>
-
-                @foreach (var shift in shiftList)
-                    {
+            var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
+            if (category != null)
+            {
+                <tr>
+                    <td>@category.categoryName</td>
+                    <td>@category.area</td>
+                    <td>@category.description</td>
                     <td>@shift.startDateTime</td>
                     <td>@shift.endDateTime</td>
-                    <td>@shift.duration</td>
-                    <td>@shift.spots</td>
+                    <td>@shift.duration timer</td>
                     <td>@shift.priority</td>
-                    <td><button type="button" @onclick="() => RemoveShift(shift)">X</button></td>
-                }
+                    <td>@shift.spots</td>
+                    <td>
+                        <button type="button" @onclick="() => RemoveShift(shift)">X</button>
+                    </td>
                 </tr>
+            }
         }
     </tbody>
 </table>
@@ -78,6 +81,9 @@
     [Inject]
     private IUserShiftService uService { get; set; }
 
+    [Inject]
+    private ICategoryService cService { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         userId = await sessionStorage.GetItemAsync<int>("userId");
@@ -103,6 +109,9 @@
 
             // Fang de forskellige shift categories
             catList = shifts.Select(s => s.category).Distinct().ToArray();
+
+            catList = (await cService.getCategories()).ToArray();
+
         }
         catch (Exception ex)
         {
@@ -114,12 +123,15 @@
 
     private UserShiftDTO userShift = new UserShiftDTO();
 
+    private ShiftCategoryDTO category = new ShiftCategoryDTO();
+
     private EditContext aEditContext;
 
     protected override void OnInitialized()
     {
         aEditContext = new EditContext(shift);
         aEditContext = new EditContext(userShift);
+        aEditContext = new EditContext(category);
     }
 
     private async Task RemoveShift(ShiftDTO id)
