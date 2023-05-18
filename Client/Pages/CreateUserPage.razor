@@ -56,7 +56,10 @@
     public int userId { get; set; }
 
     private ShiftCategoryDTO roleItem = new ShiftCategoryDTO();
+
     private RoleDTO[]? roleList = new RoleDTO[0];
+
+    private RoleDTO rol = new();
 
     [Inject]
     private IUserService mService { get; set; }
