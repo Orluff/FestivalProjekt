@@ -46,6 +46,7 @@
     //Egenskaber
     private UserDTO[]? userList = new UserDTO[0];
     private UserDTO user = new UserDTO();
+    private RoleDTO roleItem = new RoleDTO();
     private RoleDTO[]? roleList = new RoleDTO[0];
 
     [Inject]
@@ -73,8 +74,6 @@
         }
     }
 
-    private RoleDTO roleItem = new RoleDTO();
-
     private EditContext aEditContext;
 
     protected override void OnInitialized()
@@ -90,5 +89,5 @@
         //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
         userList = (await mService.getUsers()).ToArray();
         StateHasChanged();
-    } 
+    }
 }
