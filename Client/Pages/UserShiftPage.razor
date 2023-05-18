@@ -12,6 +12,7 @@
             <th>Slut Tidspunkt</th>
             <th>Længde</th>
             <th>Kategori ID</th>
+            <th>Fjern Vagt</th>
         </tr>
     </thead>
     <tbody>
@@ -28,6 +29,13 @@
                             <td>@shift.endDateTime</td>
                             <td>@shift.duration</td>
                             <td>@shift.category_id</td>
+                            @if (shift.startDateTime !< DateTime.Now.AddHours(48)) 
+                            {
+                               <div> <p></p></div>
+                            } else
+                            {
+                                <td><button type="button" @onclick="() => RemoveUserShift(shift)">X</button></td>
+                            }
                         </tr>
                     }
                 }
@@ -78,5 +86,14 @@
     {
         aEditContext = new EditContext(shift);
         aEditContext = new EditContext(userShift);
+    }
+
+    private async Task RemoveUserShift(ShiftDTO id)
+    {
+        await uService.RemoveUserShift(id);
+      
+        //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
+        userShiftList = (await uService.GetUserShifts()).ToArray();
+        StateHasChanged();
     }
 }
