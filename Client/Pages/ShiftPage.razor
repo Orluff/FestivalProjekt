@@ -27,19 +27,23 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var shift in shiftList)
+        @foreach (var cat in catList)
         {
             <tr>
-                <td>@shift.category.categoryName</td>
-                <td>@shift.category.area</td>
-                <td>@shift.category.description</td>
-                <td>@shift.startDateTime</td>
-                <td>@shift.endDateTime</td>
-                <td>@shift.duration</td>
-                <td>@shift.spots</td>
-                <td>@shift.priority</td>
-                <td><button type="button" @onclick="() => RemoveShift(shift)">X</button></td>
-            </tr>
+                <td>@cat.categoryName</td>
+                <td>@cat.area</td>
+                <td>@cat.description</td>
+
+                @foreach (var shift in shiftList)
+                    {
+                    <td>@shift.startDateTime</td>
+                    <td>@shift.endDateTime</td>
+                    <td>@shift.duration</td>
+                    <td>@shift.spots</td>
+                    <td>@shift.priority</td>
+                    <td><button type="button" @onclick="() => RemoveShift(shift)">X</button></td>
+                }
+                </tr>
         }
     </tbody>
 </table>
@@ -62,7 +66,8 @@
 
     private ShiftDTO[]? shiftList = new ShiftDTO[0];
 
-    private ShiftCategoryDTO[]? shiftCategoryList = new ShiftCategoryDTO[0];
+    private ShiftCategoryDTO[]? catList = new ShiftCategoryDTO[0];
+
 
     [Inject]
     private IShiftService mService { get; set; }
@@ -83,7 +88,7 @@
         shiftList = shifts.ToArray();
 
         // Fang de forskellige shift categories
-        shiftCategoryList = shifts.Select(s => s.category).Distinct().ToArray();
+        catList = shifts.Select(s => s.category).Distinct().ToArray();
     }
 
     private ShiftDTO shift = new ShiftDTO();
