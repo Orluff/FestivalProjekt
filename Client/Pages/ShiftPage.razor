@@ -45,9 +45,26 @@
 </table>
 
 @code {
+
+    private string selectedSort;
+
+    public string SelectedSort
+    {
+        get { return selectedSort; }
+        set
+        {
+            selectedSort = value;
+            selectedSortDictionary[selectedSort]();
+        }
+    }
+
+    Dictionary<string, Action> selectedSortDictionary;
+
     public int userId { get; set; }
 
     private ShiftDTO[]? shiftList = new ShiftDTO[0];
+
+    private ShiftCategoryDTO[]? shiftCategoryList = new ShiftCategoryDTO[0];
 
     [Inject]
     private IShiftService mService { get; set; }
