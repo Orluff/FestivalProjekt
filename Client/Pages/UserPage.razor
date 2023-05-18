@@ -20,7 +20,7 @@
     <tbody>
         @foreach (var user in userList)
         {
-<<<<<<< HEAD
+
           
               var rol = roleList.FirstOrDefault(r => r.role_id == user.role_id);
               if (rol != null)
@@ -39,21 +39,7 @@
                     }
                
             </tbody>
-=======
-            <tr>
-                <td>@user.user_id</td>
-                <td>@user.name</td>
-                <td>@user.lastName</td>
-                <td>@user.address</td>
-                <td>@user.email</td>
-                <td>@user.telephone</td>
-                <td>@user.birthDate.ToString("yyyy-MM-dd")</td>
-                <td>@user.role_id</td>
-                <td><button type="button" @onclick="() => RemoveUser(user)">X</button></td>
-            </tr>
-        }
-    </tbody>
->>>>>>> main
+
 </table>
 
 
