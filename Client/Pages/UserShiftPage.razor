@@ -29,10 +29,11 @@
                             <td>@shift.endDateTime</td>
                             <td>@shift.duration</td>
                             <td>@shift.category_id</td>
-                            @if (shift.startDateTime !< DateTime.Now.AddHours(48)) 
+                            @if (shift.startDateTime! < DateTime.Now.AddHours(48))
                             {
-                               <div> <p></p></div>
-                            } else
+                                <td></td>
+                            }
+                            else
                             {
                                 <td><button type="button" @onclick="() => RemoveUserShift(shift)">X</button></td>
                             }
@@ -91,7 +92,7 @@
     private async Task RemoveUserShift(ShiftDTO id)
     {
         await uService.RemoveUserShift(id);
-      
+
         //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
         userShiftList = (await uService.GetUserShifts()).ToArray();
         StateHasChanged();
