@@ -1,4 +1,4 @@
-﻿@page "/users"
+@page "/users"
 @using Client.Services;
 @inject HttpClient Http;
 @inject NavigationManager NavigationManager
@@ -22,7 +22,7 @@
         @foreach (var user in userList)
         {
             <tr>
-                <td>@user.user_id.</td>
+                <td>@user.user_id</td>
                 <td>@user.name</td>
                 <td>@user.lastName</td>
                 <td>@user.address</td>

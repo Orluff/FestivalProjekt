@@ -38,7 +38,13 @@ public class Program
 
         builder.Services.AddBlazoredSessionStorage();
 
+        builder.Services.AddHttpClient<ICategoryService, CategoryService>(client =>
+        {
+            client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
+        });
+
         await builder.Build().RunAsync();
+
     }
 }
 

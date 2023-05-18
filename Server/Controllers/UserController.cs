@@ -14,11 +14,11 @@ namespace Server.Controllers
     [Route("api/user")]
     public class UserController : ControllerBase
     {
-        private IUserRepository mRepo;
+        private IUserRepository userRepo;
 
         public UserController()
         {
-            this.mRepo = new UserRepository();
+            this.userRepo = new UserRepository();
         }
 
         //Post
@@ -27,7 +27,7 @@ namespace Server.Controllers
         [HttpPost]
         public void Add(UserDTO user)
         {
-            mRepo.AddUser(user);
+            userRepo.AddUser(user);
         }
 
         //Post
@@ -36,7 +36,7 @@ namespace Server.Controllers
         [HttpPut]
         public void Update(UserDTO user)
         {
-            mRepo.UpdateUser(user);
+            userRepo.UpdateUser(user);
         }
 
         //Get
@@ -45,7 +45,7 @@ namespace Server.Controllers
         [HttpGet]
         public IEnumerable<UserDTO> Get()
         {
-            return mRepo.getUsers();
+            return userRepo.getUsers();
         }
 
         //Delete
@@ -55,7 +55,7 @@ namespace Server.Controllers
 
         public void Remove(int id)
         {
-            mRepo.RemoveUser(id);
+            userRepo.RemoveUser(id);
         }
     }
 }

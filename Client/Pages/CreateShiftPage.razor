@@ -1,10 +1,12 @@
 ﻿@page "/createshift"
 @using Client.Services;
+@using System;
+@using Microsoft.AspNetCore.Components.Forms;
 @using Syncfusion.Blazor.Calendars;
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
-<h1 class="mb-3 mt-3">Book your shelter</h1>
+<h1 class="mb-3 mt-3">Opret vagter:</h1>
 <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -21,8 +23,13 @@
         <InputNumber id="duration" @bind-Value="shiftItem.duration" class="form-control" />
     </div>
     <div class="col-md-6 mb-3">
-        <label for="category_id">Kategori ID:</label>
-        <InputNumber id="category_id" @bind-Value="shiftItem.category_id" class="form-control" />
+        <label for="category_id">Kategori:</label>
+        <InputSelect id="category_id" @bind-Value="@shiftItem.category_id">
+            @foreach (var cat in catList)
+            {
+                <option value="@cat.category_id">@cat.categoryName</option>
+            }
+        </InputSelect>
     </div>
     <div class="col-md-12 mb-3">
         <label for="priority">Prioritet:</label>
@@ -40,13 +47,23 @@
 
 @code {
     public int userId { get; set; }
+
     ShiftDTO shift = new();
+
+    ShiftCategoryDTO category = new();
+
+    private ShiftCategoryDTO catItem = new ShiftCategoryDTO();
+
+    private ShiftCategoryDTO[]? catList = new ShiftCategoryDTO[0];
 
     [Parameter]
     public int shiftid { get; set; }
 
     [Inject]
     private IShiftService mService { get; set; }
+
+    [Inject]
+    private ICategoryService cService { get; set; }
 
     private ShiftDTO shiftItem = new ShiftDTO();
 
@@ -59,11 +76,13 @@
         {
             NavigationManager.NavigateTo($"/");
         }
+        catList = (await cService.getCategories()).ToArray();
     }
 
     protected override void OnInitialized()
     {
         aEditContext = new EditContext(shiftItem);
+        aEditContext = new EditContext(catItem);
     }
 
     public async Task HandleValidSubmit()
@@ -73,9 +92,12 @@
 
     private async Task AddShift()
     {
-        //tidligere instans objektid fra shelter siden
+        //shiftItem.category = catList.FirstOrDefault(c => c.category_id == catItem.category_id);
+        //tidligere instans objektid fra shift siden
         shiftItem.shift_id = shiftid;
+        shiftItem.category = new ShiftCategoryDTO { category_id = shiftItem.category_id };
         await mService.AddShift(shiftItem);
+        catItem = new();
         shiftItem = new(); // clear fields in form
     }
 }
