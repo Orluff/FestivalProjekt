@@ -35,12 +35,20 @@
         <label for="role_id">Rolle: Koordinator = 1, Frivillig = 2</label>
         <InputNumber id="role_id" @bind-Value="userItem.role_id" class="form-control" />
     </div>
+    <label for="role_id">Rolle:</label>
+    <InputSelect id="role_id" @bind-Value="@userItem.role_id">
+        @foreach (var rol in roleList)
+        {
+            <option value="@rol.role_id">@rol.roleName</option>
+        }
+    </InputSelect>
+
     <div class="col-md-6 mb-3">
         <label for="password">Password:</label>
         <InputText id="password" @bind-Value="userItem.password" class="form-control" />
     </div>
 
-    <div class="col-12 mb-3">
+    <div class="col-12 mb-3"> 
         <button type="submit" class="btn btn-primary">Opret bruger</button>
     </div>
 </EditForm>
@@ -49,9 +57,13 @@
 @code {
     public int userId { get; set; }
     UserDTO user = new();
+    private RoleDTO[]? roleList = new RoleDTO[0];
 
     [Inject]
     private IUserService mService { get; set; }
+
+    [Inject]
+    private IRoleService rService { get; set; }
 
     private UserDTO userItem = new UserDTO();
 
