@@ -53,38 +53,43 @@
 
 
 @code {
+
+    //Gemmer brugerens id
     public int userId { get; set; }
 
+    //Egenskaber
+    private UserDTO userItem = new UserDTO();
     private ShiftCategoryDTO roleItem = new ShiftCategoryDTO();
 
     private RoleDTO[]? roleList = new RoleDTO[0];
 
+<<<<<<< HEAD
     private RoleDTO rol = new();
 
+=======
+    //Tjeneste til vores service
+>>>>>>> main
     [Inject]
     private IUserService mService { get; set; }
-
     [Inject]
     private IRoleService rService { get; set; }
-
-    UserDTO user = new();
+    [Inject]
+    private IUserService uService { get; set; }
 
     [Parameter]
     public int userid { get; set; }
 
-    [Inject]
-    private IUserService uService { get; set; }
-
-
-    private UserDTO userItem = new UserDTO();
-
+    // EditContext-objekt til validering af formularfelter
     private EditContext aEditContext;
+
 
     protected override async Task OnInitializedAsync()
     {
+        // Henter userId fra sessionStorage
         userId = await sessionStorage.GetItemAsync<int>("userId");
         if (userId == 0)
         {
+            // Hvis userId er 0, omdirigeres brugeren til start siden
             NavigationManager.NavigateTo($"/");
         }
         roleList = (await rService.getRole()).ToArray();
@@ -98,15 +103,17 @@
 
     public async Task HandleValidSubmit()
     {
-        await AddUser(); // clear fields in form
+        await AddUser();
     }
 
     private async Task AddUser()
     {
-        //tidligere instans objektid fra shelter siden
+        //Sætter userItem's user_id til userId
         userItem.user_id = userId;
+
         await mService.AddUser(userItem);
-        userItem = new(); // clear fields in form
-        roleItem = new();
+
+        // Tømmer felter i formularen
+        userItem = new();
     }
 }
