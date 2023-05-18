@@ -3,7 +3,6 @@
 @using Client.Services;
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
-@*@inject Blazored.LocalStorage.ILocalStorageService localStorage;*@
 
 <h1 class="mb-3 mt-3">Login</h1>
 <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
@@ -27,21 +26,28 @@
 
 
 @code {
-    private UserDTO[]? userList = new UserDTO[0];
-    UserDTO user = new();
 
+    //Array til opbevaring af brugerdata
+    private UserDTO[]? userList = new UserDTO[0];
+
+    //Tjeneste til vores service
     [Inject]
     private IUserService mService { get; set; }
 
+    // Ny instans af UserDTO
     private UserDTO userItem = new UserDTO();
-
-    private EditContext aEditContext;
 
     protected override async Task OnInitializedAsync()
     {
+        // Henter brugerdata fra IUserService og gemmer dem i userList-arrayet
         userList = (await mService.getUsers()).ToArray();
+
+        //Sætter isLoggedIn i session storage til false
         await sessionStorage.SetItemAsync("isLoggedIn", false);
     }
+
+    // EditContext-objekt til validering af formularfelter
+    private EditContext aEditContext;
 
     protected override void OnInitialized()
     {
@@ -53,22 +59,32 @@
         await Login(); // clear fields in form
     }
 
+    //Angiver om der er et match mellem brugeroplysningerne
     public bool isMatchFound = true;
+
 
     private async Task Login()
     {
-        //tidligere instans objektid fra shelter siden
+        //Itererer gennem userList for at sammenligne brugeroplysningerne
         foreach (var user in userList)
         {
             if (user.email == userItem.email && user.password == userItem.password)
             {
+                // Gemmer brugerens id og rolle_id i session storage
                 await sessionStorage.SetItemAsync("userId", user.user_id);
                 await sessionStorage.SetItemAsync("userRoleId", user.role_id);
+
+                // Sætter isLoggedIn i session storage til true
                 await sessionStorage.SetItemAsync("isLoggedIn", true);
+
+                // Navigerer til "/userinfo/" siden
                 NavigationManager.NavigateTo($"/userinfo/", forceLoad: true);
+
+                //Der er fundet et match
                 isMatchFound = true;
             } else
             {
+                //Der er IKKE fundet et match: "Oplysninger matcher ikke"
                 isMatchFound = false;
             }
         }

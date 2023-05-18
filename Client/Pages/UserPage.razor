@@ -37,22 +37,31 @@
 </table>
 
 @code {
-    public int userId { get; set; }
-    private UserDTO[]? userList = new UserDTO[0];
 
+    //Gem brugerens id
+    public int userId { get; set; }
+
+    //Egenskaber
+    private UserDTO[]? userList = new UserDTO[0];
+    private UserDTO user = new UserDTO();
+
+    //Tjeneste til vores service
     [Inject]
     private IUserService mService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        // Indlæs bruger-id fra session storage
         userId = await sessionStorage.GetItemAsync<int>("userId");
         if (userId == 0)
         {
+            //Er bruger-id ikke tilgængeligt, omdiriger til forsiden
             NavigationManager.NavigateTo($"/");
         }
 
         try
         {
+            // Hent brugerlisten fra serveren
             userList = (await mService.getUsers()).ToArray();
         }
         catch (Exception ex)
@@ -60,8 +69,6 @@
             Console.WriteLine(ex);
         }
     }
-
-    private UserDTO user = new UserDTO();
 
     private EditContext aEditContext;
 
@@ -72,10 +79,13 @@
 
     private async Task RemoveUser(UserDTO id)
     {
+        // Fjern bruger fra serveren
         await mService.RemoveUser(id);
 
+        // Opdater brugerlisten ved at hente den opdaterede liste fra serveren
         //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
         userList = (await mService.getUsers()).ToArray();
+        // Opdater komponentens tilstand for at genindlæse UI'en med den opdaterede liste
         StateHasChanged();
     }
 }

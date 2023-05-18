@@ -47,21 +47,28 @@
 
 
 @code {
-    public int userId { get; set; }
-    UserDTO user = new();
 
+    //Gemmer brugerens id
+    public int userId { get; set; }
+
+    // Ny instans af UserDTO
+    private UserDTO userItem = new UserDTO();
+
+    //Tjeneste til vores service
     [Inject]
     private IUserService mService { get; set; }
 
-    private UserDTO userItem = new UserDTO();
-
+    // EditContext-objekt til validering af formularfelter
     private EditContext aEditContext;
+
 
     protected override async Task OnInitializedAsync()
     {
+        // Henter userId fra sessionStorage
         userId = await sessionStorage.GetItemAsync<int>("userId");
         if (userId == 0)
         {
+            // Hvis userId er 0, omdirigeres brugeren til start siden
             NavigationManager.NavigateTo($"/");
         }
     }
@@ -73,14 +80,17 @@
 
     public async Task HandleValidSubmit()
     {
-        await AddUser(); // clear fields in form
+        await AddUser();
     }
 
     private async Task AddUser()
     {
-        //tidligere instans objektid fra shelter siden
+        //Sætter userItem's user_id til userId
         userItem.user_id = userId;
+
         await mService.AddUser(userItem);
-        userItem = new(); // clear fields in form
+
+        // Tømmer felter i formularen
+        userItem = new();
     }
 }

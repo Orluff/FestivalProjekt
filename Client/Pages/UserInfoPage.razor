@@ -7,6 +7,7 @@
 
 @if (userItem != null)
 {
+    <!-- Brugeroplysninger form -->
     <div class="col-md-3 mb-3">
         <label for="name">Fornavn:</label>
         <div class="input-group">
@@ -67,10 +68,12 @@
         <div class="input-group">
             @if (!isEditMode)
             {
+                <!-- Redigeringsknappen vises, når brugeren ikke er i redigeringsmode -->
                 <button class="btn btn-primary" @onclick="EnableEditMode">Edit</button>
             }
             else
             {
+                <!-- Knapper til at gemme ændringer eller annullere redigeringen -->
                 <button class="btn btn-success" @onclick="SaveChanges">Save</button>
                 <button class="btn btn-secondary" @onclick="DisableEditMode">Cancel</button>
             }
@@ -83,20 +86,27 @@ else
     <p>Brugeroplysninger blev ikke fundet.</p>
 }
 @code {
+
+    //Gem brugerens id
     public int userId { get; set; }
 
+    //Tjeneste til vores service
     [Inject]
     private IUserService mService { get; set; }
 
+    //Egenskaber
     private UserDTO userItem;
     private bool isEditMode = false;
     private UserDTO originalUserItem;
 
+
     protected override async Task OnInitializedAsync()
     {
+        // Indlæs bruger-id fra session storage
         userId = await sessionStorage.GetItemAsync<int>("userId");
         if (userId == 0)
         {
+            //Er bruger-id ikke tilgængeligt, omdiriger til forsiden
             NavigationManager.NavigateTo($"/");
         }
 
@@ -112,9 +122,11 @@ else
 
     private async Task LoadUserData()
     {
+        // Hent brugeroplysninger fra serveren baseret på bruger-id'et
         userItem = await mService.GetUserById(userId);
         originalUserItem = new UserDTO
         {
+            // Gem de oprindelige brugeroplysninger hvis redigering annulleres
             name = userItem.name,
             lastName = userItem.lastName,
             address = userItem.address,
@@ -128,13 +140,16 @@ else
 
     private void EnableEditMode()
     {
+        // Aktiver redigeringsmode
         isEditMode = true;
     }
 
     private void DisableEditMode()
     {
+        //Deaktiver redigeringsmode
         isEditMode = false;
-        // Reset the userItem to its original values
+
+        //Nulstil brugeroplysninger til oprindelige værdier
         userItem.name = originalUserItem.name;
         userItem.lastName = originalUserItem.lastName;
         userItem.address = originalUserItem.address;
@@ -147,7 +162,9 @@ else
 
     private async Task SaveChanges()
     {
+        // Gem ændringer på serveren
         await mService.UpdateUser(userItem);
+
         isEditMode = false;
     }
 }
