@@ -8,35 +8,41 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>User ID</th>
             <th>Name</th>
             <th>Lastname</th>
             <th>Address</th>
             <th>Email</th>
             <th>Telephone</th>
             <th>Birthdate</th>
-            <th>Role ID</th>
+            <th>Rolle</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var user in userList)
         {
-            <tr>
-                <td>@user.user_id</td>
-                <td>@user.name</td>
-                <td>@user.lastName</td>
-                <td>@user.address</td>
-                <td>@user.email</td>
-                <td>@user.telephone</td>
-                <td>@user.birthDate</td>
-                <td>@user.role_id</td>
-                <td><button type="button" @onclick="() => RemoveUser(user)">X</button></td>
-            </tr>
-        }
-    </tbody>
+          
+              var rol = roleList.FirstOrDefault(r => r.role_id == user.role_id);
+              if (rol != null)
+               {
+                <tr>
+                    <td>@user.name</td>
+                    <td>@user.lastName</td>
+                    <td>@user.address</td>
+                    <td>@user.email</td>
+                    <td>@user.telephone</td>
+                    <td>@user.birthDate</td>
+                    <td>@rol.roleName</td>
+                    <td><button type="button" @onclick="() => RemoveUser(user)">X</button></td>
+                </tr>
+                        }
+                    }
+               
+            </tbody>
 </table>
 
+
 @code {
+    public int userId { get; set; }
 
     //Gem brugerens id
     public int userId { get; set; }
@@ -45,7 +51,6 @@
     private UserDTO[]? userList = new UserDTO[0];
     private UserDTO user = new UserDTO();
     private RoleDTO[]? roleList = new RoleDTO[0];
-    private ShiftCategoryDTO roleItem = new ShiftCategoryDTO();
 
     //Tjeneste til vores service
     [Inject]
@@ -67,12 +72,17 @@
         {
             // Hent brugerlisten fra serveren
             userList = (await mService.getUsers()).ToArray();
+            roleList = (await rService.getRole()).ToArray();
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex);
         }
     }
+
+    private UserDTO user = new UserDTO();
+
+    private RoleDTO roleItem = new RoleDTO();
 
     private EditContext aEditContext;
 
