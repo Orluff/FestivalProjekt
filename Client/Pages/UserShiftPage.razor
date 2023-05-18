@@ -5,6 +5,8 @@
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
 <h1 class="mb-3 mt-3">Mine vagter</h1>
+
+<!-- Tabel med vagtoplysninger -->
 <table class="table table-striped">
     <thead>
         <tr>
@@ -17,6 +19,7 @@
         </tr>
     </thead>
     <tbody>
+        <!-- Loop gennem brugervagter og vis vagt oplysningerne i hver række -->
         @foreach (var user in userShiftList)
         {
             @if (user.user_id == userId)
@@ -25,6 +28,7 @@
                 {
                     @if (user.shift_id == shift.shift_id)
                     {
+                        <!-- Hent kategorien for den pågældende vagt -->
                         var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
                         if (category != null)
                         {
@@ -52,33 +56,36 @@
 </table>
 
 @code {
+
+        //Gem brugerens id
     public int userId { get; set; }
 
+    //Arrays af DTO-objekter, der kan være null
     private ShiftDTO[]? shiftList = new ShiftDTO[0];
-
     private UserShiftDTO[]? userShiftList = new UserShiftDTO[0];
-
     private ShiftCategoryDTO[]? catList = new ShiftCategoryDTO[0];
 
+    //Tjenester til vores services
     [Inject]
     private IShiftService mService { get; set; }
-
     [Inject]
     private IUserShiftService uService { get; set; }
-
     [Inject]
     private ICategoryService cService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        // Indlæs bruger-id fra session storage
         userId = await sessionStorage.GetItemAsync<int>("userId");
         if (userId == 0)
         {
+            //Er bruger-id ikke tilgængeligt, omdiriger til forsiden
             NavigationManager.NavigateTo($"/");
         }
 
         try
         {
+            // Hent vagt-, brugervagt- og kategorilisterne fra serveren
             shiftList = (await mService.getShifts()).ToArray();
             userShiftList = (await uService.GetUserShifts()).ToArray();
             catList = (await cService.getCategories()).ToArray();
@@ -89,10 +96,9 @@
         }
     }
 
+    //Egenskaber
     private ShiftDTO shift = new ShiftDTO();
-
     private UserShiftDTO userShift = new UserShiftDTO();
-
     private ShiftCategoryDTO category = new ShiftCategoryDTO();
 
     private EditContext aEditContext;
@@ -108,7 +114,7 @@
     {
         await uService.RemoveUserShift(id);
 
-        //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
+        //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme
         userShiftList = (await uService.GetUserShifts()).ToArray();
         StateHasChanged();
     }
