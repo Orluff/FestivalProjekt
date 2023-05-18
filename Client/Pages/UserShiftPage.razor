@@ -105,7 +105,7 @@
     {
         await uService.RemoveUserShift(id);
 
-        //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
+        //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme
         userShiftList = (await uService.GetUserShifts()).ToArray();
         StateHasChanged();
     }
