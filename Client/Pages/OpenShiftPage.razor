@@ -93,6 +93,7 @@
         userShift.user_id = userId;
 
         await uService.TakeShift(userShift, shift);
+        await mService.RemoveSpot(shift);
 
         //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
         userShiftList = (await uService.GetUserShifts()).ToArray();
