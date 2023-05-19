@@ -13,13 +13,11 @@
             <th>Længde</th>
             <th>Kategori</th>
             <th>Beskrivelse</th>
-            <th>Vælg Vagt</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var shift in shiftList)
         {
-            <!-- Hent kategorien for den pågældende vagt -->
             var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
             if (category != null)
             {
@@ -37,37 +35,33 @@
 </table>
 
 @code {
-
-    //Gem bruger id
     public int userId { get; set; }
 
-    //Arrays af DTO-objekter, der kan være null
     private ShiftDTO[]? shiftList = new ShiftDTO[0];
+
     private UserShiftDTO[]? userShiftList = new UserShiftDTO[0];
+
     private ShiftCategoryDTO[]? catList = new ShiftCategoryDTO[0];
 
-    //Tjenester til vores services
     [Inject]
     private IShiftService mService { get; set; }
+
     [Inject]
     private IUserShiftService uService { get; set; }
+
     [Inject]
     private ICategoryService cService { get; set; }
 
-
     protected override async Task OnInitializedAsync()
     {
-        // Indlæs bruger-id fra session storage
         userId = await sessionStorage.GetItemAsync<int>("userId");
         if (userId == 0)
         {
-            //Er bruger-id ikke tilgængeligt, omdiriger til forsiden
             NavigationManager.NavigateTo($"/");
         }
 
         try
         {
-            // Hent vagt-, brugervagt- og kategorilisterne fra serveren
             shiftList = (await mService.getShifts()).ToArray();
             userShiftList = (await uService.GetUserShifts()).ToArray();
             catList = (await cService.getCategories()).ToArray();
@@ -78,9 +72,10 @@
         }
     }
 
-    //Egenskaber
     private ShiftDTO shift = new ShiftDTO();
+
     private UserShiftDTO userShift = new UserShiftDTO();
+
     private ShiftCategoryDTO category = new ShiftCategoryDTO();
 
     private EditContext aEditContext;
@@ -94,12 +89,11 @@
 
     private async Task TakeShift(UserShiftDTO userShift, ShiftDTO shift)
     {
-        //shift_id og user_id tildeles userShift
         userShift.shift_id = shift.shift_id;
         userShift.user_id = userId;
 
-        //Kald metoden til at tage vagten med brugerens skift og det angivne skift
         await uService.TakeShift(userShift, shift);
+        await mService.RemoveSpot(shift);
 
         //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
         userShiftList = (await uService.GetUserShifts()).ToArray();
