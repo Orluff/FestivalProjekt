@@ -6,12 +6,12 @@
 
 <h1 class="mb-3 mt-3">Vagt Liste</h1>
 
-<div class="modal" style='display: @(isShiftSelectedModalVisible ? "block" : "none")'>
+<div class="modal" style='display: @(showModal ? "block" : "none")'>
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Fejl</h5>
-                        <button type="button" class="close" @onclick='() => isShiftSelectedModalVisible = false'>
+                        <button type="button" class="close" @onclick='() => showModal = false'>
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -19,7 +19,7 @@
                         Du har allerede valgt denne vagt.
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" @onclick='() => isShiftSelectedModalVisible = false'>OK</button>
+                        <button type="button" class="btn btn-primary" @onclick='() => showModal = false'>OK</button>
                     </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@
 @code {
     public int userId { get; set; }
 
-    private bool isShiftSelectedModalVisible = false;
+    private bool showModal = false;
 
     private ShiftDTO[]? shiftList = new ShiftDTO[0];
 
@@ -130,7 +130,7 @@
         if (isShiftSelected)
         {
             // Vis modalen
-            isShiftSelectedModalVisible = true;
+            showModal = true;
             return;
         }
 
