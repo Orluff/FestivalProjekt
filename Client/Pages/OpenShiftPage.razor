@@ -1,12 +1,10 @@
-﻿@page "/usershifts"
+﻿@page "/openshifts"
 @using Client.Services;
 @inject HttpClient Http;
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
-<h1 class="mb-3 mt-3">Mine vagter</h1>
-
-<!-- Tabel med vagtoplysninger -->
+<h1 class="mb-3 mt-3">Vagt Liste</h1>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -15,32 +13,24 @@
             <th>Længde</th>
             <th>Kategori</th>
             <th>Beskrivelse</th>
+            <th>Vælg Vagt</th>
         </tr>
     </thead>
     <tbody>
-        <!-- Loop gennem brugervagter og vis vagt oplysningerne i hver række -->
-        @foreach (var user in userShiftList)
+        @foreach (var shift in shiftList)
         {
-            @if (user.user_id == userId)
+            <!-- Hent kategorien for den pågældende vagt -->
+            var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
+            if (category != null)
             {
-                @foreach (var shift in shiftList)
-                {
-                    @if (user.shift_id == shift.shift_id)
-                    {
-                        <!-- Hent kategorien for den pågældende vagt -->
-                        var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
-                        if (category != null)
-                        {
-                            <tr>
-                                <td>@shift.startDateTime</td>
-                                <td>@shift.endDateTime</td>
-                                <td>@shift.duration</td>
-                                <td>@category.categoryName</td>
-                                <td>@category.description</td>
-                            </tr>
-                        }
-                    }
-                }
+                <tr>
+                    <td>@shift.startDateTime</td>
+                    <td>@shift.endDateTime</td>
+                    <td>@shift.duration</td>
+                    <td>@category.categoryName</td>
+                    <td>@category.description</td>
+                    <td><button type="button" @onclick="() => TakeShift(userShift, shift)">Vælg</button></td>
+                </tr>
             }
         }
     </tbody>
@@ -48,7 +38,7 @@
 
 @code {
 
-        //Gem brugerens id
+    //Gem bruger id
     public int userId { get; set; }
 
     //Arrays af DTO-objekter, der kan være null
@@ -63,6 +53,7 @@
     private IUserShiftService uService { get; set; }
     [Inject]
     private ICategoryService cService { get; set; }
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -101,11 +92,16 @@
         aEditContext = new EditContext(category);
     }
 
-    private async Task RemoveUserShift(ShiftDTO id)
+    private async Task TakeShift(UserShiftDTO userShift, ShiftDTO shift)
     {
-        await uService.RemoveUserShift(id);
+        //shift_id og user_id tildeles userShift
+        userShift.shift_id = shift.shift_id;
+        userShift.user_id = userId;
 
-        //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme
+        //Kald metoden til at tage vagten med brugerens skift og det angivne skift
+        await uService.TakeShift(userShift, shift);
+
+        //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
         userShiftList = (await uService.GetUserShifts()).ToArray();
         StateHasChanged();
     }

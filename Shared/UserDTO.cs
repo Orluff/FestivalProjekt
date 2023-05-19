@@ -7,7 +7,7 @@ public class UserDTO
 
     //Validering af fornavn
     [StringLength(40, ErrorMessage = "Navnet er for langt")]
-    [MinLength(1, ErrorMessage = "Udfyld fornavn")]
+    [MinLength(1, ErrorMessage = "Udfyld fornavn")] 
     public string name { get; set; }
 
     //Validering af efternavn
@@ -32,4 +32,6 @@ public class UserDTO
     //Validering af password
     [MinLength(5, ErrorMessage = "Password skal være mindst 5 tegn")]
     public string password { get; set; }
+
+    
 }

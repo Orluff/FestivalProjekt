@@ -1,15 +1,18 @@
 ﻿@page "/createshift"
 @using Client.Services;
+@using System;
+@using Microsoft.AspNetCore.Components.Forms;
 @using Syncfusion.Blazor.Calendars;
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
-<h1 class="mb-3 mt-3">Book your shelter</h1>
+<h1 class="mb-3 mt-3">Opret vagter:</h1>
 <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div class="col-md-12 mb-3">
         <label for="startDateTime">Start Tidspunkt:</label>
+        <!-- SfDateTimePicker er en komponent af Syncfusion.Blazor.Calenders så både dato og tid fremvises-->
         <SfDateTimePicker id="startDateTime" @bind-Value="shiftItem.startDateTime" class="form-control" />
     </div>
     <div class="col-md-12 mb-3">
@@ -21,8 +24,15 @@
         <InputNumber id="duration" @bind-Value="shiftItem.duration" class="form-control" />
     </div>
     <div class="col-md-6 mb-3">
-        <label for="category_id">Kategori ID:</label>
-        <InputNumber id="category_id" @bind-Value="shiftItem.category_id" class="form-control" />
+        <label for="category_id">Kategori:</label>
+        <InputSelect id="category_id" @bind-Value="@shiftItem.category_id">
+            <!-- Itererer gennem catList for at generere option-elementer -->
+            @foreach (var cat in catList)
+            {
+                <!-- Hver kategori repræsenteres som en option med værdien af category_id -->
+                <option value="@cat.category_id">@cat.categoryName</option>
+            }
+        </InputSelect>
     </div>
     <div class="col-md-12 mb-3">
         <label for="priority">Prioritet:</label>
@@ -39,43 +49,65 @@
 
 
 @code {
+
+    //Gem brugerens id
     public int userId { get; set; }
-    ShiftDTO shift = new();
+
+    // Nye instanser af ShiftDTO og ShiftCategoryDTO
+    private ShiftDTO shiftItem = new ShiftDTO();
+    private ShiftCategoryDTO catItem = new ShiftCategoryDTO();
+
+    //Array af ShiftCategoryDTO-objekter, der kan være null
+    private ShiftCategoryDTO[]? catList = new ShiftCategoryDTO[0];
 
     [Parameter]
     public int shiftid { get; set; }
 
+    //Tjenester til vores services
     [Inject]
     private IShiftService mService { get; set; }
+    [Inject]
+    private ICategoryService cService { get; set; }
 
-    private ShiftDTO shiftItem = new ShiftDTO();
-
+    // EditContext-objekt til validering af formularfelter
     private EditContext aEditContext;
+
 
     protected override async Task OnInitializedAsync()
     {
+        //Henter brugerens id fra sessionStorage
         userId = await sessionStorage.GetItemAsync<int>("userId");
         if (userId == 0)
         {
             NavigationManager.NavigateTo($"/");
         }
+
+        // Henter kategorier og konverterer dem til et array
+        catList = (await cService.getCategories()).ToArray();
     }
 
     protected override void OnInitialized()
     {
         aEditContext = new EditContext(shiftItem);
+        aEditContext = new EditContext(catItem);
     }
 
     public async Task HandleValidSubmit()
     {
-        await AddShift(); // clear fields in form
+        await AddShift();
     }
 
     private async Task AddShift()
     {
-        //tidligere instans objektid fra shelter siden
+        //Sætter shiftItem's shift_id til shiftid
         shiftItem.shift_id = shiftid;
+
+        // Opretter en ny instans af ShiftCategoryDTO baseret på category_id
+        shiftItem.category = new ShiftCategoryDTO { category_id = shiftItem.category_id };
+
         await mService.AddShift(shiftItem);
-        shiftItem = new(); // clear fields in form
+
+        // Tømmer felter i formularen
+        shiftItem = new();
     }
 }

@@ -4,7 +4,7 @@ using Client;
 using Client.Services;
 using Syncfusion.Blazor;
 using Blazored.LocalStorage;
-using Blazored.SessionStorage;
+using Blazored.SessionStorage; 
 
 namespace Client;
 
@@ -38,7 +38,19 @@ public class Program
 
         builder.Services.AddBlazoredSessionStorage();
 
+        builder.Services.AddHttpClient<ICategoryService, CategoryService>(client =>
+        {
+            client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
+        });
+
+        builder.Services.AddHttpClient<IRoleService, RoleService>(client =>
+        {
+            client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
+        });
+
+
         await builder.Build().RunAsync();
+
     }
 }
 
