@@ -4,6 +4,27 @@
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
+
+<div class="modal" style='display: @(showModal ? "block" : "none")'>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Fejl</h5>
+                        <button type="button" class="close" @onclick='() => showModal = false'>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Du har allerede valgt denne vagt.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @onclick='() => showModal = false'>OK</button>
+                    </div>
+                </div>
+            </div>
+</div>
+
+
 <h1 class="mb-3 mt-3">Vagt Liste</h1>
 <table class="table table-striped">
     <thead>
@@ -40,6 +61,9 @@
 
     //Gem bruger id
     public int userId { get; set; }
+
+    //Bruges til vise modal (Div øverst på siden)
+    private bool showModal = false;
 
     //Arrays af DTO-objekter, der kan være null
     private ShiftDTO[]? shiftList = new ShiftDTO[0];
@@ -78,6 +102,8 @@
         }
     }
 
+
+
     //Egenskaber
     private ShiftDTO shift = new ShiftDTO();
     private UserShiftDTO userShift = new UserShiftDTO();
@@ -94,6 +120,25 @@
 
     private async Task TakeShift(UserShiftDTO userShift, ShiftDTO shift)
     {
+
+        bool isShiftSelected = false;
+
+        foreach (var user in userShiftList)
+        {
+            if (user.shift_id == shift.shift_id && user.user_id == userId)
+            {
+                isShiftSelected = true;
+                break;
+            }
+        }
+
+        if (isShiftSelected)
+        {
+            // Vis modalen ved at sætte den til true
+            showModal = true;
+            return;
+        }
+
         //shift_id og user_id tildeles userShift
         userShift.shift_id = shift.shift_id;
         userShift.user_id = userId;
