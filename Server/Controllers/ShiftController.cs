@@ -50,6 +50,7 @@ namespace Server.Controllers
             shiftRepo.RemoveShift(id);
         }
 
+        /*
         //Post
         //Poster informationer fra shifts formen til koordinator siden
         [EnableCors("policy")]
@@ -58,6 +59,6 @@ namespace Server.Controllers
         {
             shiftRepo.UpdateSpots(spots);
         }
-
+        */
     }
 }

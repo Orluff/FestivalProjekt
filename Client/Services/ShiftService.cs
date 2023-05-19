@@ -30,10 +30,10 @@ namespace Client.Services
             await http.DeleteAsync($"https://localhost:7201/api/shift/{shift.shift_id}");
         }
 
-        public async Task UpdateSpots(ShiftDTO spots)
+        /*public async Task UpdateSpots(ShiftDTO spots)
         {
             await http.PostAsJsonAsync<ShiftDTO>("https://localhost:7201/api/shift", spots);
-        }
+        }*/
 
     }
 }

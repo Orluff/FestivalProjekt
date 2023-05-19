@@ -77,7 +77,7 @@ namespace Server.Repositories
             }
         }
 
-        public void UpdateSpots(ShiftDTO spots)
+        /*public void UpdateSpots(ShiftDTO spots)
         {
 
             using (var connection = new NpgsqlConnection(connString))
@@ -103,6 +103,6 @@ namespace Server.Repositories
                     throw;
                 }
             }
-        }
+        }*/
     }
 }
