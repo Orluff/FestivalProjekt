@@ -76,5 +76,33 @@ namespace Server.Repositories
                 command.ExecuteNonQuery();
             }
         }
+
+        public void UpdateSpots(ShiftDTO spots)
+        {
+
+            using (var connection = new NpgsqlConnection(connString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    spots.spots -= 1;
+
+                    var command = connection.CreateCommand();
+                    command.CommandText = "UPDATE \"Shifts\" SET spots = @spots WHERE shift_id = @shiftId;";
+
+                    command.Parameters.AddWithValue("@spots", spots.spots);
+                    command.Parameters.AddWithValue("@shiftId", spots.shift_id);
+
+                    command.ExecuteNonQuery();
+                }
+
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Fejl under opdatering af spots: " + ex.Message);
+                    throw;
+                }
+            }
+        }
     }
 }

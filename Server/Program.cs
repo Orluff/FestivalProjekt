@@ -24,14 +24,13 @@ public class Program
 
         var app = builder.Build();
 
+        app.UseCors("policy");
+
         // Configure the HTTP request pipeline.
 
         app.UseHttpsRedirection(); 
 
-        app.UseCors("policy");
-
         app.UseAuthorization();
-
 
         app.MapControllers(); 
 

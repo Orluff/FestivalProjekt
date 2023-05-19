@@ -101,6 +101,8 @@
         //Kald metoden til at tage vagten med brugerens skift og det angivne skift
         await uService.TakeShift(userShift, shift);
 
+        await mService.UpdateSpots(shift);
+
         //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
         userShiftList = (await uService.GetUserShifts()).ToArray();
         StateHasChanged();
