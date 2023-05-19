@@ -5,6 +5,26 @@
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
 <h1 class="mb-3 mt-3">Vagt Liste</h1>
+
+<div class="modal" style='display: @(isShiftSelectedModalVisible ? "block" : "none")'>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Fejl</h5>
+                        <button type="button" class="close" @onclick='() => isShiftSelectedModalVisible = false'>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Du har allerede valgt denne vagt.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @onclick='() => isShiftSelectedModalVisible = false'>OK</button>
+                    </div>
+                </div>
+            </div>
+ </div>
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -31,11 +51,17 @@
                 </tr>
             }
         }
+
+
+
+
     </tbody>
 </table>
 
 @code {
     public int userId { get; set; }
+
+    private bool isShiftSelectedModalVisible = false;
 
     private ShiftDTO[]? shiftList = new ShiftDTO[0];
 
@@ -89,6 +115,26 @@
 
     private async Task TakeShift(UserShiftDTO userShift, ShiftDTO shift)
     {
+
+        bool isShiftSelected = false;
+
+        foreach (var user in userShiftList)
+        {
+            if (user.shift_id == shift.shift_id && user.user_id == userId)
+            {
+                isShiftSelected = true;
+                break;
+            }
+        }
+
+        if (isShiftSelected)
+        {
+            // Vis modalen
+            isShiftSelectedModalVisible = true;
+            return;
+        }
+
+
         userShift.shift_id = shift.shift_id;
         userShift.user_id = userId;
 
