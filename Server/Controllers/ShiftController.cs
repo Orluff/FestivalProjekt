@@ -49,5 +49,16 @@ namespace Server.Controllers
         {
             shiftRepo.RemoveShift(id);
         }
+
+        //Update
+        //Opdatere "spots" på vagten med -1 når man vælger vagten
+        [EnableCors("policy")]
+        [HttpPut("{id}")]
+        public void RemoveSpot(int id)
+        {
+            var shift = new ShiftDTO { shift_id = id };
+            shiftRepo.RemoveSpot(shift);
+        }
+
     }
 }
