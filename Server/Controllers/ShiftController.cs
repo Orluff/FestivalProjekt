@@ -50,15 +50,12 @@ namespace Server.Controllers
             shiftRepo.RemoveShift(id);
         }
 
-        /*
-        //Post
-        //Poster informationer fra shifts formen til koordinator siden
         [EnableCors("policy")]
-        [HttpPost]
-        public void UpdateSpots(ShiftDTO spots)
+        [HttpPut("{id}")]
+        public void RemoveSpot(int id)
         {
-            shiftRepo.UpdateSpots(spots);
+            var shift = new ShiftDTO { shift_id = id };
+            shiftRepo.RemoveSpot(shift);
         }
-        */
     }
 }

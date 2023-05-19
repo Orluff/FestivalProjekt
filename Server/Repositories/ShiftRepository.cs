@@ -77,32 +77,23 @@ namespace Server.Repositories
             }
         }
 
-        /*public void UpdateSpots(ShiftDTO spots)
+
+        public void RemoveSpot(ShiftDTO shift)
+
         {
 
             using (var connection = new NpgsqlConnection(connString))
             {
-                try
-                {
                     connection.Open();
-
-                    spots.spots -= 1;
-
                     var command = connection.CreateCommand();
-                    command.CommandText = "UPDATE \"Shifts\" SET spots = @spots WHERE shift_id = @shiftId;";
 
-                    command.Parameters.AddWithValue("@spots", spots.spots);
-                    command.Parameters.AddWithValue("@shiftId", spots.shift_id);
+                    command.CommandText = "UPDATE \"Shifts\" SET spots = spots - 1 WHERE shift_id = @shiftId;";
+
+                    command.Parameters.AddWithValue("@shiftId", shift.shift_id);
 
                     command.ExecuteNonQuery();
-                }
 
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Fejl under opdatering af spots: " + ex.Message);
-                    throw;
                 }
-            }
-        }*/
+        }
+        }
     }
-}
