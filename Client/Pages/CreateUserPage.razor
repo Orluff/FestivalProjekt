@@ -60,9 +60,15 @@
     //Egenskaber
     private UserDTO userItem = new UserDTO();
     private ShiftCategoryDTO roleItem = new ShiftCategoryDTO();
+
     private RoleDTO[]? roleList = new RoleDTO[0];
 
+
+    private RoleDTO rol = new();
+
+
     //Tjeneste til vores service
+
     [Inject]
     private IUserService mService { get; set; }
     [Inject]
