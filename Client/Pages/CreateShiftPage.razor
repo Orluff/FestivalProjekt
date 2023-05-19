@@ -103,7 +103,7 @@
         shiftItem.shift_id = shiftid;
 
         // Opretter en ny instans af ShiftCategoryDTO baseret på category_id
-        shiftItem.category = new ShiftCategoryDTO { category_id = shiftItem.category_id };
+        //shiftItem.category = new ShiftCategoryDTO { category_id = shiftItem.category_id };
 
         await mService.AddShift(shiftItem);
 
