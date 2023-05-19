@@ -35,10 +35,12 @@
         <div class="col-md-6 mb-3">
             <label for="role_id">Rolle:</label>
             <InputSelect id="role_id" @bind-Value="@userItem.role_id">
+                <!-- Itererer gennem roleList for at generere option-elementer -->
                 @foreach (var rol in roleList)
-                    {
+                {
+                    <!-- Hver rolle repræsenteres som en option med værdien af role_id -->
                     <option value="@rol.role_id">@rol.roleName</option>
-                    }
+                }
             </InputSelect>
         </div>
         <div class="col-md-6 mb-3">
