@@ -8,4 +8,5 @@ namespace Server.Repositories
         void RemoveShift(int id);
         void RemoveSpot(ShiftDTO shift);
     }
+
 }

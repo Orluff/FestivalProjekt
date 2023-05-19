@@ -88,6 +88,7 @@ namespace Server.Repositories
                 command.CommandText = "UPDATE \"Shifts\" SET spots = spots - 1 WHERE shift_id = @shiftId;";
 
                 command.Parameters.AddWithValue("@shiftId", shift.shift_id);
+                
 
                 command.ExecuteNonQuery();
             }
