@@ -87,7 +87,7 @@ namespace Server.Repositories
                 connection.Open();
                 var command = connection.CreateCommand();
 
-                command.CommandText = "UPDATE \"Users\" SET \"name\" = @name, \"lastName\" = @lastName, address = @address, email = @email, telephone = @telephone, \"birthDate\" = @birthDate, role_id = @role_id, \"password\" = @password WHERE user_id = @id";
+                command.CommandText = "UPDATE \"Users\" SET \"name\" = @name, \"lastName\" = @lastName, address = @address, email = @email, telephone = @telephone, \"birthDate\" = @birthDate, \"password\" = @password WHERE user_id = @id";
 
                 command.Parameters.AddWithValue("@name", user.name);
                 command.Parameters.AddWithValue("@lastName", user.lastName);
@@ -95,7 +95,7 @@ namespace Server.Repositories
                 command.Parameters.AddWithValue("@email", user.email);
                 command.Parameters.AddWithValue("@telephone", user.telephone);
                 command.Parameters.AddWithValue("@birthDate", user.birthDate);
-                command.Parameters.AddWithValue("@role_id", user.role_id);
+                //command.Parameters.AddWithValue("@role_id", user.role_id);
                 command.Parameters.AddWithValue("@password", user.password);
                 command.Parameters.AddWithValue("@id", user.user_id);
 
