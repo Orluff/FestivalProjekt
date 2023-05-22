@@ -103,19 +103,17 @@ a, .btn-link {
         content: var(--blazor-load-percentage-text, "Loading");
     }
 
-
-
 /* Login side */
 
 :root {
-    --primary-color: lightblue;
+    --primary-color: linear-gradient( 58.2deg, rgba(40,91,212,0.73) -3%, rgba(171,53,163,0.45) 49.3%, rgba(255,204,112,0.37) 97.7% );
     --secondary-color: white;
     --tertiary-color: black;
     --gray-color: grey;
 }
 
 .container {
-    background-color: var(--primary-color);
+    background-image: var(--primary-color);
     border-radius: 20px;
     height: 80vh;
     display: flex;
@@ -128,13 +126,13 @@ a, .btn-link {
     font-size: 100px;
     font-weight: 900;
     text-align: center;
-    margin-bottom: 45px;
+    margin-bottom: 30px;
     color: var(--tertiary-color);
 }
 
 .box {
     background-color: var(--secondary-color);
-    font-family: 'Raleway', sans-serif;
+    font-family: font-family: 'Helvetica Neue', Helvetica, sans-serif;
     border-radius: 10px;
     padding: 45px;
     width: 375px;
@@ -181,15 +179,98 @@ a, .btn-link {
         .box form div input::placeholder {
             opacity: 1;
             color: var(--gray-color);
-            font-size: 12px;
+            font-size: 20px;
         }
 
 
-.box form button[type="submit"] {
+    .box form button[type="submit"] {
+        font-size: 20px;
+        font-weight: 600;
+        text-transform: uppercase;
+        background-color: rgba(171,53,163,0.45);
+        color: white;
+        border: none;
+        width: 100%;
+        padding: 15px;
+        margin-top: 45px;
+        border-radius: 250px;
+        border-bottom-color: none;
+    }
+
+    .box form button[type="submit"]:hover {
+        background-color: var(--tertiary-color);
+        cursor: pointer;
+    }
+
+/* create sider */
+
+.normal-container {
+    background-color: #F6F7FC;
+    border-radius: 40px;
+    height: 80vh;
+    display: inline-block;
+    align-items: flex-start;
+    max-width: 700px;
+    width: 100%;
+    padding: 25px 30px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+    margin-bottom: 10px;
+}
+
+.normal-container .normal-title {
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 40px;
+    font-weight: 300;
+    position: relative;
+}
+
+.content form .shift-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px 0 12px 0;
+}
+
+.content form .user-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px 0 12px 0;
+}
+
+.shift-details .input-box {
+    margin-bottom: 15px;
+    width: calc(100% / 2 - 20px);
+}
+
+.user-details .input-box {
+    margin-bottom: 15px;
+    width: calc(100% / 2 - 20px);
+}
+
+.shift-details .input-box input {
+    height: 45px;
+    width: 100%;
+    outline: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: 1px solid #ccc;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+}
+
+/*.shift-details details div input::placeholder {
+    opacity: 1;
+    color: var(--gray-color);
+    font-size: 20px;
+}*/
+
+.content button[type="submit"] {
     font-size: 20px;
     font-weight: 600;
     text-transform: uppercase;
-    background-color: var(--primary-color);
+    background-color: rgba(171,53,163,0.45);
     color: white;
     border: none;
     width: 100%;
@@ -199,7 +280,7 @@ a, .btn-link {
     border-bottom-color: none;
 }
 
-    .box form button[type="submit"]:hover {
+    .content button[type="submit"]:hover {
         background-color: var(--tertiary-color);
         cursor: pointer;
     }
