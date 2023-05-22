@@ -23,7 +23,7 @@
             @if (isLoggedIn)
             {
                 <NavLink class="nav-link" href="userinfo">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Mine Oplysninger
+                    <span class="oi oi-person" aria-hidden="true"></span> Mine Oplysninger
                 </NavLink>
             }
         </div>
@@ -31,7 +31,7 @@
             @if (isLoggedIn && userRoleId == 1)
             {
                 <NavLink class="nav-link" href="shifts">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Vagter
+                    <span class="oi oi-calendar" aria-hidden="true"></span> Vagter
                 </NavLink>
             }
         </div>
@@ -39,7 +39,7 @@
             @if (isLoggedIn && userRoleId == 2)
             {
                 <NavLink class="nav-link" href="usershifts">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Mine Vagter
+                    <span class="oi oi-clipboard" aria-hidden="true"></span> Mine Vagter
                 </NavLink>
             }
         </div>
@@ -47,7 +47,7 @@
             @if (isLoggedIn && userRoleId == 2)
             {
                 <NavLink class="nav-link" href="openshifts">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Vagter
+                    <span class="oi oi-calendar" aria-hidden="true"></span> Vagter
                 </NavLink>
             }
         </div>
@@ -55,7 +55,7 @@
             @if (isLoggedIn && userRoleId == 1)
             {
                 <NavLink class="nav-link" href="createshift">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Lav Vagter
+                    <span class="oi oi-pencil" aria-hidden="true"></span> Lav Vagter
                 </NavLink>
             }
         </div>
@@ -63,7 +63,7 @@
             @if (isLoggedIn && userRoleId == 1)
             {
                 <NavLink class="nav-link" href="users">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Brugere
+                    <span class="oi oi-people" aria-hidden="true"></span> Brugere
                 </NavLink>
             }
         </div>
@@ -71,7 +71,7 @@
             @if (isLoggedIn && userRoleId == 1)
             {
                 <NavLink class="nav-link" href="createuser">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Lav Bruger
+                    <span class="oi oi-pencil" aria-hidden="true"></span> Lav Bruger
                 </NavLink>
             }
         </div>
