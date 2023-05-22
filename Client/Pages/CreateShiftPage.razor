@@ -23,17 +23,21 @@
         <label for="duration">Længde:</label>
         <InputNumber id="duration" @bind-Value="shiftItem.duration" class="form-control" />
     </div>
-    <div class="col-md-6 mb-3">
+
+    <div class="col-md-3 mb-3">
         <label for="category_id">Kategori:</label>
-        <InputSelect id="category_id" @bind-Value="@shiftItem.category_id">
-            <!-- Itererer gennem catList for at generere option-elementer -->
-            @foreach (var cat in catList)
-            {
-                <!-- Hver kategori repræsenteres som en option med værdien af category_id -->
-                <option value="@cat.category_id">@cat.categoryName</option>
-            }
-        </InputSelect>
+        <div class="input-group">
+            <InputSelect id="category_id" @bind-Value="shiftItem.category_id" class="form-control">
+                <!-- Itererer gennem catList for at generere option-elementer -->
+                @foreach (var cat in catList)
+                {
+                    <!-- Hver kategori repræsenteres som en option med værdien af category_id -->
+                    <option value="@cat.category_id">@cat.categoryName</option>
+                }
+            </InputSelect>
+        </div>
     </div>
+
     <div class="col-md-12 mb-3">
         <label for="priority">Prioritet:</label>
         <InputCheckbox id="priority" @bind-Value="shiftItem.priority" class="checkbox" style="width: 20px; height: 20px;" />
