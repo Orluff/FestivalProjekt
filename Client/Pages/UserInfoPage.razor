@@ -1,4 +1,4 @@
-﻿@page "/userinfo"
+﻿ @page "/userinfo"
 @using Client.Services;
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
@@ -50,16 +50,16 @@
         </div>
     </div>
 
-    <div class="col-md-6 mb-3">
-        <label for="role_id" >Rolle: </label>
-        <InputSelect id="role_id"  @bind-Value="@userItem.role_id" disabled="@(!isEditMode)">
-            <!-- Itererer gennem roleList for at generere option-elementer -->
-            @foreach (var role in roleList)
-            {
-                <!-- Hver rolle repræsenteres som en option med værdien af role_id -->
-                <option value="@role.role_id">@role.roleName</option>
-            }
-        </InputSelect>
+    <div class="col-md-3 mb-3">
+        <label for="role_id">Rolle:</label>
+        <div class="input-group">
+            <InputSelect id="role_id" @bind-Value="userItem.role_id" disabled class="form-control">
+                @foreach (var role in roleList)
+                {
+                    <option value="@role.role_id">@role.roleName</option>
+                }
+            </InputSelect>
+        </div>
     </div>
 
     <div class="col-md-3 mb-3">

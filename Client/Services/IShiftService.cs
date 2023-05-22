@@ -8,5 +8,6 @@ namespace Client.Services
         Task AddShift(ShiftDTO shift);
 		Task RemoveShift(ShiftDTO shift);
 		Task RemoveSpot(ShiftDTO shift);
-	}
+        Task UpdateShift(ShiftDTO shift);
+    }
 }

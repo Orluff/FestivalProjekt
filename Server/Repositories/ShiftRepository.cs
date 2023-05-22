@@ -94,5 +94,26 @@ namespace Server.Repositories
                 command.ExecuteNonQuery();
             }
         }
+
+        public void UpdateShift(ShiftDTO shift)
+        {
+
+            using (var connection = new NpgsqlConnection(connString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+
+                command.CommandText = "UPDATE \"Shifts\" SET \"startDateTime\" = @startDateTime, \"endDateTime\" = @endDateTime, duration = @duration, priority = @priority, spots = @spots WHERE shift_id = @shiftId";
+
+                command.Parameters.AddWithValue("@shiftId", shift.shift_id);
+                command.Parameters.AddWithValue("@startDateTime", shift.startDateTime);
+                command.Parameters.AddWithValue("@endDateTime", shift.endDateTime);
+                command.Parameters.AddWithValue("@duration", shift.duration);
+                command.Parameters.AddWithValue("@priority", shift.priority);
+                command.Parameters.AddWithValue("@spots", shift.spots);
+
+                command.ExecuteNonQuery();
+            }
+        }
     }
 }

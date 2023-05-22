@@ -34,5 +34,10 @@ namespace Client.Services
         {
             await http.PutAsJsonAsync($"https://localhost:7201/api/shift/{shift.shift_id}", shift);
         }
+
+        public async Task UpdateShift(ShiftDTO shift)
+        {
+            await http.PutAsJsonAsync("https://localhost:7201/api/shift/", shift);
+        }
     }
 }
