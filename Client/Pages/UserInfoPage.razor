@@ -50,11 +50,16 @@
         </div>
     </div>
 
-    <div class="col-md-3 mb-3">
-        <label for="role_id">Rolle: Koordinator = 1, Frivillig = 2</label>
-        <div class="input-group">
-            <InputNumber id="role_id" @bind-Value="userItem.role_id" class="form-control" disabled="@(!isEditMode)" />
-        </div>
+    <div class="col-md-6 mb-3">
+        <label for="role_id" >Rolle: </label>
+        <InputSelect id="role_id"  @bind-Value="@userItem.role_id" disabled="@(!isEditMode)">
+            <!-- Itererer gennem roleList for at generere option-elementer -->
+            @foreach (var role in roleList)
+            {
+                <!-- Hver rolle repræsenteres som en option med værdien af role_id -->
+                <option value="@role.role_id">@role.roleName</option>
+            }
+        </InputSelect>
     </div>
 
     <div class="col-md-3 mb-3">
@@ -93,11 +98,15 @@ else
     //Tjeneste til vores service
     [Inject]
     private IUserService mService { get; set; }
+    [Inject]
+    private IRoleService rService { get; set; }
 
     //Egenskaber
     private UserDTO userItem;
     private bool isEditMode = false;
     private UserDTO originalUserItem;
+    private RoleDTO[]? roleList = new RoleDTO[0];
+    private RoleDTO roleItem = new RoleDTO();
 
 
     protected override async Task OnInitializedAsync()
@@ -113,6 +122,7 @@ else
         try
         {
             await LoadUserData();
+            roleList = (await rService.getRole()).ToArray();
         }
         catch (Exception ex)
         {

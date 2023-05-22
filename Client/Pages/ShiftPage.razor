@@ -33,21 +33,22 @@
         {
             <!-- Finder den tilsvarende kategori for den aktuelle vagt baseret på kategori-id-->
             var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
-           if (category != null)
+            if (category != null)
             {
-                <tr>
-                    <td>@category.categoryName</td>
-                    <td>@category.area</td>
-                    <td>@category.description</td>
-                    <td>@shift.startDateTime</td>
-                    <td>@shift.endDateTime</td>
-                    <td>@shift.duration timer</td>
-                    <td>@shift.priority</td>
-                    <td>@shift.spots</td>
-                    <td>
-                        <button type="button" @onclick="() => RemoveShift(shift)">X</button>
-                    </td>
-                </tr>
+
+            <tr>
+                <td>@category.categoryName</td>
+                <td>@category.area</td>
+                <td>@category.description</td>
+                <td>@shift.startDateTime</td>
+                <td>@shift.endDateTime</td>
+                <td>@shift.duration timer</td>
+                <td>@shift.priority</td>
+                <td>@shift.spots</td>
+                <td>
+                    <button type="button" @onclick="() => RemoveShift(shift)">X</button>
+                </td>
+            </tr>
             }
         }
     </tbody>
@@ -121,7 +122,7 @@
             shiftList = shifts.ToArray();
 
             // Udtræk unikke vagtkategorier og gem i catList
-            catList = shifts.Select(s => s.category).Distinct().ToArray();
+            //catList = shifts.Select(s => s.category).Distinct().ToArray();
 
             // Hent vagtkategorier fra CategoryService og gem i catList
             catList = (await cService.getCategories()).ToArray();

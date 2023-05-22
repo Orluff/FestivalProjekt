@@ -21,16 +21,24 @@
         @foreach (var user in userList)
         {
 
+
           
               var rol = roleList.FirstOrDefault(r => r.role_id == user.role_id);
               if (rol != null)
                {
+
+            <!-- Hent rollen for den pågældende vagt -->
+            var rol = roleList.FirstOrDefault(r => r.role_id == user.role_id);
+            if (rol != null)
+            {
+
                 <tr>
                     <td>@user.name</td>
                     <td>@user.lastName</td>
                     <td>@user.address</td>
                     <td>@user.email</td>
                     <td>@user.telephone</td>
+
                     <td>@user.birthDate</td>
                     <td>@rol.roleName</td>
                     <td><button type="button" @onclick="() => RemoveUser(user)">X</button></td>
@@ -39,33 +47,47 @@
                     }
                
             </tbody>
+
+                    <td>@user.birthDate.ToString("yyyy-MM-dd")</td>
+                    <td>@rol.roleName</td>
+                    <td><button type="button" @onclick="() => RemoveUser(user)">X</button></td>
+                </tr>
+            }
+        }
+    </tbody>
+
 </table>
 
 
 @code {
+
     public int userId { get; set; }
 
-
+    //Egenskaber
     private UserDTO[]? userList = new UserDTO[0];
-
+    private UserDTO user = new UserDTO();
+    private RoleDTO roleItem = new RoleDTO();
     private RoleDTO[]? roleList = new RoleDTO[0];
 
+    //Tjenester til vores services
     [Inject]
     private IUserService mService { get; set; }
-
     [Inject]
     private IRoleService rService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        // Indlæs bruger-id fra session storage
         userId = await sessionStorage.GetItemAsync<int>("userId");
         if (userId == 0)
         {
+            //Er bruger-id ikke tilgængeligt, omdiriger til forsiden
             NavigationManager.NavigateTo($"/");
         }
 
         try
         {
+            // Hent bruger- og rollelisterne fra serveren
             userList = (await mService.getUsers()).ToArray();
             roleList = (await rService.getRole()).ToArray();
         }
@@ -74,10 +96,6 @@
             Console.WriteLine(ex);
         }
     }
-
-    private UserDTO user = new UserDTO();
-
-    private RoleDTO roleItem = new RoleDTO();
 
     private EditContext aEditContext;
 
@@ -91,8 +109,8 @@
     {
         await mService.RemoveUser(id);
 
-        //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
+        //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme
         userList = (await mService.getUsers()).ToArray();
         StateHasChanged();
-    } 
+    }
 }

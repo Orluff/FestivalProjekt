@@ -18,6 +18,6 @@ public class ShiftDTO
     public int spots { get; set; }
 
     //Bruges til at joine vores ShiftDTO med vores ShiftCategoryDTO
-    public ShiftCategoryDTO category { get; set; }
+    //public ShiftCategoryDTO category { get; set; }
 }
 

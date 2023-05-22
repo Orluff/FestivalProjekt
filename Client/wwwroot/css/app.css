@@ -1,4 +1,7 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -9,7 +12,7 @@ h1:focus {
 }
 
 a, .btn-link {
-    color: #0071c1;
+    color: blue;
 }
 
 .btn-primary {
@@ -100,42 +103,103 @@ a, .btn-link {
         content: var(--blazor-load-percentage-text, "Loading");
     }
 
-/*Table*/
-.styled-table {
-    border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 400px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
+
+/* Login side */
+
+:root {
+    --primary-color: lightblue;
+    --secondary-color: white;
+    --tertiary-color: black;
+    --gray-color: grey;
 }
 
-    .styled-table thead tr {
-        background-color: #009879;
-        color: #ffffff;
-        text-align: left;
+.container {
+    background-color: var(--primary-color);
+    border-radius: 20px;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 100px;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 45px;
+    color: var(--tertiary-color);
+}
+
+.box {
+    background-color: var(--secondary-color);
+    font-family: 'Raleway', sans-serif;
+    border-radius: 10px;
+    padding: 45px;
+    width: 375px;
+    max-width: 95%;
+    box-shadow: 5px 5px 10px 1px rgb(0, 0, 0, 10%);
+}
+
+.box h2 {
+    font-size: 35px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.box form label {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 3px;
+}
+
+.box form div {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--gray-color);
+}
+
+    .box form div:hover {
+        border-bottom-color: var(--secondary-color);
     }
 
-    .styled-table th,
-    .styled-table td {
-        padding: 12px 15px;
+    .box form div:first-of-type {
+    margin-bottom: 40px;
+}
+
+.box form div input {
+    font-size: 20px;
+    outline: none;
+    border: none;
+    padding: 10px;
+    min-width: 0;
+    flex: 1;
+}
+
+        .box form div input::placeholder {
+            opacity: 1;
+            color: var(--gray-color);
+            font-size: 12px;
+        }
+
+
+.box form button[type="submit"] {
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 15px;
+    margin-top: 45px;
+    border-radius: 250px;
+    border-bottom-color: none;
+}
+
+    .box form button[type="submit"]:hover {
+        background-color: var(--tertiary-color);
+        cursor: pointer;
     }
-
-    .styled-table tbody tr {
-        border-bottom: 1px solid #dddddd;
-    }
-
-        .styled-table tbody tr:nth-of-type(even) {
-            background-color: #f3f3f3;
-        }
-
-        .styled-table tbody tr:last-of-type {
-            border-bottom: 2px solid #009879;
-        }
-
-        .styled-table tbody tr.active-row {
-            font-weight: bold;
-            color: #009879;
-        }
-
-    

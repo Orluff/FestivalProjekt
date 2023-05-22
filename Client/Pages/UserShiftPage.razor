@@ -15,6 +15,7 @@
             <th>Længde</th>
             <th>Kategori</th>
             <th>Beskrivelse</th>
+            <th>Fjern Vagt</th>
         </tr>
     </thead>
     <tbody>
@@ -37,6 +38,14 @@
                                 <td>@shift.duration</td>
                                 <td>@category.categoryName</td>
                                 <td>@category.description</td>
+                                @if (shift.startDateTime! < DateTime.Now.AddHours(48))
+                                {
+                                    <td></td>
+                                }
+                                else
+                                {
+                                    <td><button type="button" @onclick="() => RemoveUserShift(shift)">X</button></td>
+                                }
                             </tr>
                         }
                     }
