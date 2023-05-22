@@ -16,18 +16,18 @@ namespace Client.Services
 
         public async Task<IEnumerable<UserShiftDTO>> GetUserShifts()
         {
-            var userShifts = await http.GetFromJsonAsync<UserShiftDTO[]>("https://localhost:7201/api/usershift");
+            var userShifts = await http.GetFromJsonAsync<UserShiftDTO[]>(Config.serverURL + "api/usershift");
             return userShifts;
         }
 
         public async Task TakeShift(UserShiftDTO userShift, ShiftDTO shift)
         {
-            await http.PostAsJsonAsync<UserShiftDTO>("https://localhost:7201/api/usershift", userShift);
+            await http.PostAsJsonAsync<UserShiftDTO>(Config.serverURL + "api/usershift", userShift);
         }
 
         public async Task RemoveUserShift(ShiftDTO shift)
         {
-            await http.DeleteAsync($"https://localhost:7201/api/usershift/{shift.shift_id}");
+            await http.DeleteAsync($"{Config.serverURL}api/usershift/{shift.shift_id}");
         }
     }
 }
