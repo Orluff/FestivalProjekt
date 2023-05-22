@@ -26,6 +26,8 @@
             <th>Prioritet</th>
             <th>Pladser</th>
             <th></th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -35,26 +37,81 @@
             var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
             if (category != null)
             {
-
-            <tr>
-                <td>@category.categoryName</td>
-                <td>@category.area</td>
-                <td>@category.description</td>
-                <td>@shift.startDateTime</td>
-                <td>@shift.endDateTime</td>
-                <td>@shift.duration timer</td>
-                <td>@shift.priority</td>
-                <td>@shift.spots</td>
-                <td>
-                    <button type="button" @onclick="() => RemoveShift(shift)">X</button>
-                </td>
-            </tr>
+                if (shift.IsEditing)
+                {
+        <tr>
+            <td>@category.categoryName</td>
+            <td>@category.area</td>
+            <td>@category.description</td>
+            <td><input type="datetime" class="form-control" placeholder="start dato tid" @bind="@shift.startDateTime" /></td>
+            <td><input type="datetime" class="form-control" placeholder="slut dato tid" @bind="@shift.startDateTime" /></td>
+            <td><input type="number" class="form-control" placeholder="længde" @bind="@shift.duration" /></td>
+            <td><input type="checkbox" class="checkbox" placeholder="prioritet" @bind="@shift.priority" style="width: 20px; height: 20px;"/></td>
+            <td><input type="number" class="form-control" placeholder="pladser" @bind="@shift.spots" /></td>
+            <td>
+                <button type="button" class="btn btn-link" @onclick="() => DisableEditMode(shift)"><span class="oi oi-circle-x"></span></button>
+            </td>
+            <td>
+                <button type="button" class="btn btn-link" @onclick="() => UpdateShift(shift)"><span class="oi oi-circle-check"></span></button>
+            </td>
+        </tr>
+                }
+                else
+                {
+    <tr>
+        <td>@category.categoryName</td>
+        <td>@category.area</td>
+        <td>@category.description</td>
+        <td>@shift.startDateTime</td>
+        <td>@shift.endDateTime</td>
+        <td>@shift.duration timer</td>
+        <td>@shift.priority</td>
+        <td>@shift.spots</td>
+        <td>
+            <button type="button" class="btn btn-link" @onclick="() => RemoveShift(shift)"><span class="oi oi-delete"></span></button>
+        </td>
+        <td>
+            <button type="button" class="btn btn-link" @onclick="() => EnableEditing(shift)"><span class="oi oi-pencil"></span></button>
+        </td>
+    </tr>
+                }
             }
         }
     </tbody>
 </table>
 
 @code {
+
+
+    private void EnableEditing(ShiftDTO shift)
+    {
+        shift.IsEditing = true;
+    }
+
+    private async Task UpdateShift(ShiftDTO shift)
+    {
+        //call the repository to update the instance here.
+        //show toast after done.
+        // Gem ændringer på serveren
+        await mService.UpdateShift(shift);
+
+        shift.IsEditing = false;
+    }
+
+    ShiftDTO originalShiftItem = new ShiftDTO();
+
+    private void DisableEditMode(ShiftDTO shift)
+    {
+        //Deaktiver redigeringsmode
+        shift.IsEditing = false;
+
+        //Nulstil brugeroplysninger til oprindelige værdier
+        shift.startDateTime = originalShiftItem.startDateTime;
+        shift.endDateTime = originalShiftItem.endDateTime;
+        shift.duration = originalShiftItem.duration;
+        shift.priority = originalShiftItem.priority;
+        shift.spots = originalShiftItem.spots;
+    }
 
     //Gem sorteringsmetode
     private string selectedSort;
