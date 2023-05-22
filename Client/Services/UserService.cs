@@ -16,7 +16,7 @@ namespace Client.Services
 
         public async Task<IEnumerable<UserDTO>> getUsers()
         {
-            var users = await http.GetFromJsonAsync<UserDTO[]>("https://localhost:7201/api/user");
+            var users = await http.GetFromJsonAsync<UserDTO[]>(Config.serverURL + "api/user");
             return users;
         }
 
@@ -28,17 +28,17 @@ namespace Client.Services
 
         public async Task AddUser(UserDTO user)
         {
-            await http.PostAsJsonAsync("https://localhost:7201/api/user", user);
+            await http.PostAsJsonAsync(Config.serverURL + "api/user", user);
         }
 
         public async Task UpdateUser(UserDTO user)
         {
-            await http.PutAsJsonAsync("https://localhost:7201/api/user/", user);
+            await http.PutAsJsonAsync(Config.serverURL + "api/user/", user);
         }
 
         public async Task RemoveUser(UserDTO user)
         {
-            await http.DeleteAsync($"https://localhost:7201/api/user/{user.user_id}");
+            await http.DeleteAsync($"{Config.serverURL}api/user/{user.user_id}");
         }
 
     }

@@ -16,16 +16,16 @@ namespace Client.Services
 
         public async Task<IEnumerable<RoleDTO>> getRole()
         {
-            var role = await http.GetFromJsonAsync<RoleDTO[]>("https://localhost:7201/api/role");
+            var role = await http.GetFromJsonAsync<RoleDTO[]>(Config.serverURL + "api/role");
             return role;
         }
 
         /*public async Task AddRole(RoleDTO role)  
         {
-            await http.PostAsJsonAsync<RoleDTO>("https://localhost:7201/api/role", role);
+            await http.PostAsJsonAsync<RoleDTO>(Config.serverURL+ "api/role", role);
         }*/
 
-     
+
     }
 }
 
