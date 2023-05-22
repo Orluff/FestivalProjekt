@@ -95,6 +95,23 @@ namespace Server.Repositories
             }
         }
 
+        public void AddSpot(ShiftDTO shift)
+        {
+
+            using (var connection = new NpgsqlConnection(connString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+
+                command.CommandText = "UPDATE \"Shifts\" SET spots = spots + 1 WHERE shift_id = @shiftId;";
+
+                command.Parameters.AddWithValue("@shiftId", shift.shift_id);
+
+
+                command.ExecuteNonQuery();
+            }
+        }
+
         public void UpdateShift(ShiftDTO shift)
         {
 

@@ -57,7 +57,7 @@
 
 @code {
 
-        //Gem brugerens id
+    //Gem brugerens id
     public int userId { get; set; }
 
     //Arrays af DTO-objekter, der kan være null
@@ -113,6 +113,7 @@
     private async Task RemoveUserShift(ShiftDTO id)
     {
         await uService.RemoveUserShift(id);
+        await mService.AddSpot(id);
 
         //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme
         userShiftList = (await uService.GetUserShifts()).ToArray();

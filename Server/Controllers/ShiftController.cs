@@ -51,11 +51,19 @@ namespace Server.Controllers
         }
 
         [EnableCors("policy")]
-        [HttpPut("{id}")]
+        [HttpPut("remove/{id}")]
         public void RemoveSpot(int id)
         {
             var shift = new ShiftDTO { shift_id = id };
             shiftRepo.RemoveSpot(shift);
+        }
+
+        [EnableCors("policy")]
+        [HttpPut("add/{id}")]
+        public void AddSpot(int id)
+        {
+            var shift = new ShiftDTO { shift_id = id };
+            shiftRepo.AddSpot(shift);
         }
 
         //Post
