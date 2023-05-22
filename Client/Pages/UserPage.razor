@@ -18,54 +18,34 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var user in userList)
-        {
-
-
-          
-              var rol = roleList.FirstOrDefault(r => r.role_id == user.role_id);
-              if (rol != null)
-               {
-
-            <!-- Hent rollen for den pågældende vagt -->
-            var rol = roleList.FirstOrDefault(r => r.role_id == user.role_id);
-            if (rol != null)
+            @foreach (var user in userList)
             {
-
-                <tr>
-                    <td>@user.name</td>
-                    <td>@user.lastName</td>
-                    <td>@user.address</td>
-                    <td>@user.email</td>
-                    <td>@user.telephone</td>
-
-
-                    <td>@user.birthDate</td>
-                    <td>@rol.roleName</td>
-                    <td><button type="button" @onclick="() => RemoveUser(user)">X</button></td>
-                </tr>
-                        }
-                    }
-               
-            </tbody>
-
-                    <td>@user.birthDate.ToString("yyyy-MM-dd")</td>
-
-                    <td>@user.birthDate.ToString("dd-MM-yyyy")</td>
-
-                    <td>@rol.roleName</td>
-                    <td><button type="button" @onclick="() => RemoveUser(user)">X</button></td>
-                </tr>
+                <!-- Hent rollen for den pågældende vagt -->
+                var rol = roleList.FirstOrDefault(r => r.role_id == user.role_id);
+                if (rol != null)
+                {
+                    <tr>
+                        <td>@user.name</td>
+                        <td>@user.lastName</td>
+                        <td>@user.address</td>
+                        <td>@user.email</td>
+                        <td>@user.telephone</td>
+                        <td>@user.birthDate.ToString("dd-MM-yyyy")</td>
+                        <td>@rol.roleName</td>
+                        <td><button type="button" @onclick="() => RemoveUser(user)">X</button></td>
+                    </tr>
+                }
             }
-        }
-    </tbody>
+        </tbody>
+    </table>
+  
 
-</table>
+ 
 
 
-@code {
+    @code {
 
-    public int userId { get; set; }
+public int userId { get; set; }
 
     //Egenskaber
     private UserDTO[]? userList = new UserDTO[0];
@@ -117,4 +97,4 @@
         userList = (await mService.getUsers()).ToArray();
         StateHasChanged();
     }
-}
+    }
