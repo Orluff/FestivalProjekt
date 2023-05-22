@@ -35,6 +35,11 @@ namespace Client.Services
             await http.PutAsJsonAsync($"{Config.serverURL}api/shift/{shift.shift_id}", shift);
         }
 
+        public async Task AddSpot(ShiftDTO shift)
+        {
+            await http.PutAsJsonAsync($"{Config.serverURL}api/shift/{shift.shift_id}", shift);
+        }
+
         public async Task UpdateShift(ShiftDTO shift)
         {
             await http.PutAsJsonAsync(Config.serverURL + "api/shift/", shift);
