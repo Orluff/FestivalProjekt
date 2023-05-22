@@ -1,28 +1,34 @@
-﻿@page "/"
+﻿@layout LoginLayout
+@page "/"
 @inject HttpClient Http;
 @using Client.Services;
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
-<h1 class="mb-3 mt-3">Login</h1>
-<EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <ul class="validation-errors" style="display: @(isMatchFound ? "none" : "block")">
-        <li class="validation-message">Oplysninger matcher ikke</li>
-    </ul>
-    <div class="col-md-6 mb-3">
-        <label for="email">Email:</label>
-        <InputText id="email" @bind-Value="userItem.email" class="form-control" />
-    </div>
-    <div class="col-md-6 mb-3">
-        <label for="password">Password:</label>
-        <InputText id="password" type="password" @bind-Value="userItem.password" class="form-control" />
-    </div>
-    <div class="col-12 mb-3">
-        <button type="submit" class="btn btn-primary">Login</button>
-    </div>
-</EditForm>
+<div class="header">MUSIKFESTIVAL</div>
+<div class="container">
+<div class="box">
+    <h2>Login</h2>
+    <form>
+        <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <ul class="validation-errors" style="display: @(isMatchFound ? "none" : "block")">
+                <li class="validation-message">Oplysninger matcher ikke</li>
+            </ul>
+            <div>
+                <label for="email">Email:</label>
+                <InputText id="email" @bind-Value="userItem.email" class="form-control" />
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <InputText id="password" type="password" @bind-Value="userItem.password" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </EditForm>
+    </form>
+</div>
+</div>
 
 
 @code {
@@ -82,7 +88,8 @@
 
                 //Der er fundet et match
                 isMatchFound = true;
-            } else
+            }
+            else
             {
                 //Der er IKKE fundet et match: "Oplysninger matcher ikke"
                 isMatchFound = false;
