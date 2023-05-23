@@ -2,9 +2,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
+.page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+* {
+    justify-content: center;
+    align-items: center;
 }
 
 h1:focus {
@@ -102,7 +112,6 @@ a, .btn-link {
     .loading-progress-text:after {
         content: var(--blazor-load-percentage-text, "Loading");
     }
-
 
 /* Login side */
 
@@ -218,7 +227,7 @@ a, .btn-link {
     display: inline-block;
     align-items: flex-start;
     max-width: 700px;
-    width: 100%;
+    width: 90%;
     padding: 25px 30px;
     box-shadow: 0 5px 10px rgba(0,0,0,0.15);
     margin-bottom: 10px;
@@ -230,6 +239,10 @@ a, .btn-link {
     font-weight: 300;
     position: relative;
 }
+
+    .normal-container .normal-title span.oi.oi-person {
+        color: lightblue;
+    }
 
 .content form .shift-details {
     display: flex;
@@ -262,6 +275,9 @@ a, .btn-link {
     margin: 20px 0 12px 0;
 }
 
+.category {
+    width: 15%;
+}
 
 .shift-details .input-box input {
     height: 45px;
@@ -279,7 +295,7 @@ a, .btn-link {
     font-size: 20px;
     font-weight: 600;
     text-transform: uppercase;
-    background-image: var(--primary-color);
+    background-color: lightblue;
     color: white;
     border: none;
     width: 100%;
@@ -290,13 +306,9 @@ a, .btn-link {
 }
 
     .content button[type="submit"]:hover {
-        background-image: var(--tertiary-color);
+        background-color: black;
         cursor: pointer;
     }
-
-.content span.oi.oi-person {
-    color: lightblue;
-}
 
 /* tables */
 
@@ -309,12 +321,12 @@ a, .btn-link {
 }
 
 .styled-table {
-    background-image: var(--primary-color);
+    background-color: lightblue;
     margin: 25px 0;
     font-size: 0.9em;
     font-family: sans-serif;
     min-width: 400px;
-    width: 100%;
+    width: 95%;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
