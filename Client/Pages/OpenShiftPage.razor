@@ -40,18 +40,21 @@
     <tbody>
         @foreach (var shift in shiftList)
         {
-            <!-- Hent kategorien for den pågældende vagt -->
-            var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
-            if (category != null)
+            if (shift.spots > 0)
             {
-                <tr>
-                    <td>@shift.startDateTime</td>
-                    <td>@shift.endDateTime</td>
-                    <td>@shift.duration</td>
-                    <td>@category.categoryName</td>
-                    <td>@category.description</td>
-                    <td><button type="button" @onclick="() => TakeShift(userShift, shift)">Vælg</button></td>
-                </tr>
+                <!-- Hent kategorien for den pågældende vagt -->
+                var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
+                if (category != null)
+                {
+                    <tr>
+                        <td>@shift.startDateTime</td>
+                        <td>@shift.endDateTime</td>
+                        <td>@shift.duration</td>
+                        <td>@category.categoryName</td>
+                        <td>@category.description</td>
+                        <td><button type="button" @onclick="() => TakeShift(userShift, shift)">Vælg</button></td>
+                    </tr>
+                }
             }
         }
     </tbody>
