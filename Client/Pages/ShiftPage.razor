@@ -5,7 +5,7 @@
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
 
-<div class="table-header">Vagter</div>
+<div class="table-header">Vagtliste</div>
 
 <!-- Sorterings dropdown menu -->
 <label>Sorter efter: </label>
@@ -25,7 +25,7 @@
             <th>Beskrivelse</th>
             <th>Start Tidspunkt</th>
             <th>Slut Tidspunkt</th>
-            <th>Længde</th>
+            <th>Timer</th>
             <th>Prioritet</th>
             <th>Pladser</th>
             <th></th>
@@ -34,7 +34,7 @@
     </thead>
 
     <tbody>
-        @foreach (var shift in shiftList)
+            @foreach (var shift in shiftList)
             {
                 <!-- Finder den tilsvarende kategori for den aktuelle vagt baseret på kategori-id-->
                 var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
@@ -65,6 +65,7 @@
                     <!-- Hvis koordinatoren ikke redigerer -->
                     else
                     {
+
                         <tr>
                             <td>@category.categoryName</td>
                             <td>@category.area</td>
