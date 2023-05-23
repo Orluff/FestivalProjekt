@@ -32,12 +32,12 @@ namespace Client.Services
 
         public async Task RemoveSpot(ShiftDTO shift)
         {
-            await http.PutAsJsonAsync($"{Config.serverURL}api/shift/{shift.shift_id}", shift);
+            await http.PutAsJsonAsync($"{Config.serverURL}api/shift/remove/{shift.shift_id}", shift);
         }
 
         public async Task AddSpot(ShiftDTO shift)
         {
-            await http.PutAsJsonAsync($"{Config.serverURL}api/shift/{shift.shift_id}", shift);
+            await http.PutAsJsonAsync($"{Config.serverURL}api/shift/add/{shift.shift_id}", shift);
         }
 
         public async Task UpdateShift(ShiftDTO shift)
