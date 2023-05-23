@@ -16,13 +16,13 @@ namespace Client.Services
 
         public async Task<IEnumerable<ShiftCategoryDTO>> getCategories()
         {
-            var cat = await http.GetFromJsonAsync<ShiftCategoryDTO[]>("https://localhost:7201/api/category");
+            var cat = await http.GetFromJsonAsync<ShiftCategoryDTO[]>(Config.serverURL + "api/category");
             return cat;
         }
 
         public async Task AddCategory(ShiftCategoryDTO cat)
         {
-            await http.PostAsJsonAsync<ShiftCategoryDTO>("https://localhost:7201/api/category", cat);
+            await http.PostAsJsonAsync(Config.serverURL + "api/category", cat);
         }
     }
 }
