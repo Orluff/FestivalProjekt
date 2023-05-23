@@ -4,26 +4,34 @@
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
+
+<!-- hvis vagt allerede er valgt af denne bruger, pop up besked: Du har allerede valgt denne vagt-->
 <div class="modal" style='display: @(showModal ? "block" : "none")'>
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Fejl</h5>
-                        <button type="button" class="close" @onclick='() => showModal = false'>
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        Du har allerede valgt denne vagt.
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" @onclick='() => showModal = false'>OK</button>
-                    </div>
-                </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Fejl</h5>
+                <button type="button" class="close" @onclick='() => showModal = false'>
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+
+            <div class="modal-body">
+                Du har allerede valgt denne vagt.
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" @onclick='() => showModal = false'>OK</button>
+            </div>
+        </div>
+    </div>
 </div>
 
+
 <div class="table-header">Vagter</div>
+
+<!-- Table over vagter som brugeren kan vælge-->
 <table class="styled-table">
     <thead>
         <tr>
@@ -35,32 +43,35 @@
             <th>Vælg Vagt</th>
         </tr>
     </thead>
+
     <tbody>
         @foreach (var shift in shiftList)
-        {
-            if (shift.spots > 0)
             {
-                <!-- Hent kategorien for den pågældende vagt -->
-                var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
-                if (category != null)
+                <!-- hvis der er pladser tilbage på vagten (dvs. 1 eller flere) -->
+                if (shift.spots > 0)
                 {
-        <tr>
-            <td>@shift.startDateTime</td>
-            <td>@shift.endDateTime</td>
-            <td>@shift.duration</td>
-            <td>@category.categoryName</td>
-            <td>@category.description</td>
-            <td><button type="button" class="btn btn-link" @onclick="() => TakeShift(userShift, shift)"><span class="oi oi-check"></span></button></td>
-        </tr>
+                    <!-- Hent kategorien for den pågældende vagt -->
+                    var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
+
+                    if (category != null)
+                    {
+                        <tr>
+                            <td>@shift.startDateTime</td>
+                            <td>@shift.endDateTime</td>
+                            <td>@shift.duration</td>
+                            <td>@category.categoryName</td>
+                            <td>@category.description</td>
+                            <td><button type="button" class="btn btn-link" @onclick="() => TakeShift(userShift, shift)"><span class="oi oi-check"></span></button></td>
+                        </tr>
+                    }
                 }
             }
-        }
     </tbody>
 </table>
 
 @code {
 
-        //Gem bruger id
+    //Gem bruger id
     public int userId { get; set; }
 
     //Bruges til vise modal (Div øverst på siden)
@@ -103,12 +114,11 @@
         }
     }
 
-
-
     //Egenskaber
     private ShiftDTO shift = new ShiftDTO();
     private UserShiftDTO userShift = new UserShiftDTO();
     private ShiftCategoryDTO category = new ShiftCategoryDTO();
+
 
     private EditContext aEditContext;
 
@@ -124,6 +134,7 @@
 
         bool isShiftSelected = false;
 
+        //Hvis vagten vælges af brugeren og ikke allerede er i brugerens vagtplan stopper forloopet og resten af Task'en køres
         foreach (var user in userShiftList)
         {
             if (user.shift_id == shift.shift_id && user.user_id == userId)
@@ -135,7 +146,7 @@
 
         if (isShiftSelected)
         {
-            // Vis modalen ved at sætte den til true
+            // Vis modalen (error pop-up) ved at sætte den til true
             showModal = true;
             return;
         }

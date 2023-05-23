@@ -7,35 +7,41 @@
 
 <div class="table-header">Vagter</div>
 
+<!-- Sorterings dropdown menu -->
 <label>Sorter efter: </label>
-        <select @bind="SelectedSort" class="category">
-            <option value="priority">Prioritet</option>
-            <option value="pladser">Antal pladser tilbage</option>
-            <option value="tidspunkt">Næstkommende vagter</option>
+
+ <select @bind="SelectedSort" class="sort">
+     <option value="priority">Prioritet</option>
+     <option value="pladser">Antal pladser tilbage</option>
+     <option value="tidspunkt">Næstkommende vagter</option>
 </select>
 
-    <table class="styled-table">
-        <thead>
-            <tr>
-                <th>Kategori</th>
-                <th>Område</th>
-                <th>Beskrivelse</th>
-                <th>Start Tidspunkt</th>
-                <th>Slut Tidspunkt</th>
-                <th>Længde</th>
-                <th>Prioritet</th>
-                <th>Pladser</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var shift in shiftList)
+<!-- Table over alle vagter, som set af koordinatoren -->
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>Kategori</th>
+            <th>Område</th>
+            <th>Beskrivelse</th>
+            <th>Start Tidspunkt</th>
+            <th>Slut Tidspunkt</th>
+            <th>Længde</th>
+            <th>Prioritet</th>
+            <th>Pladser</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var shift in shiftList)
             {
                 <!-- Finder den tilsvarende kategori for den aktuelle vagt baseret på kategori-id-->
                 var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
+
                 if (category != null)
                 {
+                    <!-- Hvis koordinatoren har valgt at redigere en vagt -->
                     if (shift.IsEditing)
                     {
                         <tr>
@@ -55,48 +61,51 @@
                             </td>
                         </tr>
                     }
+
+                    <!-- Hvis koordinatoren ikke redigerer -->
                     else
                     {
-        <tr>
-            <td>@category.categoryName</td>
-            <td>@category.area</td>
-            <td>@category.description</td>
-            <td>@shift.startDateTime</td>
-            <td>@shift.endDateTime</td>
-            <td>@shift.duration timer</td>
-            <td>@shift.priority</td>
-            <td>@shift.spots</td>
-            <td>
-                <button type="button" class="btn btn-link" @onclick="() => EnableEditing(shift)"><span class="oi oi-pencil"></span></button>
-            </td>
-            <td>
-                <button type="button" class="btn btn-link" @onclick="() => RemoveShift(shift)"><span class="oi oi-trash"></span></button>
-            </td>
-        </tr>
+                        <tr>
+                            <td>@category.categoryName</td>
+                            <td>@category.area</td>
+                            <td>@category.description</td>
+                            <td>@shift.startDateTime</td>
+                            <td>@shift.endDateTime</td>
+                            <td>@shift.duration timer</td>
+                            <td>@shift.priority</td>
+                            <td>@shift.spots</td>
+                            <td>
+                                <button type="button" class="btn btn-link" @onclick="() => EnableEditing(shift)"><span class="oi oi-pencil"></span></button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-link" @onclick="() => RemoveShift(shift)"><span class="oi oi-trash"></span></button>
+                            </td>
+                        </tr>
                     }
                 }
             }
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
     @code {
 
 
         private void EnableEditing(ShiftDTO shift)
         {
+            //Sættes til true, når redigeringsknappen trykkes
             shift.IsEditing = true;
         }
 
         private async Task UpdateShift(ShiftDTO shift)
         {
-            //call the repository to update the instance here.
-            //show toast after done.
-            // Gem ændringer på serveren
+            //Opdater vagten
             await mService.UpdateShift(shift);
 
+            //Koordinatoren redigerer ikke længere
             shift.IsEditing = false;
         }
 
+        //Instans af ShiftDTO som gemmer de originale data, hvis redigeringen skulle annulleres
         ShiftDTO originalShiftItem = new ShiftDTO();
 
         private void DisableEditMode(ShiftDTO shift)
@@ -112,6 +121,7 @@
             shift.spots = originalShiftItem.spots;
         }
 
+
         //Gem sorteringsmetode
         private string selectedSort;
 
@@ -123,6 +133,7 @@
             {
                 // Opdater værdien af SelectedSort med ny tildelt værdi
                 selectedSort = value;
+
                 //Kalder en handling i selectedSortDictionary, der svarer til den valgte sortering
                 selectedSortDictionary[selectedSort]();
             }
@@ -176,9 +187,6 @@
 
                 // Konverter vagt til array og gem i shiftList
                 shiftList = shifts.ToArray();
-
-                // Udtræk unikke vagtkategorier og gem i catList
-                //catList = shifts.Select(s => s.category).Distinct().ToArray();
 
                 // Hent vagtkategorier fra CategoryService og gem i catList
                 catList = (await cService.getCategories()).ToArray();

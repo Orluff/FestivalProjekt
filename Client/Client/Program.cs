@@ -20,6 +20,7 @@ public class Program
 
         builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
+        //Services
         builder.Services.AddHttpClient<IShiftService, ShiftService>(client =>
         {
             client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
@@ -34,10 +35,6 @@ public class Program
             client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
         });
 
-        builder.Services.AddBlazoredLocalStorage();
-
-        builder.Services.AddBlazoredSessionStorage();
-
         builder.Services.AddHttpClient<ICategoryService, CategoryService>(client =>
         {
             client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
@@ -47,6 +44,11 @@ public class Program
         {
             client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
         });
+
+        //Storage
+        builder.Services.AddBlazoredLocalStorage();
+
+        builder.Services.AddBlazoredSessionStorage();
 
 
         await builder.Build().RunAsync();

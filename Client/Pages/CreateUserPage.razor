@@ -3,6 +3,8 @@
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
+
+<!-- form til at oprette bruger -->
 <div class="normal-container">
     <div class="normal-title">Opret bruger</div>
     <div class="content">
@@ -10,61 +12,56 @@
             <DataAnnotationsValidator />
             <ValidationSummary />
             <div class="user-details">
+
                 <div class="input-box">
-                    <div class="details">
                     <label for="name">Fornavn:</label>
                     <InputText id="name" placeholder="Lars" @bind-Value="userItem.name" class="form-control" />
-                    </div>
                 </div>
-                <div class="input-box">
-                    <div class="details">
-                        <label for="lastName">Efternavn:</label>
-                        <InputText id="lastName" placeholder="Larsen" @bind-Value="userItem.lastName" class="form-control" />
-                    </div>
-                </div>
-                <div class="input-box">
-                    <div class="details">
-                        <label for="address">Adresse:</label>
-                        <InputText id="address" placeholder="Lykkevej 7, 8000 Aarhus C" @bind-Value="userItem.address" class="form-control" />
-                    </div>
-                </div>
-                <div class="input-box">
-                    <div class="details">
-                        <label for="email">Email:</label>
-                        <InputText id="email" placeholder="lars@mail.com" @bind-Value="userItem.email" class="form-control" />
-                    </div>
-                </div>
-                <div class="input-box">
-                    <div class="details">
-                        <label for="telephone">Telefonnummer:</label>
-                        <InputText id="telephone" placeholder="27282930" @bind-Value="userItem.telephone" class="form-control" />
-                    </div>
-                </div>
-                <div class="input-box">
-                    <div class="details">
-                        <label for="birthDate">Fødselsdato:</label>
-                        <InputDate id="birthDate" @bind-Value="userItem.birthDate" class="form-control" />
-                    </div>
-                </div>
-                <div class="input-box">
-                    <div class="details">
-                        <label for="role_id">Rolle:</label>
-                        <InputSelect id="role_id" placeholder="Rolle" @bind-Value="userItem.role_id" class="form-control">
-                            <!-- Ekstra option uden værdiattribut -->
-                            <option value="">Vælg en rolle</option>
 
-                            @foreach (var role in roleList)
-                            {
-                                <option value="@role.role_id">@role.roleName</option>
-                            }
-                        </InputSelect>
-                    </div>
-                </div>
                 <div class="input-box">
-                    <div class="details">
-                        <label for="password">Password:</label>
-                        <InputText id="password" placeholder="Min. 5 tegn" @bind-Value="userItem.password" class="form-control" />
-                    </div>
+                    <label for="lastName">Efternavn:</label>
+                    <InputText id="lastName" placeholder="Larsen" @bind-Value="userItem.lastName" class="form-control" />
+                </div>
+
+                <div class="input-box">
+                    <label for="address">Adresse:</label>
+                    <InputText id="address" placeholder="Lykkevej 7, 8000 Aarhus C" @bind-Value="userItem.address" class="form-control" />
+                </div>
+
+                <div class="input-box">
+                    <label for="email">Email:</label>
+                    <InputText id="email" placeholder="lars@mail.com" @bind-Value="userItem.email" class="form-control" />
+                </div>
+
+                <div class="input-box">
+                    <label for="telephone">Telefonnummer:</label>
+                    <InputText id="telephone" placeholder="27282930" @bind-Value="userItem.telephone" class="form-control" />
+                </div>
+
+                <div class="input-box">
+                    <label for="birthDate">Fødselsdato:</label>
+                    <InputDate id="birthDate" @bind-Value="userItem.birthDate" class="form-control" />
+                </div>
+
+                <div class="input-box">
+                    <label for="role_id">Rolle:</label>
+                    <InputSelect id="role_id" placeholder="Rolle" @bind-Value="userItem.role_id" class="form-control">
+
+                        <!-- Ekstra option uden værdiattribut -->
+                        <option value="">Vælg en rolle</option>
+
+                        <!-- Itererer gennem roleList for at generere option-elementer -->
+                        @foreach (var role in roleList)
+                        {
+                            <!-- Hver rolle repræsenteres som en option med værdien af role_id -->
+                            <option value="@role.role_id">@role.roleName</option>
+                        }
+                    </InputSelect>
+                </div>
+
+                <div class="input-box">
+                    <label for="password">Password:</label>
+                    <InputText id="password" placeholder="Min. 5 tegn" @bind-Value="userItem.password" class="form-control" />
                 </div>
             </div>
             <button type="submit">Opret bruger</button>
@@ -82,7 +79,6 @@
     private UserDTO userItem = new UserDTO();
     private ShiftCategoryDTO roleItem = new ShiftCategoryDTO();
     private RoleDTO[]? roleList = new RoleDTO[0];
-    private RoleDTO rol = new();
 
 
     //Tjeneste til vores service
@@ -90,12 +86,6 @@
     private IUserService mService { get; set; }
     [Inject]
     private IRoleService rService { get; set; }
-    [Inject]
-    private IUserService uService { get; set; }
-
-    // EditContext-objekt til validering af formularfelter
-    private EditContext aEditContext;
-
 
     protected override async Task OnInitializedAsync()
     {
@@ -106,18 +96,18 @@
             // Hvis userId er 0, omdirigeres brugeren til start siden
             NavigationManager.NavigateTo($"/");
         }
+
+        // Henter roller og konverterer dem til et array
         roleList = (await rService.getRole()).ToArray();
     }
+
+    // EditContext-objekt til validering af formularfelter
+    private EditContext aEditContext;
 
     protected override void OnInitialized()
     {
         aEditContext = new EditContext(userItem);
         aEditContext = new EditContext(roleItem);
-    }
-
-    public async Task HandleValidSubmit()
-    {
-        await AddUser();
     }
 
     private async Task AddUser()
@@ -137,5 +127,10 @@
             Console.WriteLine(ex);
         }
 
+    }
+
+    public async Task HandleValidSubmit()
+    {
+        await AddUser();
     }
 }

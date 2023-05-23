@@ -1,33 +1,41 @@
-﻿@layout LoginLayout 
+﻿@layout LoginLayout
 @page "/"
 @inject HttpClient Http;
 @using Client.Services;
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
+
 <div class="header">BAUNES FESTIVAL</div>
+
+<!--Form til login side -->
 <div class="container">
-<div class="box">
-    <h2>Login</h2>
-    <form>
-        <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
-            <ul class="validation-errors" style="display: @(isMatchFound ? "none" : "block")">
-                <li class="validation-message">Oplysninger matcher ikke</li>
-            </ul>
-            <div>
-                <label for="email"></label>
-                <InputText id="email" placeholder="E-mail:" @bind-Value="userItem.email" class="form-control" />
-            </div>
-            <div>
-                <label for="password"></label>
-                <InputText id="password" type="password" placeholder="Password:" @bind-Value="userItem.password" class="form-control" />
-            </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-        </EditForm>
-    </form>
-</div>
+    <div class="box">
+        <h2>Login</h2>
+        <form>
+            <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <!-- Hvis brugernavn og kodeord ikke passer sammen skriv besked: oplysninger passer ikke -->
+                <ul class="validation-errors" style="display: @(isMatchFound ? "none" : "block")">
+                    <li class="validation-message">Oplysninger matcher ikke</li>
+                </ul>
+
+                <div>
+                    <label for="email"></label>
+                    <InputText id="email" placeholder="E-mail:" @bind-Value="userItem.email" class="form-control" />
+                </div>
+
+                <div>
+                    <label for="password"></label>
+                    <InputText id="password" type="password" placeholder="Password:" @bind-Value="userItem.password" class="form-control" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Login</button>
+            </EditForm>
+        </form>
+    </div>
 </div>
 
 
@@ -38,7 +46,7 @@
 
     //Tjeneste til vores service
     [Inject]
-    private IUserService mService { get; set; }
+    private IUserService uService { get; set; }
 
     // Ny instans af UserDTO
     private UserDTO userItem = new UserDTO();
@@ -46,7 +54,7 @@
     protected override async Task OnInitializedAsync()
     {
         // Henter brugerdata fra IUserService og gemmer dem i userList-arrayet
-        userList = (await mService.getUsers()).ToArray();
+        userList = (await uService.getUsers()).ToArray();
 
         //Sætter isLoggedIn i session storage til false
         await sessionStorage.SetItemAsync("isLoggedIn", false);
@@ -55,19 +63,11 @@
     // EditContext-objekt til validering af formularfelter
     private EditContext aEditContext;
 
+
     protected override void OnInitialized()
     {
         aEditContext = new EditContext(userItem);
     }
-
-    public async Task HandleValidSubmit()
-    {
-        await Login(); // clear fields in form
-    }
-
-    //Angiver om der er et match mellem brugeroplysningerne
-    public bool isMatchFound = true;
-
 
     private async Task Login()
     {
@@ -96,4 +96,13 @@
             }
         }
     }
+
+
+    public async Task HandleValidSubmit()
+    {
+        await Login();
+    }
+
+    //Angiver om der er et match mellem brugeroplysningerne
+    public bool isMatchFound = true;
 }
