@@ -50,10 +50,13 @@
                     <div class="details">
                         <label for="role_id">Rolle:</label>
                         <InputSelect id="role_id" placeholder="Rolle" @bind-Value="userItem.role_id" class="form-control">
+                            <!-- Ekstra option uden værdiattribut -->
+                            <option value="">Vælg en rolle</option>
+
                             @foreach (var role in roleList)
-                                {
-                                    <option value="@role.role_id">@role.roleName</option>
-                                }
+                            {
+                                <option value="@role.role_id">@role.roleName</option>
+                            }
                         </InputSelect>
                     </div>
                 </div>
