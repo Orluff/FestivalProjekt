@@ -68,71 +68,71 @@
 
 @code {
 
-            //Gem brugerens id
-        public int userId { get; set; }
+    //Gem brugerens id
+    public int userId { get; set; }
 
-        // Nye instanser af ShiftDTO og ShiftCategoryDTO
-        private ShiftDTO shiftItem = new ShiftDTO();
-        private ShiftCategoryDTO catItem = new ShiftCategoryDTO();
+    // Nye instanser af ShiftDTO og ShiftCategoryDTO
+    private ShiftDTO shiftItem = new ShiftDTO();
+    private ShiftCategoryDTO catItem = new ShiftCategoryDTO();
 
-        //Array af ShiftCategoryDTO-objekter, der kan være null
-        private ShiftCategoryDTO[]? catList = new ShiftCategoryDTO[0];
+    //Array af ShiftCategoryDTO-objekter, der kan være null
+    private ShiftCategoryDTO[]? catList = new ShiftCategoryDTO[0];
 
-        [Parameter]
-        public int shiftid { get; set; }
+    [Parameter]
+    public int shiftid { get; set; }
 
-        //Tjenester til vores services
-        [Inject]
-        private IShiftService mService { get; set; }
-        [Inject]
-        private ICategoryService cService { get; set; }
+    //Tjenester til vores services
+    [Inject]
+    private IShiftService mService { get; set; }
+    [Inject]
+    private ICategoryService cService { get; set; }
 
-        // EditContext-objekt til validering af formularfelter
-        private EditContext aEditContext;
+    // EditContext-objekt til validering af formularfelter
+    private EditContext aEditContext;
 
 
-        protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
+    {
+        //Henter brugerens id fra sessionStorage
+        userId = await sessionStorage.GetItemAsync<int>("userId");
+        if (userId == 0)
         {
-            //Henter brugerens id fra sessionStorage
-            userId = await sessionStorage.GetItemAsync<int>("userId");
-            if (userId == 0)
-            {
-                NavigationManager.NavigateTo($"/");
-            }
-
-            // Henter kategorier og konverterer dem til et array
-            catList = (await cService.getCategories()).ToArray();
+            NavigationManager.NavigateTo($"/");
         }
 
-        protected override void OnInitialized()
-        {
-            aEditContext = new EditContext(shiftItem);
-            aEditContext = new EditContext(catItem);
-        }
-
-        public async Task HandleValidSubmit()
-        {
-            await AddShift();
-        }
-
-        private async Task AddShift()
-            {
-                try
-                {
-                    //Sætter shiftItem's shift_id til shiftid
-                    shiftItem.shift_id = shiftid;
-
-                    // Opretter en ny instans af ShiftCategoryDTO baseret på category_id
-                    //shiftItem.category = new ShiftCategoryDTO { category_id = shiftItem.category_id };
-
-                    await mService.AddShift(shiftItem);
-
-                    // Tømmer felter i formularen
-                    shiftItem = new();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
-            }
+        // Henter kategorier og konverterer dem til et array
+        catList = (await cService.getCategories()).ToArray();
     }
+
+    protected override void OnInitialized()
+    {
+        aEditContext = new EditContext(shiftItem);
+        aEditContext = new EditContext(catItem);
+    }
+
+    public async Task HandleValidSubmit()
+    {
+        await AddShift();
+    }
+
+    private async Task AddShift()
+    {
+        try
+        {
+            //Sætter shiftItem's shift_id til shiftid
+            shiftItem.shift_id = shiftid;
+
+            // Opretter en ny instans af ShiftCategoryDTO baseret på category_id
+            //shiftItem.category = new ShiftCategoryDTO { category_id = shiftItem.category_id };
+
+            await mService.AddShift(shiftItem);
+
+            // Tømmer felter i formularen
+            shiftItem = new();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+    }
+}
