@@ -6,6 +6,7 @@
 
 <div class="table-header">Bruger oversigt</div>
 
+<!-- Table over alle brugere-->
 <table class="styled-table">
     <thead>
         <tr>
@@ -18,25 +19,27 @@
             <th>Rolle</th>
         </tr>
     </thead>
+
     <tbody>
         @foreach (var user in userList)
         {
-            <!-- Hent rollen for den pågældende vagt -->
+            <!-- Hent rollen for den pågældende bruger -->
             var rol = roleList.FirstOrDefault(r => r.role_id == user.role_id);
+
             if (rol != null)
             {
-        <tr class="active-row">
-            <td>@user.name</td>
-            <td>@user.lastName</td>
-            <td>@user.address</td>
-            <td>@user.email</td>
-            <td>@user.telephone</td>
-            <td>@user.birthDate.ToString("dd-MM-yyyy")</td>
-            <td>@rol.roleName</td>
-            <td>
-                <button type="button" class="btn btn-link" @onclick="() => RemoveUser(user)"><span class="oi oi-trash"></span></button>
-            </td>
-        </tr>
+                <tr class="active-row">
+                    <td>@user.name</td>
+                    <td>@user.lastName</td>
+                    <td>@user.address</td>
+                    <td>@user.email</td>
+                    <td>@user.telephone</td>
+                    <td>@user.birthDate.ToString("dd-MM-yyyy")</td>
+                    <td>@rol.roleName</td>
+                    <td>
+                        <button type="button" class="btn btn-link" @onclick="() => RemoveUser(user)"><span class="oi oi-trash"></span></button>
+                    </td>
+                </tr>
             }
         }
     </tbody>
@@ -45,6 +48,7 @@
 
 @code {
 
+    //Gem bruger id
     public int userId { get; set; }
 
     //Egenskaber

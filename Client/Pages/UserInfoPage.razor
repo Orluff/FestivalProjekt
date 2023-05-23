@@ -3,66 +3,60 @@
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
+
 @if (userItem != null)
-{
+    {
+        <!-- container til bruger info -->
         <div class="normal-container">
             <div class="normal-title">Din profil   <span class="oi oi-person"></span></div>
             <div class="content">
                 <div class="user-details">
+
                     <div class="input-box">
-                        <div class="details">
-                            <label for="name">Fornavn:</label>
-                            <InputText id="name" @bind-Value="userItem.name" class="form-control" disabled="@(!isEditMode)" />
-                        </div>
+                        <label for="name">Fornavn:</label>
+                        <InputText id="name" @bind-Value="userItem.name" class="form-control" disabled="@(!isEditMode)" />
                     </div>
+
                     <div class="input-box">
-                        <div class="details">
-                            <label for="lastname">Efternavn:</label>
-                            <InputText id="lastName" @bind-Value="userItem.lastName" class="form-control" disabled="@(!isEditMode)" />
-                        </div>
+                        <label for="lastname">Efternavn:</label>
+                        <InputText id="lastName" @bind-Value="userItem.lastName" class="form-control" disabled="@(!isEditMode)" />
                     </div>
+
                     <div class="input-box">
-                        <div class="details">
-                            <label for="address">Adresse:</label>
-                            <InputText id="address" @bind-Value="userItem.address" class="form-control" disabled="@(!isEditMode)" />
-                        </div>
+                        <label for="address">Adresse:</label>
+                        <InputText id="address" @bind-Value="userItem.address" class="form-control" disabled="@(!isEditMode)" />
                     </div>
+
                     <div class="input-box">
-                        <div class="details">
-                            <label for="email">Email:</label>
-                            <InputText id="email" @bind-Value="userItem.email" class="form-control" disabled="@(!isEditMode)" />
-                        </div>
+                        <label for="email">Email:</label>
+                        <InputText id="email" @bind-Value="userItem.email" class="form-control" disabled="@(!isEditMode)" />
                     </div>
+
                     <div class="input-box">
-                        <div class="details">
-                            <label for="telephone">Telefonnummer:</label>
-                            <InputText id="telephone" @bind-Value="userItem.telephone" class="form-control" disabled="@(!isEditMode)" />
-                        </div>
+                        <label for="telephone">Telefonnummer:</label>
+                        <InputText id="telephone" @bind-Value="userItem.telephone" class="form-control" disabled="@(!isEditMode)" />
                     </div>
+
                     <div class="input-box">
-                        <div class="details">
-                            <label for="birthDate">Fødselsdato:</label>
-                            <InputDate id="birthDate" @bind-Value="userItem.birthDate" class="form-control" disabled="@(!isEditMode)" />
-                        </div>
+                        <label for="birthDate">Fødselsdato:</label>
+                        <InputDate id="birthDate" @bind-Value="userItem.birthDate" class="form-control" disabled="@(!isEditMode)" />
                     </div>
+
                     <div class="input-box">
-                        <div class="details">
-                            <label for="role_id">Rolle:</label>
-                            <InputSelect id="role_id" @bind-Value="userItem.role_id" disabled class="form-control">
-                                @foreach (var role in roleList)
+                        <label for="role_id">Rolle:</label>
+                        <InputSelect id="role_id" @bind-Value="userItem.role_id" disabled class="form-control">
+                            @foreach (var role in roleList)
                                 {
                                     <option value="@role.role_id">@role.roleName</option>
                                 }
-                            </InputSelect>
-                        </div>
+                        </InputSelect>
                     </div>
+
                     <div class="input-box">
-                        <div class="details">
-                            <label for="password">Password:</label>
-                            <InputText id="password" @bind-Value="userItem.password" type="password" class="form-control" disabled="@(!isEditMode)" />
-                        </div>
+                        <label for="password">Password:</label>
+                        <InputText id="password" @bind-Value="userItem.password" type="password" class="form-control" disabled="@(!isEditMode)" />
                     </div>
-                    <div class="edit-box">
+
                         @if (!isEditMode)
                         {
                             <!-- Redigeringsknappen vises, når brugeren ikke er i redigeringsmode -->
@@ -74,7 +68,6 @@
                             <button type="button" class="btn btn-success" @onclick="SaveChanges"><span class="oi oi-circle-check"></span></button>
                             <button type="button" class="btn btn-secondary" @onclick="DisableEditMode"><span class="oi oi-circle-x"></span></button>
                         }
-                    </div>
                 </div>
             </div>
         </div>
@@ -101,8 +94,6 @@
     private bool isEditMode = false;
     private UserDTO originalUserItem;
     private RoleDTO[]? roleList = new RoleDTO[0];
-    private RoleDTO roleItem = new RoleDTO();
-
 
     protected override async Task OnInitializedAsync()
     {

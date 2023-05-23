@@ -7,7 +7,7 @@
 <div class="table-header">Mine vagtplan</div>
 
 <!-- Tabel med vagtoplysninger -->
-<table class="styled-table"> 
+<table class="styled-table">
     <thead>
         <tr>
             <th>Kategori</th>
@@ -18,40 +18,44 @@
             <th>Fjern Vagt</th>
         </tr>
     </thead>
+
     <tbody>
         <!-- Loop gennem brugervagter og vis vagt oplysningerne i hver række -->
         @foreach (var user in userShiftList)
-        {
-            @if (user.user_id == userId)
             {
-                @foreach (var shift in shiftList)
-                {
-                    @if (user.shift_id == shift.shift_id)
+                @if (user.user_id == userId)
                     {
-                        <!-- Hent kategorien for den pågældende vagt -->
-                        var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
-                        if (category != null)
-                        {
-        <tr>
-            <td>@category.categoryName</td>
-            <td>@shift.startDateTime</td>
-            <td>@shift.endDateTime</td>
-            <td>@shift.duration</td>
-            <td>@category.description</td>
-            @if (shift.startDateTime! < DateTime.Now.AddHours(48))
-            {
-                <td></td>
-            }
-            else
-            {
-                <td><button type="button" class="btn btn-link" @onclick="() => RemoveUserShift(shift)"><span class="oi oi-x"></span></button></td>
-            }
-        </tr>
-                        }
+                        @foreach (var shift in shiftList)
+                            {
+                                @if (user.shift_id == shift.shift_id)
+                                    {
+                                        <!-- Hent kategorien for den pågældende vagt -->
+                                        var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
+
+                                        if (category != null)
+                                        {
+                                            <tr>
+                                                <td>@category.categoryName</td>
+                                                <td>@shift.startDateTime</td>
+                                                <td>@shift.endDateTime</td>
+                                                <td>@shift.duration</td>
+                                                <td>@category.description</td>
+
+                                                <!-- Hvis vagten starter om 48 timer eller mindre, kan den ikke længere fravælges-->
+                                                @if (shift.startDateTime! < DateTime.Now.AddHours(48))
+                                                    {
+                                                        <td></td>
+                                                    }
+                                                else
+                                                    {
+                                                        <td><button type="button" class="btn btn-link" @onclick="() => RemoveUserShift(shift)"><span class="oi oi-x"></span></button></td>
+                                                    }
+                                            </tr>
+                                        }
+                                    }
+                             }
                     }
-                }
-            }
-        }
+             }
     </tbody>
 </table>
 
@@ -64,6 +68,11 @@
     private ShiftDTO[]? shiftList = new ShiftDTO[0];
     private UserShiftDTO[]? userShiftList = new UserShiftDTO[0];
     private ShiftCategoryDTO[]? catList = new ShiftCategoryDTO[0];
+
+    //Egenskaber
+    private ShiftDTO shift = new ShiftDTO();
+    private UserShiftDTO userShift = new UserShiftDTO();
+    private ShiftCategoryDTO category = new ShiftCategoryDTO();
 
     //Tjenester til vores services
     [Inject]
@@ -95,11 +104,6 @@
             Console.WriteLine(ex);
         }
     }
-
-    //Egenskaber
-    private ShiftDTO shift = new ShiftDTO();
-    private UserShiftDTO userShift = new UserShiftDTO();
-    private ShiftCategoryDTO category = new ShiftCategoryDTO();
 
     private EditContext aEditContext;
 
