@@ -22,7 +22,7 @@ namespace Client.Services
 
         public async Task AddShift(ShiftDTO shift)
         {
-            await http.PostAsJsonAsync<ShiftDTO>("https://localhost:7201/api/shift", shift);
+            await http.PostAsJsonAsync(Config.serverURL + "api/shift", shift);
         }
 
         public async Task RemoveShift(ShiftDTO shift)
