@@ -2,9 +2,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
+.page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+* {
+    justify-content: center;
+    align-items: center;
 }
 
 h1:focus {
@@ -103,21 +113,19 @@ a, .btn-link {
         content: var(--blazor-load-percentage-text, "Loading");
     }
 
-
-
 /* Login side */
 
 :root {
-    --primary-color: lightblue;
+    --primary-color: linear-gradient( 89.8deg, rgba(204,156,223,1) 0.3%, rgba(155,219,245,1) 20.4%, rgba(245,183,208,1) 40.2%, rgba(250,186,98,1) 62.9%, rgba(234,238,240,1) 81.9%, rgba(250,245,171,1) 99.2% );
     --secondary-color: white;
-    --tertiary-color: black;
-    --gray-color: grey;
+    --tertiary-color: linear-gradient( 94.3deg, rgba(26,33,64,1) 10.9%, rgba(81,84,115,1) 87.1% );
+    --background: #F6F7FC;
 }
 
 .container {
-    background-color: var(--primary-color);
+    background-image: var(--primary-color);
     border-radius: 20px;
-    height: 80vh;
+    height: 65vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -125,16 +133,17 @@ a, .btn-link {
 
 .header {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 100px;
+    font-size: 150px;
     font-weight: 900;
     text-align: center;
-    margin-bottom: 45px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     color: var(--tertiary-color);
 }
 
 .box {
     background-color: var(--secondary-color);
-    font-family: 'Raleway', sans-serif;
+    font-family: font-family: 'Helvetica Neue', Helvetica, sans-serif;
     border-radius: 10px;
     padding: 45px;
     width: 375px;
@@ -158,7 +167,7 @@ a, .btn-link {
 .box form div {
     display: flex;
     align-items: center;
-    border-bottom: 1px solid var(--gray-color);
+    border-bottom: 1px solid grey;
 }
 
     .box form div:hover {
@@ -180,16 +189,113 @@ a, .btn-link {
 
         .box form div input::placeholder {
             opacity: 1;
-            color: var(--gray-color);
-            font-size: 12px;
+            color: grey;
+            font-size: 20px;
         }
 
 
-.box form button[type="submit"] {
+    .box form button[type="submit"] {
+        font-size: 20px;
+        font-weight: 600;
+        text-transform: uppercase;
+        background-image: linear-gradient( 89.8deg, rgba(245,183,208,1) 40.2%, rgba(250,186,98,1) 62.9% );
+        color: white;
+        border: none;
+        width: 100%;
+        padding: 15px;
+        margin-top: 45px;
+        border-radius: 250px;
+        border-bottom-color: none;
+    }
+
+    .box form button[type="submit"]:hover {
+        background-image: var(--tertiary-color);
+        cursor: pointer;
+    }
+
+
+
+
+
+
+/* redigerings sider (create shift, create user og user info) */
+
+.normal-container {
+    background-color: var(--background);
+    border-radius: 40px;
+    height: 80vh;
+    display: inline-block;
+    align-items: flex-start;
+    max-width: 700px;
+    width: 90%;
+    padding: 25px 30px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+    margin-bottom: 10px;
+}
+
+.normal-container .normal-title {
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 40px;
+    font-weight: 300;
+    position: relative;
+}
+
+    .normal-container .normal-title span.oi.oi-person {
+        color: lightblue;
+    }
+
+.content form .shift-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px 0 12px 0;
+}
+
+.content form .user-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px 0 12px 0;
+}
+
+.shift-details .input-box {
+    margin-bottom: 15px;
+    width: calc(100% / 2 - 20px);
+}
+
+.user-details .input-box {
+    margin-bottom: 15px;
+    width: calc(100% / 2 - 20px);
+}
+
+.content .user-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px 0 12px 0;
+}
+
+.category {
+    width: 15%;
+}
+
+.shift-details .input-box input {
+    height: 45px;
+    width: 100%;
+    outline: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: 1px solid #ccc;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+}
+
+.content button[type="submit"] {
     font-size: 20px;
     font-weight: 600;
     text-transform: uppercase;
-    background-color: var(--primary-color);
+    background-color: lightblue;
     color: white;
     border: none;
     width: 100%;
@@ -199,7 +305,61 @@ a, .btn-link {
     border-bottom-color: none;
 }
 
-    .box form button[type="submit"]:hover {
-        background-color: var(--tertiary-color);
+    .content button[type="submit"]:hover {
+        background-color: black;
         cursor: pointer;
     }
+
+/* tables */
+
+.table-header {
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 40px;
+    margin: 25px 0;
+    font-weight: 300;
+    position: relative;
+}
+
+.styled-table {
+    background-color: lightblue;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    width: 95%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+
+    .styled-table th,
+    .styled-table td {
+        padding: 12px 15px;
+    }
+
+    .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+        background-color: white;
+    }
+
+        .styled-table tbody tr:hover {
+            background-color: rgb(242, 230, 241);
+            cursor: pointer;
+        }
+
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: var(--background);
+        }
+
+            .styled-table tbody tr:nth-of-type(even):hover {
+                background-color: rgb(242, 230, 241);
+                cursor: pointer;
+            }
+
+button.btn.btn-link span {
+    color: black;
+}
+
+button.btn.btn-link span:hover {
+    color: lightskyblue;
+}
+

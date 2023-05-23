@@ -3,58 +3,71 @@
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
-<h1 class="mb-3 mt-3">Opret bruger:</h1>
-<EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <div class="col-md-12 mb-3">
-        <label for="name">Fornavn:</label>
-        <InputText id="name" @bind-Value="userItem.name" class="form-control" />
+<div class="normal-container">
+    <div class="normal-title">Opret bruger</div>
+    <div class="content">
+        <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="user-details">
+                <div class="input-box">
+                    <div class="details">
+                    <label for="name">Fornavn:</label>
+                    <InputText id="name" placeholder="Lars" @bind-Value="userItem.name" class="form-control" />
+                    </div>
+                </div>
+                <div class="input-box">
+                    <div class="details">
+                        <label for="lastName">Efternavn:</label>
+                        <InputText id="lastName" placeholder="Larsen" @bind-Value="userItem.lastName" class="form-control" />
+                    </div>
+                </div>
+                <div class="input-box">
+                    <div class="details">
+                        <label for="address">Adresse:</label>
+                        <InputText id="address" placeholder="Lykkevej 7, 8000 Aarhus C" @bind-Value="userItem.address" class="form-control" />
+                    </div>
+                </div>
+                <div class="input-box">
+                    <div class="details">
+                        <label for="email">Email:</label>
+                        <InputText id="email" placeholder="lars@mail.com" @bind-Value="userItem.email" class="form-control" />
+                    </div>
+                </div>
+                <div class="input-box">
+                    <div class="details">
+                        <label for="telephone">Telefonnummer:</label>
+                        <InputText id="telephone" placeholder="27282930" @bind-Value="userItem.telephone" class="form-control" />
+                    </div>
+                </div>
+                <div class="input-box">
+                    <div class="details">
+                        <label for="birthDate">Fødselsdato:</label>
+                        <InputDate id="birthDate" @bind-Value="userItem.birthDate" class="form-control" />
+                    </div>
+                </div>
+                <div class="input-box">
+                    <div class="details">
+                        <label for="role_id">Rolle:</label>
+                        <InputSelect id="role_id" placeholder="Rolle" @bind-Value="userItem.role_id" class="form-control">
+                            @foreach (var role in roleList)
+                                {
+                                    <option value="@role.role_id">@role.roleName</option>
+                                }
+                        </InputSelect>
+                    </div>
+                </div>
+                <div class="input-box">
+                    <div class="details">
+                        <label for="password">Password:</label>
+                        <InputText id="password" placeholder="Min. 5 tegn" @bind-Value="userItem.password" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <button type="submit">Opret bruger</button>
+        </EditForm>
     </div>
-    <div class="col-md-12 mb-3">
-        <label for="lastName">Efternavn:</label>
-        <InputText id="lastName" @bind-Value="userItem.lastName" class="form-control" />
-    </div>
-    <div class="col-md-6 mb-3">
-        <label for="address">Adresse:</label>
-        <InputText id="address" @bind-Value="userItem.address" class="form-control" />
-    </div>
-    <div class="col-md-6 mb-3">
-        <label for="email">Email:</label>
-        <InputText id="email" @bind-Value="userItem.email" class="form-control" />
-    </div>
-    <div class="col-md-6 mb-3">
-        <label for="telephone">Telefonnummer:</label>
-        <InputText id="telephone" @bind-Value="userItem.telephone" class="form-control" />
-    </div>
-    <div class="col-md-6 mb-3">
-        <label for="birthDate">Fødselsdato:</label>
-        <InputDate id="birthDate" @bind-Value="userItem.birthDate" class="form-control" />
-    </div>
-
-    <div class="col-md-3 mb-3">
-        <label for="role_id">Rolle:</label>
-        <div class="input-group">
-            <InputSelect id="role_id" @bind-Value="userItem.role_id" class="form-control">
-                <!-- Ekstra option uden værdiattribut -->
-                <option value="">Vælg en rolle</option>
-
-                @foreach (var role in roleList)
-                {
-                    <option value="@role.role_id">@role.roleName</option>
-                }
-            </InputSelect>
-        </div>
-    </div>
-        <div class="col-md-6 mb-3">
-            <label for="password">Password:</label>
-            <InputText id="password" @bind-Value="userItem.password" class="form-control" />
-        </div>
-
-        <div class="col-12 mb-3">
-            <button type="submit" class="btn btn-primary">Opret bruger</button>
-        </div>
-</EditForm>
+</div>
 
 
 @code {

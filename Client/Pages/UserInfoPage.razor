@@ -1,95 +1,90 @@
-﻿ @page "/userinfo"
+﻿@page "/userinfo"
 @using Client.Services;
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
-<h1 class="mb-3 mt-3">Mine oplysninger:</h1>
-
 @if (userItem != null)
 {
-    <!-- Brugeroplysninger form -->
-    <div class="col-md-3 mb-3">
-        <label for="name">Fornavn:</label>
-        <div class="input-group">
-            <InputText id="name" @bind-Value="userItem.name" class="form-control" disabled="@(!isEditMode)" />
+        <div class="normal-container">
+            <div class="normal-title">Din profil   <span class="oi oi-person"></span></div>
+            <div class="content">
+                <div class="user-details">
+                    <div class="input-box">
+                        <div class="details">
+                            <label for="name">Fornavn:</label>
+                            <InputText id="name" @bind-Value="userItem.name" class="form-control" disabled="@(!isEditMode)" />
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <div class="details">
+                            <label for="lastname">Efternavn:</label>
+                            <InputText id="lastName" @bind-Value="userItem.lastName" class="form-control" disabled="@(!isEditMode)" />
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <div class="details">
+                            <label for="address">Adresse:</label>
+                            <InputText id="address" @bind-Value="userItem.address" class="form-control" disabled="@(!isEditMode)" />
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <div class="details">
+                            <label for="email">Email:</label>
+                            <InputText id="email" @bind-Value="userItem.email" class="form-control" disabled="@(!isEditMode)" />
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <div class="details">
+                            <label for="telephone">Telefonnummer:</label>
+                            <InputText id="telephone" @bind-Value="userItem.telephone" class="form-control" disabled="@(!isEditMode)" />
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <div class="details">
+                            <label for="birthDate">Fødselsdato:</label>
+                            <InputDate id="birthDate" @bind-Value="userItem.birthDate" class="form-control" disabled="@(!isEditMode)" />
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <div class="details">
+                            <label for="role_id">Rolle:</label>
+                            <InputSelect id="role_id" @bind-Value="userItem.role_id" disabled class="form-control">
+                                @foreach (var role in roleList)
+                                {
+                                    <option value="@role.role_id">@role.roleName</option>
+                                }
+                            </InputSelect>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <div class="details">
+                            <label for="password">Password:</label>
+                            <InputText id="password" @bind-Value="userItem.password" type="password" class="form-control" disabled="@(!isEditMode)" />
+                        </div>
+                    </div>
+                    <div class="edit-box">
+                        @if (!isEditMode)
+                        {
+                            <!-- Redigeringsknappen vises, når brugeren ikke er i redigeringsmode -->
+                            <button type="button" class="btn btn-link" @onclick="EnableEditMode"><span class="oi oi-pencil"></span></button>
+                        }
+                        else
+                        {
+                            <!-- Knapper til at gemme ændringer eller annullere redigeringen -->
+                            <button type="button" class="btn btn-success" @onclick="SaveChanges"><span class="oi oi-circle-check"></span></button>
+                            <button type="button" class="btn btn-secondary" @onclick="DisableEditMode"><span class="oi oi-circle-x"></span></button>
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+        }
+    else
+    {
+        <p>Brugeroplysninger blev ikke fundet.</p>
+    }
 
-    <div class="col-md-3 mb-3">
-        <label for="lastName">Efternavn:</label>
-        <div class="input-group">
-            <InputText id="lastName" @bind-Value="userItem.lastName" class="form-control" disabled="@(!isEditMode)" />
-        </div>
-    </div>
 
-    <div class="col-md-3 mb-3">
-        <label for="address">Adresse:</label>
-        <div class="input-group">
-            <InputText id="address" @bind-Value="userItem.address" class="form-control" disabled="@(!isEditMode)" />
-        </div>
-    </div>
-
-    <div class="col-md-3 mb-3">
-        <label for="email">Email:</label>
-        <div class="input-group">
-            <InputText id="email" @bind-Value="userItem.email" class="form-control" disabled="@(!isEditMode)" />
-        </div>
-    </div>
-
-    <div class="col-md-3 mb-3">
-        <label for="telephone">Telefonnummer:</label>
-        <div class="input-group">
-            <InputText id="telephone" @bind-Value="userItem.telephone" class="form-control" disabled="@(!isEditMode)" />
-        </div>
-    </div>
-
-    <div class="col-md-3 mb-3">
-        <label for="birthDate">Fødselsdato:</label>
-        <div class="input-group">
-            <InputDate id="birthDate" @bind-Value="userItem.birthDate" class="form-control" disabled="@(!isEditMode)" />
-        </div>
-    </div>
-
-    <div class="col-md-3 mb-3">
-        <label for="role_id">Rolle:</label>
-        <div class="input-group">
-            <InputSelect id="role_id" @bind-Value="userItem.role_id" disabled class="form-control">
-                @foreach (var role in roleList)
-                {
-                    <option value="@role.role_id">@role.roleName</option>
-                }
-            </InputSelect>
-        </div>
-    </div>
-
-    <div class="col-md-3 mb-3">
-        <label for="password">Password:</label>
-        <div class="input-group">
-            <InputText id="password" @bind-Value="userItem.password" type="password" class="form-control" disabled="@(!isEditMode)" />
-        </div>
-    </div>
-
-    <div class="col-md-12 mb-3">
-        <div class="input-group">
-            @if (!isEditMode)
-            {
-                <!-- Redigeringsknappen vises, når brugeren ikke er i redigeringsmode -->
-                <button class="btn btn-primary" @onclick="EnableEditMode">Edit</button>
-            }
-            else
-            {
-                <!-- Knapper til at gemme ændringer eller annullere redigeringen -->
-                <button class="btn btn-success" @onclick="SaveChanges">Save</button>
-                <button class="btn btn-secondary" @onclick="DisableEditMode">Cancel</button>
-            }
-        </div>
-    </div>
-}
-else
-{
-
-    <p>Brugeroplysninger blev ikke fundet.</p>
-}
 @code {
 
     //Gem brugerens id

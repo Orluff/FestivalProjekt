@@ -1,4 +1,4 @@
-﻿@layout LoginLayout
+﻿@layout LoginLayout 
 @page "/"
 @inject HttpClient Http;
 @using Client.Services;
@@ -17,12 +17,12 @@
                 <li class="validation-message">Oplysninger matcher ikke</li>
             </ul>
             <div>
-                <label for="email">Email:</label>
-                <InputText id="email" @bind-Value="userItem.email" class="form-control" />
+                <label for="email"></label>
+                <InputText id="email" placeholder="E-mail:" @bind-Value="userItem.email" class="form-control" />
             </div>
             <div>
-                <label for="password">Password:</label>
-                <InputText id="password" type="password" @bind-Value="userItem.password" class="form-control" />
+                <label for="password"></label>
+                <InputText id="password" type="password" placeholder="Password:" @bind-Value="userItem.password" class="form-control" />
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
         </EditForm>

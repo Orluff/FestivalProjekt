@@ -4,16 +4,17 @@
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
-<h1 class="mb-3 mt-3">User Liste</h1>
-<table class="table table-striped">
+<div class="table-header">Bruger oversigt</div>
+
+<table class="styled-table">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Lastname</th>
-            <th>Address</th>
+            <th>Navn</th>
+            <th>Efternavn</th>
+            <th>Adresse</th>
             <th>Email</th>
-            <th>Telephone</th>
-            <th>Birthdate</th>
+            <th>Telefon</th>
+            <th>Fødselsdato</th>
             <th>Rolle</th>
         </tr>
     </thead>
@@ -24,16 +25,18 @@
             var rol = roleList.FirstOrDefault(r => r.role_id == user.role_id);
             if (rol != null)
             {
-                <tr>
-                    <td>@user.name</td>
-                    <td>@user.lastName</td>
-                    <td>@user.address</td>
-                    <td>@user.email</td>
-                    <td>@user.telephone</td>
-                    <td>@user.birthDate.ToString("dd-MM-yyyy")</td>
-                    <td>@rol.roleName</td>
-                    <td><button type="button" @onclick="() => RemoveUser(user)">X</button></td>
-                </tr>
+        <tr class="active-row">
+            <td>@user.name</td>
+            <td>@user.lastName</td>
+            <td>@user.address</td>
+            <td>@user.email</td>
+            <td>@user.telephone</td>
+            <td>@user.birthDate.ToString("dd-MM-yyyy")</td>
+            <td>@rol.roleName</td>
+            <td>
+                <button type="button" class="btn btn-link" @onclick="() => RemoveUser(user)"><span class="oi oi-trash"></span></button>
+            </td>
+        </tr>
             }
         }
     </tbody>
