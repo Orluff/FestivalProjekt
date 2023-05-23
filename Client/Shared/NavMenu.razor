@@ -1,100 +1,100 @@
 ﻿@inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
-<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Home</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
+        <div class="top-row ps-3 navbar navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="">Home</a>
+                <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </div>
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            @if (!isLoggedIn)
-            {
-                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                    <span class="oi oi-home" aria-hidden="true"></span> Login
-                </NavLink>
-            }
+        <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+            <nav class="flex-column">
+                <div class="nav-item px-3">
+                    @if (!isLoggedIn)
+                    {
+                        <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                            <span class="oi oi-home" aria-hidden="true"></span> Login
+                        </NavLink>
+                    }
+                </div>
+                <div class="nav-item px-3">
+                    @if (isLoggedIn)
+                    {
+                        <NavLink class="nav-link" href="userinfo">
+                            <span class="oi oi-person" aria-hidden="true"></span> Mine Oplysninger
+                        </NavLink>
+                    }
+                </div>
+                <div class="nav-item px-3">
+                    @if (isLoggedIn && userRoleId == 1)
+                    {
+                        <NavLink class="nav-link" href="shifts">
+                            <span class="oi oi-calendar" aria-hidden="true"></span> Vagter
+                        </NavLink>
+                    }
+                </div>
+                <div class="nav-item px-3">
+                    @if (isLoggedIn && userRoleId == 2)
+                    {
+                        <NavLink class="nav-link" href="usershifts">
+                            <span class="oi oi-clipboard" aria-hidden="true"></span> Mine Vagter
+                        </NavLink>
+                    }
+                </div>
+                <div class="nav-item px-3">
+                    @if (isLoggedIn && userRoleId == 2)
+                    {
+                        <NavLink class="nav-link" href="openshifts">
+                            <span class="oi oi-calendar" aria-hidden="true"></span> Vagter
+                        </NavLink>
+                    }
+                </div>
+                <div class="nav-item px-3">
+                    @if (isLoggedIn && userRoleId == 1)
+                    {
+                        <NavLink class="nav-link" href="createshift">
+                            <span class="oi oi-pencil" aria-hidden="true"></span> Lav Vagter
+                        </NavLink>
+                    }
+                </div>
+                <div class="nav-item px-3">
+                    @if (isLoggedIn && userRoleId == 1)
+                    {
+                        <NavLink class="nav-link" href="users">
+                            <span class="oi oi-people" aria-hidden="true"></span> Brugere
+                        </NavLink>
+                    }
+                </div>
+                <div class="nav-item px-3">
+                    @if (isLoggedIn && userRoleId == 1)
+                    {
+                        <NavLink class="nav-link" href="createuser">
+                            <span class="oi oi-pencil" aria-hidden="true"></span> Lav Bruger
+                        </NavLink>
+                    }
+                </div>
+            </nav>
         </div>
-        <div class="nav-item px-3">
-            @if (isLoggedIn)
-            {
-                <NavLink class="nav-link" href="userinfo">
-                    <span class="oi oi-person" aria-hidden="true"></span> Mine Oplysninger
-                </NavLink>
-            }
-        </div>
-        <div class="nav-item px-3">
-            @if (isLoggedIn && userRoleId == 1)
-            {
-                <NavLink class="nav-link" href="shifts">
-                    <span class="oi oi-calendar" aria-hidden="true"></span> Vagter
-                </NavLink>
-            }
-        </div>
-        <div class="nav-item px-3">
-            @if (isLoggedIn && userRoleId == 2)
-            {
-                <NavLink class="nav-link" href="usershifts">
-                    <span class="oi oi-clipboard" aria-hidden="true"></span> Mine Vagter
-                </NavLink>
-            }
-        </div>
-        <div class="nav-item px-3">
-            @if (isLoggedIn && userRoleId == 2)
-            {
-                <NavLink class="nav-link" href="openshifts">
-                    <span class="oi oi-calendar" aria-hidden="true"></span> Vagter
-                </NavLink>
-            }
-        </div>
-        <div class="nav-item px-3">
-            @if (isLoggedIn && userRoleId == 1)
-            {
-                <NavLink class="nav-link" href="createshift">
-                    <span class="oi oi-pencil" aria-hidden="true"></span> Lav Vagter
-                </NavLink>
-            }
-        </div>
-        <div class="nav-item px-3">
-            @if (isLoggedIn && userRoleId == 1)
-            {
-                <NavLink class="nav-link" href="users">
-                    <span class="oi oi-people" aria-hidden="true"></span> Brugere
-                </NavLink>
-            }
-        </div>
-        <div class="nav-item px-3">
-            @if (isLoggedIn && userRoleId == 1)
-            {
-                <NavLink class="nav-link" href="createuser">
-                    <span class="oi oi-pencil" aria-hidden="true"></span> Lav Bruger
-                </NavLink>
-            }
-        </div>
-    </nav>
-</div>
 
-@code {
-    public bool isLoggedIn = false;
+    @code {
+        public bool isLoggedIn = false;
 
-    public int userRoleId { get; set; }
+        public int userRoleId { get; set; }
 
-    private bool collapseNavMenu = true;
+        private bool collapseNavMenu = true;
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+        private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-    protected override async Task OnInitializedAsync()
-    {
-        isLoggedIn = await sessionStorage.GetItemAsync<bool>("isLoggedIn");
-        userRoleId = await sessionStorage.GetItemAsync<int>("userRoleId");
+        protected override async Task OnInitializedAsync()
+        {
+            isLoggedIn = await sessionStorage.GetItemAsync<bool>("isLoggedIn");
+            userRoleId = await sessionStorage.GetItemAsync<int>("userRoleId");
+        }
+
+        private void ToggleNavMenu()
+        {
+            collapseNavMenu = !collapseNavMenu;
+        }
     }
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}
