@@ -57,22 +57,22 @@
                     }
                     else
                     {
-        <tr>
-            <td>@category.categoryName</td>
-            <td>@category.area</td>
-            <td>@category.description</td>
-            <td>@shift.startDateTime</td>
-            <td>@shift.endDateTime</td>
-            <td>@shift.duration timer</td>
-            <td>@shift.priority</td>
-            <td>@shift.spots</td>
-            <td>
-                <button type="button" class="btn btn-link" @onclick="() => EnableEditing(shift)"><span class="oi oi-pencil"></span></button>
-            </td>
-            <td>
-                <button type="button" class="btn btn-link" @onclick="() => RemoveShift(shift)"><span class="oi oi-trash"></span></button>
-            </td>
-        </tr>
+                    <tr>
+                        <td>@category.categoryName</td>
+                        <td>@category.area</td>
+                        <td>@category.description</td>
+                        <td>@shift.startDateTime</td>
+                        <td>@shift.endDateTime</td>
+                        <td>@shift.duration timer</td>
+                        <td>@shift.priority</td>
+                        <td>@shift.spots</td>
+                        <td>
+                        <button type="button" class="btn btn-link" @onclick="() => EnableEditing(shift)"><span class="oi oi-pencil"></span></button>
+                        </td>
+                        <td>
+                        <button type="button" class="btn btn-link" @onclick="() => RemoveShift(shift)"><span class="oi oi-trash"></span></button>
+                        </td>
+                    </tr>
                     }
                 }
             }

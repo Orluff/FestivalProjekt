@@ -41,14 +41,14 @@
                 var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
                 if (category != null)
                 {
-        <tr>
-            <td>@category.categoryName</td>
-            <td>@shift.startDateTime</td>
-            <td>@shift.endDateTime</td>
-            <td>@shift.duration</td>
-            <td>@category.description</td>
-            <td><button type="button" class="btn btn-link" @onclick="() => TakeShift(userShift, shift)"><span class="oi oi-check"></span></button></td>
-        </tr>
+                <tr>
+                    <td>@category.categoryName</td>
+                    <td>@shift.startDateTime</td>
+                    <td>@shift.endDateTime</td>
+                    <td>@shift.duration</td>
+                    <td>@category.description</td>
+                    <td><button type="button" class="btn btn-link" @onclick="() => TakeShift(userShift, shift)"><span class="oi oi-check"></span></button></td>
+                </tr>
                 }
             }
         }
