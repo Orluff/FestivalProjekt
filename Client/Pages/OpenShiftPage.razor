@@ -3,6 +3,8 @@
 @inject HttpClient Http;
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
+@inject IJSRuntime JSRuntime
+
 
 
 <div class="modal" style='display: @(showModal ? "block" : "none")'>
@@ -128,6 +130,7 @@
             if (user.shift_id == shift.shift_id && user.user_id == userId)
             {
                 isShiftSelected = true;
+                StateHasChanged(); // Opdater UI'en
                 break;
             }
         }
@@ -147,10 +150,6 @@
         await uService.TakeShift(userShift, shift);
         await mService.RemoveSpot(shift);
 
-        //await mService.UpdateSpots(shift);
-
-        //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
-        shiftList = (await mService.getShifts()).ToArray();
-        StateHasChanged();
+        NavigationManager.NavigateTo($"/openshifts", forceLoad: true);
     }
 }
