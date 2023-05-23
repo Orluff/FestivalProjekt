@@ -4,7 +4,6 @@
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
-
 <div class="modal" style='display: @(showModal ? "block" : "none")'>
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -24,9 +23,8 @@
             </div>
 </div>
 
-
-<h1 class="mb-3 mt-3">Vagt Liste</h1>
-<table class="table table-striped">
+<div class="table-header">Vagter</div>
+<table class="styled-table">
     <thead>
         <tr>
             <th>Start Tidspunkt</th>
@@ -50,7 +48,7 @@
                     <td>@shift.duration</td>
                     <td>@category.categoryName</td>
                     <td>@category.description</td>
-                    <td><button type="button" @onclick="() => TakeShift(userShift, shift)">Vælg</button></td>
+                    <td><button type="button" class="btn btn-link" @onclick="() => TakeShift(userShift, shift)"><span class="oi oi-check"></span></button></td>
                 </tr>
             }
         }

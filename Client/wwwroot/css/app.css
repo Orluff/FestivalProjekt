@@ -111,13 +111,12 @@ a, .btn-link {
     --secondary-color: white;
     --tertiary-color: linear-gradient( 94.3deg, rgba(26,33,64,1) 10.9%, rgba(81,84,115,1) 87.1% );
     --background: #F6F7FC;
-    --lightblue: #BCCEE7;
 }
 
 .container {
     background-image: var(--primary-color);
     border-radius: 20px;
-    height: 80vh;
+    height: 65vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -125,10 +124,11 @@ a, .btn-link {
 
 .header {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 100px;
+    font-size: 150px;
     font-weight: 900;
     text-align: center;
-    margin-bottom: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     color: var(--tertiary-color);
 }
 
@@ -209,7 +209,7 @@ a, .btn-link {
 
 
 
-/* create sider */
+/* redigerings sider (create shift, create user og user info) */
 
 .normal-container {
     background-color: var(--background);
@@ -294,6 +294,9 @@ a, .btn-link {
         cursor: pointer;
     }
 
+.content span.oi.oi-person {
+    color: lightblue;
+}
 
 /* tables */
 
@@ -342,5 +345,9 @@ a, .btn-link {
 
 button.btn.btn-link span {
     color: black;
+}
+
+button.btn.btn-link span:hover {
+    color: lightskyblue;
 }
 

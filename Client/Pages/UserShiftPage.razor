@@ -4,10 +4,10 @@
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
-<h1 class="mb-3 mt-3">Mine vagter</h1>
+<div class="table-header">Mine vagter</div>
 
 <!-- Tabel med vagtoplysninger -->
-<table class="table table-striped">
+<table class="styled-table">
     <thead>
         <tr>
             <th>Start Tidspunkt</th>
@@ -32,21 +32,21 @@
                         var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
                         if (category != null)
                         {
-                            <tr>
-                                <td>@shift.startDateTime</td>
-                                <td>@shift.endDateTime</td>
-                                <td>@shift.duration</td>
-                                <td>@category.categoryName</td>
-                                <td>@category.description</td>
-                                @if (shift.startDateTime! < DateTime.Now.AddHours(48))
-                                {
-                                    <td></td>
-                                }
-                                else
-                                {
-                                    <td><button type="button" @onclick="() => RemoveUserShift(shift)">X</button></td>
-                                }
-                            </tr>
+        <tr>
+            <td>@shift.startDateTime</td>
+            <td>@shift.endDateTime</td>
+            <td>@shift.duration</td>
+            <td>@category.categoryName</td>
+            <td>@category.description</td>
+            @if (shift.startDateTime! < DateTime.Now.AddHours(48))
+            {
+                <td></td>
+            }
+            else
+            {
+                <td><button type="button" class="btn btn-link" @onclick="() => RemoveUserShift(shift)"><span class="oi oi-x"></span></button></td>
+            }
+        </tr>
                         }
                     }
                 }
