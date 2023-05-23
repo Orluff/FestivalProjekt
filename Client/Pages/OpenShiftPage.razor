@@ -24,10 +24,10 @@
 <table class="styled-table">
     <thead>
         <tr>
+            <th>Kategori</th>
             <th>Start Tidspunkt</th>
             <th>Slut Tidspunkt</th>
-            <th>Længde</th>
-            <th>Kategori</th>
+            <th>Timer</th>
             <th>Beskrivelse</th>
             <th>Vælg Vagt</th>
         </tr>
@@ -42,10 +42,10 @@
                 if (category != null)
                 {
         <tr>
+            <td>@category.categoryName</td>
             <td>@shift.startDateTime</td>
             <td>@shift.endDateTime</td>
             <td>@shift.duration</td>
-            <td>@category.categoryName</td>
             <td>@category.description</td>
             <td><button type="button" class="btn btn-link" @onclick="() => TakeShift(userShift, shift)"><span class="oi oi-check"></span></button></td>
         </tr>

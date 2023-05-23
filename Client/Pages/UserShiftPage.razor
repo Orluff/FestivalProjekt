@@ -4,16 +4,16 @@
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
-<div class="table-header">Mine vagter</div>
+<div class="table-header">Mine vagtplan</div>
 
 <!-- Tabel med vagtoplysninger -->
-<table class="styled-table">
+<table class="styled-table"> 
     <thead>
         <tr>
+            <th>Kategori</th>
             <th>Start Tidspunkt</th>
             <th>Slut Tidspunkt</th>
-            <th>Længde</th>
-            <th>Kategori</th>
+            <th>Timer</th>
             <th>Beskrivelse</th>
             <th>Fjern Vagt</th>
         </tr>
@@ -33,10 +33,10 @@
                         if (category != null)
                         {
         <tr>
+            <td>@category.categoryName</td>
             <td>@shift.startDateTime</td>
             <td>@shift.endDateTime</td>
             <td>@shift.duration</td>
-            <td>@category.categoryName</td>
             <td>@category.description</td>
             @if (shift.startDateTime! < DateTime.Now.AddHours(48))
             {
