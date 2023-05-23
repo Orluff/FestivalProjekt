@@ -110,10 +110,10 @@
         aEditContext = new EditContext(category);
     }
 
-    private async Task RemoveUserShift(ShiftDTO id)
+    private async Task RemoveUserShift(ShiftDTO shift)
     {
-        await uService.RemoveUserShift(id);
-        await mService.AddSpot(id);
+        await uService.RemoveUserShift(shift);
+        await mService.AddSpot(shift);
 
         //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme
         userShiftList = (await uService.GetUserShifts()).ToArray();

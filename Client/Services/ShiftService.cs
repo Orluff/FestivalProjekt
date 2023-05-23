@@ -16,13 +16,13 @@ namespace Client.Services
 
         public async Task<IEnumerable<ShiftDTO>> getShifts()
         {
-            var shifts = await http.GetFromJsonAsync<ShiftDTO[]>(Config.serverURL+ "api/shift");
+            var shifts = await http.GetFromJsonAsync<ShiftDTO[]>(Config.serverURL + "api/shift");
             return shifts;
         }
 
         public async Task AddShift(ShiftDTO shift)
         {
-            await http.PostAsJsonAsync<ShiftDTO>(Config.serverURL + "api/shift", shift);
+            await http.PostAsJsonAsync(Config.serverURL + "api/shift", shift);
         }
 
         public async Task RemoveShift(ShiftDTO shift)
