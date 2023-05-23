@@ -28,6 +28,8 @@
         <label for="category_id">Kategori:</label>
         <div class="input-group">
             <InputSelect id="category_id" @bind-Value="shiftItem.category_id" class="form-control">
+                <!-- Ekstra option uden værdiattribut -->
+                <option value="">Vælg en kategori</option>
                 <!-- Itererer gennem catList for at generere option-elementer -->
                 @foreach (var cat in catList)
                 {
@@ -88,6 +90,7 @@
 
         // Henter kategorier og konverterer dem til et array
         catList = (await cService.getCategories()).ToArray();
+        Console.WriteLine(shiftItem.category_id);
     }
 
     protected override void OnInitialized()
@@ -103,15 +106,22 @@
 
     private async Task AddShift()
     {
-        //Sætter shiftItem's shift_id til shiftid
-        shiftItem.shift_id = shiftid;
+        try
+        {
+            //Sætter shiftItem's shift_id til shiftid
+            shiftItem.shift_id = shiftid;
 
-        // Opretter en ny instans af ShiftCategoryDTO baseret på category_id
-        //shiftItem.category = new ShiftCategoryDTO { category_id = shiftItem.category_id };
+            // Opretter en ny instans af ShiftCategoryDTO baseret på category_id
+            //shiftItem.category = new ShiftCategoryDTO { category_id = shiftItem.category_id };
 
-        await mService.AddShift(shiftItem);
+            await mService.AddShift(shiftItem);
 
-        // Tømmer felter i formularen
-        shiftItem = new();
+            // Tømmer felter i formularen
+            shiftItem = new();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
     }
 }

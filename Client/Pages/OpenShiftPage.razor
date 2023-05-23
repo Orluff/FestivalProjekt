@@ -152,6 +152,7 @@
 
         //await mService.UpdateSpots(shift);
 
+        //NavigationManager.NavigateTo($"/openshifts", forceLoad:true);
         //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme.
         shiftList = (await mService.getShifts()).ToArray();
         StateHasChanged();

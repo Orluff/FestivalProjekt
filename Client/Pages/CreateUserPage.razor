@@ -36,6 +36,9 @@
         <label for="role_id">Rolle:</label>
         <div class="input-group">
             <InputSelect id="role_id" @bind-Value="userItem.role_id" class="form-control">
+                <!-- Ekstra option uden værdiattribut -->
+                <option value="">Vælg en kategori</option>
+
                 @foreach (var role in roleList)
                 {
                     <option value="@role.role_id">@role.roleName</option>
@@ -106,12 +109,20 @@
 
     private async Task AddUser()
     {
-        //Sætter userItem's user_id til userId
-        userItem.user_id = userId;
+        try
+        {
+            //Sætter userItem's user_id til userId
+            userItem.user_id = userId;
 
-        await mService.AddUser(userItem);
+            await mService.AddUser(userItem);
 
-        // Tømmer felter i formularen
-        userItem = new();
+            // Tømmer felter i formularen
+            userItem = new();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+
     }
 }
