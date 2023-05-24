@@ -94,148 +94,143 @@
     </tbody>
 </table>
 
-    @code {
+@code {
+    //Variable til at holde brugerens ID
+    public int userId { get; set; }
 
+    //Gem sorteringsmetode
+    private string selectedSort;
 
-        private void EnableEditing(ShiftDTO shift)
+    //Instans af ShiftDTO som gemmer de originale data, hvis redigeringen skulle annulleres
+    ShiftDTO originalShiftItem = new ShiftDTO();
+
+    //Variabler til at opbevare vagt-, brugervagt og vagtkategorioplysninger
+    private ShiftDTO shift = new ShiftDTO();
+    private UserShiftDTO userShift = new UserShiftDTO();
+    private ShiftCategoryDTO category = new ShiftCategoryDTO();
+
+    //EditContext-objekt til validering af formularfelter
+    private EditContext aEditContext;
+
+    //Dictionary til at mappe sorteringsmetoder til handlinger
+    Dictionary<string, Action> selectedSortDictionary;
+
+    //Array-variabler til at opbevare vagtoplysninger og -kategorier
+    private ShiftDTO[]? shiftList = new ShiftDTO[0];
+    private ShiftCategoryDTO[]? catList = new ShiftCategoryDTO[0];
+
+    //Tjenester til vores services
+    [Inject]
+    private IShiftService mService { get; set; }
+    [Inject]
+    private IUserShiftService uService { get; set; }
+    [Inject]
+    private ICategoryService cService { get; set; }
+
+    private void EnableEditing(ShiftDTO shift)
+    {
+        //Sættes til true, når redigeringsknappen trykkes
+        shift.IsEditing = true;
+
+        //Sætter variablen originalShiftItem til at være lig med den nuværende shift inden den redigeres
+        originalShiftItem = shift;
+    }
+
+    private async Task UpdateShift(ShiftDTO shift)
+    {
+        //Opdater vagten
+        await mService.UpdateShift(shift);
+
+        //Koordinatoren redigerer ikke længere
+        shift.IsEditing = false;
+    }
+
+    private void DisableEditMode(ShiftDTO shift)
+    {
+        //Deaktiver redigeringsmode
+        shift.IsEditing = false;
+
+        //Nulstil brugeroplysninger til oprindelige værdier
+        shift.startDateTime = originalShiftItem.startDateTime;
+        shift.endDateTime = originalShiftItem.endDateTime;
+        shift.duration = originalShiftItem.duration;
+        shift.priority = originalShiftItem.priority;
+        shift.spots = originalShiftItem.spots;
+    }
+
+    public string SelectedSort
+    {
+        // Returner den aktuelle værdi af SelectedSort
+        get { return selectedSort; }
+        set
         {
-            //Sættes til true, når redigeringsknappen trykkes
-            shift.IsEditing = true;
+            // Opdater værdien af SelectedSort med ny tildelt værdi
+            selectedSort = value;
 
-            //Sætter variablen originalShiftItem til at være lig med den nuværende shift inden den redigeres
-            originalShiftItem = shift;
-        }
-
-        private async Task UpdateShift(ShiftDTO shift)
-        {
-            //Opdater vagten
-            await mService.UpdateShift(shift);
-
-            //Koordinatoren redigerer ikke længere
-            shift.IsEditing = false;
-        }
-
-        //Instans af ShiftDTO som gemmer de originale data, hvis redigeringen skulle annulleres
-        ShiftDTO originalShiftItem = new ShiftDTO();
-
-        private void DisableEditMode(ShiftDTO shift)
-        {
-            //Deaktiver redigeringsmode
-            shift.IsEditing = false;
-
-            //Nulstil brugeroplysninger til oprindelige værdier
-            shift.startDateTime = originalShiftItem.startDateTime;
-            shift.endDateTime = originalShiftItem.endDateTime;
-            shift.duration = originalShiftItem.duration;
-            shift.priority = originalShiftItem.priority;
-            shift.spots = originalShiftItem.spots;
-        }
-
-
-        //Gem sorteringsmetode
-        private string selectedSort;
-
-        public string SelectedSort
-        {
-            // Returner den aktuelle værdi af SelectedSort
-            get { return selectedSort; }
-            set
-            {
-                // Opdater værdien af SelectedSort med ny tildelt værdi
-                selectedSort = value;
-
-                //Kalder en handling i selectedSortDictionary, der svarer til den valgte sortering
-                selectedSortDictionary[selectedSort]();
-            }
-        }
-
-        //Dictionary til at mappe sorteringsmetoder til handlinger
-        Dictionary<string, Action> selectedSortDictionary;
-
-        //Gem brugerens id
-        public int userId { get; set; }
-
-        //Array-variabler til at opbevare vagtoplysninger og -kategorier
-        private ShiftDTO[]? shiftList = new ShiftDTO[0];
-        private ShiftCategoryDTO[]? catList = new ShiftCategoryDTO[0];
-
-        //Tjenester til vores services
-        [Inject]
-        private IShiftService mService { get; set; }
-        [Inject]
-        private IUserShiftService uService { get; set; }
-        [Inject]
-        private ICategoryService cService { get; set; }
-
-
-        protected override async Task OnInitializedAsync()
-        {
-            //Hent brugerens id fra session storage
-            userId = await sessionStorage.GetItemAsync<int>("userId");
-            if (userId == 0)
-            {
-                // Hvis bruger_id er 0, naviger til startsiden
-                NavigationManager.NavigateTo($"/");
-            }
-
-            try
-            {
-                //Hent vagtliste fra ShiftService og gem i shiftList
-                shiftList = (await mService.getShifts()).ToArray();
-
-                // Initialiser vores dictionary med sorteringsmetoder og tilhørende handlinger
-                selectedSortDictionary = new Dictionary<string, Action>
-                {
-                    //Sorter vagter efter prioritet, antal pladser tilbage og næstkommende starttidspunkt
-                    ["priority"] = () => shiftList = shiftList.OrderBy(s => s.priority ? 0 : 1).ToArray(),
-                    ["pladser"] = () => shiftList = shiftList.OrderByDescending(s => s.spots).ToArray(),
-                    ["tidspunkt"] = () => shiftList = shiftList.OrderBy(s => s.startDateTime).ToArray()
-                };
-
-                // Hent vagter fra ShiftService
-                var shifts = await mService.getShifts();
-
-                // Konverter vagt til array og gem i shiftList
-                shiftList = shifts.ToArray();
-
-                // Hent vagtkategorier fra CategoryService og gem i catList
-                catList = (await cService.getCategories()).ToArray();
-
-                // Sorter vagter efter prioritet som standard
-                selectedSortDictionary["priority"]();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-        }
-
-        //Variabler til at opbevare vagt-, brugervagt og vagtkategorioplysninger
-        private ShiftDTO shift = new ShiftDTO();
-        private UserShiftDTO userShift = new UserShiftDTO();
-        private ShiftCategoryDTO category = new ShiftCategoryDTO();
-
-        //EditContext-objekt til validering af formularfelter
-        private EditContext aEditContext;
-
-
-        protected override void OnInitialized()
-        {
-            aEditContext = new EditContext(shift);
-            aEditContext = new EditContext(userShift);
-            aEditContext = new EditContext(category);
-        }
-
-        private async Task RemoveShift(ShiftDTO id)
-        {
-            //Fjern brugerens tilknytning til vagten og selve vagten
-            await uService.RemoveUserShift(id);
-            await mService.RemoveShift(id);
-
-            //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme
-            shiftList = (await mService.getShifts()).ToArray();
-            // Sorter vagter efter prioritet som standard
-            selectedSortDictionary["priority"]();
-            StateHasChanged();
+            //Kalder en handling i selectedSortDictionary, der svarer til den valgte sortering
+            selectedSortDictionary[selectedSort]();
         }
     }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //Hent brugerens id fra session storage
+        userId = await sessionStorage.GetItemAsync<int>("userId");
+        if (userId == 0)
+        {
+            // Hvis bruger_id er 0, naviger til startsiden
+            NavigationManager.NavigateTo($"/");
+        }
+
+        try
+        {
+            //Hent vagtliste fra ShiftService og gem i shiftList
+            shiftList = (await mService.getShifts()).ToArray();
+
+            // Initialiser vores dictionary med sorteringsmetoder og tilhørende handlinger
+            selectedSortDictionary = new Dictionary<string, Action>
+        {
+            //Sorter vagter efter prioritet, antal pladser tilbage og næstkommende starttidspunkt
+            ["priority"] = () => shiftList = shiftList.OrderBy(s => s.priority ? 0 : 1).ToArray(),
+            ["pladser"] = () => shiftList = shiftList.OrderByDescending(s => s.spots).ToArray(),
+            ["tidspunkt"] = () => shiftList = shiftList.OrderBy(s => s.startDateTime).ToArray()
+        };
+
+            // Hent vagter fra ShiftService
+            var shifts = await mService.getShifts();
+
+            // Konverter vagt til array og gem i shiftList
+            shiftList = shifts.ToArray();
+
+            // Hent vagtkategorier fra CategoryService og gem i catList
+            catList = (await cService.getCategories()).ToArray();
+
+            // Sorter vagter efter prioritet som standard
+            selectedSortDictionary["priority"]();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        aEditContext = new EditContext(shift);
+        aEditContext = new EditContext(userShift);
+        aEditContext = new EditContext(category);
+    }
+
+    private async Task RemoveShift(ShiftDTO id)
+    {
+        //Fjern brugerens tilknytning til vagten og selve vagten
+        await uService.RemoveUserShift(id);
+        await mService.RemoveShift(id);
+
+        //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme
+        shiftList = (await mService.getShifts()).ToArray();
+        // Sorter vagter efter prioritet som standard
+        selectedSortDictionary["priority"]();
+        StateHasChanged();
+    }
+}

@@ -91,12 +91,11 @@
 
 @code {
 
-    //Gem bruger id
+    //Variable til at holde brugerens ID
     public int userId { get; set; }
 
     //Tom string til valg af category
     private string selectedCategory;
-
 
     //Bruges til vise modal (Div øverst på siden)
     private bool showModal = false;
@@ -118,6 +117,13 @@
     [Inject]
     private ICategoryService cService { get; set; }
 
+    //Egenskaber
+    private ShiftDTO shift = new ShiftDTO();
+    private UserShiftDTO userShift = new UserShiftDTO();
+    private ShiftCategoryDTO category = new ShiftCategoryDTO();
+
+
+    private EditContext aEditContext;
 
     protected override async Task OnInitializedAsync()
     {
@@ -149,14 +155,6 @@
             Console.WriteLine(ex);
         }
     }
-
-    //Egenskaber
-    private ShiftDTO shift = new ShiftDTO();
-    private UserShiftDTO userShift = new UserShiftDTO();
-    private ShiftCategoryDTO category = new ShiftCategoryDTO();
-
-
-    private EditContext aEditContext;
 
     protected override void OnInitialized()
     {

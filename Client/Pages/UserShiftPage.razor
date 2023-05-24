@@ -61,7 +61,7 @@
 
 @code {
 
-    //Gem brugerens id
+    //Variable til at holde brugerens ID
     public int userId { get; set; }
 
     //Arrays af DTO-objekter, der kan være null
@@ -73,6 +73,8 @@
     private ShiftDTO shift = new ShiftDTO();
     private UserShiftDTO userShift = new UserShiftDTO();
     private ShiftCategoryDTO category = new ShiftCategoryDTO();
+
+    private EditContext aEditContext;
 
     //Tjenester til vores services
     [Inject]
@@ -104,8 +106,6 @@
             Console.WriteLine(ex);
         }
     }
-
-    private EditContext aEditContext;
 
     protected override void OnInitialized()
     {
