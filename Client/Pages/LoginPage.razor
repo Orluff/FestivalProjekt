@@ -51,6 +51,9 @@
     // Ny instans af UserDTO
     private UserDTO userItem = new UserDTO();
 
+    //Angiver om der er et match mellem brugeroplysningerne
+    public bool isMatchFound = true;
+
     protected override async Task OnInitializedAsync()
     {
         // Henter brugerdata fra IUserService og gemmer dem i userList-arrayet
@@ -71,6 +74,7 @@
 
     private async Task Login()
     {
+        Console.WriteLine(userList.ToArray().ToString());
         //Itererer gennem userList for at sammenligne brugeroplysningerne
         foreach (var user in userList)
         {
@@ -88,6 +92,7 @@
 
                 //Der er fundet et match
                 isMatchFound = true;
+                break;
             }
             else
             {
@@ -102,7 +107,4 @@
     {
         await Login();
     }
-
-    //Angiver om der er et match mellem brugeroplysningerne
-    public bool isMatchFound = true;
 }
