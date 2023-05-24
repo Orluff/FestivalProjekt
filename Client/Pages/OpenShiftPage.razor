@@ -48,6 +48,20 @@
             <th>Ledige Pladser</th>
             <th>Vælg Vagt</th>
         </tr>
+
+        <!-- Kategori dropdown-->
+        <!-- Når værdien i dropdown-menuen ændres, opdateres værdien af selectedCategory automatisk.-->
+
+         <td>
+        <label>Vælg kategori: </label>
+        <select @bind="selectedCategory" class="category">
+            <option value="">Alle kategorier</option>
+                @foreach (var category in catList)
+                {
+                <option value="@category.category_id">@category.categoryName</option>
+                }
+        </select>
+        </td>
     </thead>
 
     <tbody>
@@ -58,8 +72,7 @@
             {
                 <!-- Hent kategorien for den pågældende vagt -->
                 var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
-
-                if (category != null)
+                if (category != null && (string.IsNullOrEmpty(selectedCategory) || category.category_id.ToString() == selectedCategory))
                 {
                     <tr>
                         <td>@category.categoryName</td>
@@ -80,6 +93,10 @@
 
     //Gem bruger id
     public int userId { get; set; }
+
+    //Tom string til valg af category
+    private string selectedCategory;
+
 
     //Bruges til vise modal (Div øverst på siden)
     private bool showModal = false;
