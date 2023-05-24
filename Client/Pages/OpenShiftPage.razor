@@ -3,8 +3,7 @@
 @inject HttpClient Http;
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
-
-<!-- hvis vagt allerede er valgt af denne bruger, pop up besked: Du har allerede valgt denne vagt-->
+<!-- Hvis vagt allerede er valgt af denne bruger, pop up besked: Du har allerede valgt denne vagt -->
 <div class="modal" style='display: @(showModal ? "block" : "none")'>
     <div class="modal-dialog">
         <div class="modal-content">
@@ -16,6 +15,20 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" @onclick='() => showModal = false'>OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hvis man vælger en vagt, kommer den pop up besked -->
+<div class="modal" style='display: @(showConfirmation ? "block" : "none")'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Bekræftelse</h5>
+            </div>
+            <div class="modal-body">
+                Du har taget vagten.
             </div>
         </div>
     </div>
@@ -70,6 +83,7 @@
 
     //Bruges til vise modal (Div øverst på siden)
     private bool showModal = false;
+    private bool showConfirmation = false;
 
     //Dictionary til at mappe sorteringsmetoder til handlinger
     Dictionary<string, Action> selectedSortDictionary;
@@ -136,7 +150,6 @@
 
     private async Task TakeShift(UserShiftDTO userShift, ShiftDTO shift)
     {
-
         bool isShiftSelected = false;
 
         //Hvis vagten vælges af brugeren og ikke allerede er i brugerens vagtplan stopper forloopet og resten af Task'en køres
@@ -157,6 +170,9 @@
             return;
         }
 
+        // Indstil showConfirmation til true
+        showConfirmation = true;
+
         //shift_id og user_id tildeles userShift
         userShift.shift_id = shift.shift_id;
         userShift.user_id = userId;
@@ -169,5 +185,11 @@
         userShiftList = (await uService.GetUserShifts()).ToArray();
         shiftList = (await mService.getShifts()).ToArray();
         StateHasChanged();
+
+        // Start en tidsforsinkelse - i millisekunder
+        await Task.Delay(1500);
+
+        // Nulstil showConfirmation
+        showConfirmation = false;
     }
 }
