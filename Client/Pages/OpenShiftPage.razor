@@ -4,39 +4,22 @@
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
 
-
 <!-- hvis vagt allerede er valgt af denne bruger, pop up besked: Du har allerede valgt denne vagt-->
 <div class="modal" style='display: @(showModal ? "block" : "none")'>
     <div class="modal-dialog">
         <div class="modal-content">
-
             <div class="modal-header">
                 <h5 class="modal-title">Fejl</h5>
-                <button type="button" class="close" @onclick='() => showModal = false'>
-                    <span aria-hidden="true">&times;</span>
-                </button>
-
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Fejl</h5>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-body">
-                    Du har allerede valgt denne vagt.
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" @onclick='() => showModal = false'>OK</button>
-                </div>
+            </div>
+            <div class="modal-body">
+                Du har allerede valgt denne vagt.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" @onclick='() => showModal = false'>OK</button>
             </div>
         </div>
     </div>
 </div>
-
-
 
 <div class="table-header">Vagter</div>
 
@@ -56,27 +39,27 @@
 
     <tbody>
         @foreach (var shift in shiftList)
+        {
+            <!-- hvis der er pladser tilbage på vagten (dvs. 1 eller flere) -->
+            if (shift.spots > 0)
             {
-                <!-- hvis der er pladser tilbage på vagten (dvs. 1 eller flere) -->
-                if (shift.spots > 0)
-                {
-                    <!-- Hent kategorien for den pågældende vagt -->
-                    var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
+                <!-- Hent kategorien for den pågældende vagt -->
+                var category = catList.FirstOrDefault(c => c.category_id == shift.category_id);
 
-                    if (category != null)
-                    {
-        <tr>
-            <td>@category.categoryName</td>
-            <td>@shift.startDateTime</td>
-            <td>@shift.endDateTime</td>
-            <td>@shift.duration</td>
-            <td>@category.description</td>
-            <td>@shift.spots</td>
-            <td><button type="button" class="btn btn-link" @onclick="() => TakeShift(userShift, shift)"><span class="oi oi-check"></span></button></td>
-        </tr>
-                    }
+                if (category != null)
+                {
+                    <tr>
+                        <td>@category.categoryName</td>
+                        <td>@shift.startDateTime</td>
+                        <td>@shift.endDateTime</td>
+                        <td>@shift.duration</td>
+                        <td>@category.description</td>
+                        <td>@shift.spots</td>
+                        <td><button type="button" class="btn btn-link" @onclick="() => TakeShift(userShift, shift)"><span class="oi oi-check"></span></button></td>
+                    </tr>
                 }
             }
+        }
     </tbody>
 </table>
 
@@ -170,6 +153,7 @@
         {
             // Vis modalen (error pop-up) ved at sætte den til true
             showModal = true;
+            // Stopper udførelsen af resten af TakeShift metoden
             return;
         }
 
