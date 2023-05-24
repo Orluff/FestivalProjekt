@@ -66,22 +66,28 @@
                     else
                     {
 
-                        <tr>
-                            <td>@category.categoryName</td>
-                            <td>@category.area</td>
-                            <td>@category.description</td>
-                            <td>@shift.startDateTime</td>
-                            <td>@shift.endDateTime</td>
-                            <td>@shift.duration timer</td>
-                            <td>@shift.priority</td>
-                            <td>@shift.spots</td>
-                            <td>
-                                <button type="button" class="btn btn-link" @onclick="() => EnableEditing(shift)"><span class="oi oi-pencil"></span></button>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-link" @onclick="() => RemoveShift(shift)"><span class="oi oi-trash"></span></button>
-                            </td>
-                        </tr>
+    <tr>
+        <td>@category.categoryName</td>
+        <td>@category.area</td>
+        <td>@category.description</td>
+        <td>@shift.startDateTime</td>
+        <td>@shift.endDateTime</td>
+        <td>@shift.duration timer</td>
+        @if (shift.priority == true)
+        {
+            <td><span class="oi oi-check"></span></td>
+        } else
+        {
+            <td></td>
+        }
+        <td>@shift.spots</td>
+        <td>
+            <button type="button" class="btn btn-link" @onclick="() => EnableEditing(shift)"><span class="oi oi-pencil"></span></button>
+        </td>
+        <td>
+            <button type="button" class="btn btn-link" @onclick="() => RemoveShift(shift)"><span class="oi oi-trash"></span></button>
+        </td>
+    </tr>
                     }
                 }
             }
@@ -95,6 +101,9 @@
         {
             //Sættes til true, når redigeringsknappen trykkes
             shift.IsEditing = true;
+
+            //Sætter variablen originalShiftItem til at være lig med den nuværende shift inden den redigeres
+            originalShiftItem = shift;
         }
 
         private async Task UpdateShift(ShiftDTO shift)
@@ -192,6 +201,8 @@
                 // Hent vagtkategorier fra CategoryService og gem i catList
                 catList = (await cService.getCategories()).ToArray();
 
+                // Sorter vagter efter prioritet som standard
+                selectedSortDictionary["priority"]();
             }
             catch (Exception ex)
             {
@@ -223,6 +234,8 @@
 
             //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme
             shiftList = (await mService.getShifts()).ToArray();
+            // Sorter vagter efter prioritet som standard
+            selectedSortDictionary["priority"]();
             StateHasChanged();
         }
     }
