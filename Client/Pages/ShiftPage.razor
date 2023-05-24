@@ -178,7 +178,7 @@
                 selectedSortDictionary = new Dictionary<string, Action>
                 {
                     //Sorter vagter efter prioritet, antal pladser tilbage og næstkommende starttidspunkt
-                    ["priority"] = () => shiftList = shiftList.OrderBy(s => s.priority ? 0 : 1).ToArray(),
+                    ["prioritet"] = () => shiftList = shiftList.OrderBy(s => s.priority ? 0 : 1).ToArray(),
                     ["pladser"] = () => shiftList = shiftList.OrderByDescending(s => s.spots).ToArray(),
                     ["tidspunkt"] = () => shiftList = shiftList.OrderBy(s => s.startDateTime).ToArray()
                 };
