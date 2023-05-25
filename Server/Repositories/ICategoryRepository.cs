@@ -3,8 +3,8 @@ namespace Server.Repositories
 {
     public interface ICategoryRepository
     {
+        //Hent kategorier
         ShiftCategoryDTO[] getCategories();
-        void AddCategory(ShiftCategoryDTO cat);
     }
 }
 

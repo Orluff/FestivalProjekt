@@ -6,9 +6,6 @@ namespace Client.Services
     {
         //Hent alle kategorier
         Task<IEnumerable<ShiftCategoryDTO>> getCategories();
-
-        //Tilføj kategori
-        Task AddCategory(ShiftCategoryDTO cat);
     }
 }
 

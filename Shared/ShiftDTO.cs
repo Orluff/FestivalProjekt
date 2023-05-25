@@ -19,8 +19,6 @@ public class ShiftDTO
 
     public int spots { get; set; }
 
-
-
     // Bruges til rettelser i vagter, efter de er lavet
     public bool IsEditing { get; set; }
 }

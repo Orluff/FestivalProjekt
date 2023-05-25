@@ -30,15 +30,5 @@ namespace Server.Controllers
         {
             return cRepo.getCategories();
         }
-
-        //Post
-        //Poster informationer fra kategori formen til koordinator siden
-        //Tilføjer den modtagne kategori
-        [EnableCors("policy")]
-        [HttpPost]
-        public void Add(ShiftCategoryDTO cat)
-        {
-            cRepo.AddCategory(cat);
-        }
     }
 }
