@@ -108,6 +108,10 @@
     {
         try
         {
+            //Tidszone fiks (ellers er tiderne 2 timer bagud)
+            shiftItem.startDateTime = shiftItem.startDateTime.AddHours(2);
+            shiftItem.endDateTime = shiftItem.endDateTime.AddHours(2);
+
             //Tilføj vagt
             await mService.AddShift(shiftItem);
 
