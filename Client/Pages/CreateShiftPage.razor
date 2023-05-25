@@ -66,7 +66,7 @@
 
 @code {
 
-    //Gem brugerens id
+    //Variable til at holde brugerens ID
     public int userId { get; set; }
 
     // Nye instanser af ShiftDTO og ShiftCategoryDTO
@@ -75,9 +75,6 @@
 
     //Array af ShiftCategoryDTO-objekter, der kan være null
     private ShiftCategoryDTO[]? catList = new ShiftCategoryDTO[0];
-
-    [Parameter]
-    public int shiftid { get; set; }
 
     //Tjenester til vores services
     [Inject]
@@ -113,9 +110,6 @@
     {
         try
         {
-            //Sætter shiftItem's shift_id til shiftid
-            shiftItem.shift_id = shiftid;
-
             await mService.AddShift(shiftItem);
 
             // Tømmer felter i formularen

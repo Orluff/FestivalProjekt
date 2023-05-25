@@ -113,6 +113,10 @@ a, .btn-link {
         content: var(--blazor-load-percentage-text, "Loading");
     }
 
+.modal {
+    top: 40%;
+}
+
 /* Login side */
 
 :root {

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
+//DTO = Data Transfer Object
+
 public class ShiftDTO
 {
     public int shift_id { get; set; }

@@ -69,7 +69,7 @@
                 <li class="nav-item">
                     @if (isLoggedIn)
                     {
-                        <NavLink class="nav-link" href=""> Log ud </NavLink>
+                        <NavLink class="nav-link" @onclick="@Logout" href=""> Log ud </NavLink>
                     }
                 </li>
             </ul>
@@ -78,6 +78,7 @@
 </nav>
 
 @code {
+    private int userId { get; set; }
     private bool collapseNavMenu = true;
     private string? NavBarCssClass => collapseNavMenu ? null : "show";
     private string? NavButtonCssClass => collapseNavMenu ? "collapsed" : null;
@@ -87,18 +88,25 @@
         collapseNavMenu = !collapseNavMenu;
     }
 
-        public bool isLoggedIn = false;
+    public bool isLoggedIn = false;
 
-        public int userRoleId { get; set; }
+    public int userRoleId { get; set; }
 
 
-        private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-        protected override async Task OnInitializedAsync()
-        {
-            isLoggedIn = await sessionStorage.GetItemAsync<bool>("isLoggedIn");
-            userRoleId = await sessionStorage.GetItemAsync<int>("userRoleId");
-        }
+    private async void Logout()
+    {
+        //Ryder sessionStorage
+        await sessionStorage.ClearAsync();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoggedIn = await sessionStorage.GetItemAsync<bool>("isLoggedIn");
+        userRoleId = await sessionStorage.GetItemAsync<int>("userRoleId");
+        userId = await sessionStorage.GetItemAsync<int>("userId");
+    }
 
 
 }
