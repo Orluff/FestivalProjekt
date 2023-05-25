@@ -13,7 +13,7 @@
     <div class="box">
         <h2>Login</h2>
         <form>
-            <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+            <EditForm EditContext="@aEditContext" OnValidSubmit="@HandleValidSubmit">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 
@@ -41,10 +41,10 @@
 
 @code {
 
-    //Angiver om der er et match mellem brugeroplysningerne
+    //Angiv om der er et match mellem brugeroplysningerne
     public bool isMatchFound = true;
 
-    // Ny instans af UserDTO
+    //Ny instans af UserDTO
     private UserDTO userItem = new UserDTO();
 
     //Array til opbevaring af brugerdata
@@ -56,10 +56,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Henter brugerdata fra IUserService og gemmer dem i userList-arrayet
+        //Hent brugerdata fra IUserService og gem dem i userList-arrayet
         userList = (await uService.getUsers()).ToArray();
 
-        //Sætter isLoggedIn i session storage til false
+        //Sæt isLoggedIn i session storage til false
         await sessionStorage.SetItemAsync("isLoggedIn", false);
     }
 
@@ -74,20 +74,20 @@
 
     private async Task Login()
     {
-        Console.WriteLine(userList.ToArray().ToString());
-        //Itererer gennem userList for at sammenligne brugeroplysningerne
+
+        //Iterer gennem userList for at sammenligne brugeroplysningerne
         foreach (var user in userList)
         {
             if (user.email == userItem.email && user.password == userItem.password)
             {
-                // Gemmer brugerens id og rolle_id i session storage
+                // Gem brugerens id og rolle_id i session storage
                 await sessionStorage.SetItemAsync("userId", user.user_id);
                 await sessionStorage.SetItemAsync("userRoleId", user.role_id);
 
-                // Sætter isLoggedIn i session storage til true
+                // Sæt isLoggedIn i session storage til true
                 await sessionStorage.SetItemAsync("isLoggedIn", true);
 
-                // Navigerer til "/userinfo/" siden
+                // Naviger til "/userinfo/" siden
                 NavigationManager.NavigateTo($"/userinfo/", forceLoad: true);
 
                 //Der er fundet et match

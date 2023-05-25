@@ -9,6 +9,7 @@ using Server;
 
 namespace Server.Controllers
 {
+        // Dette repository vil håndtere datalagring og -hentning relateret til rollerne i API'en
         [ApiController]
         [Route("api/role")]
         public class RoleController : ControllerBase
@@ -22,21 +23,13 @@ namespace Server.Controllers
 
             //Get
             //Fanger postede informationer til koordinator siden
+            // Returnerer en liste over RoleDTO'er (rollerne)
             [EnableCors("policy")]
             [HttpGet]
             public IEnumerable<RoleDTO> Get()
             {
                 return rRepo.getRole();
             }
-
-            //Post
-            //Poster informationer fra shifts formen til koordinator siden
-           /* [EnableCors("policy")]
-            [HttpPost]
-            public void Add(RoleDTO role)
-            {
-                rRepo.AddRole(role);
-            }*/
         }
 
     }

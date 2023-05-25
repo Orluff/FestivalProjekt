@@ -89,7 +89,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Henter userId fra sessionStorage
+        // Hent userId fra sessionStorage
         userId = await sessionStorage.GetItemAsync<int>("userId");
         if (userId == 0)
         {
@@ -97,7 +97,7 @@
             NavigationManager.NavigateTo($"/");
         }
 
-        // Henter roller og konverterer dem til et array
+        // Hent roller og konverter dem til et array
         roleList = (await rService.getRole()).ToArray();
     }
 
@@ -114,12 +114,13 @@
     {
         try
         {
-            //Sætter userItem's user_id til userId
+            //Sæt userItem's user_id til userId
             userItem.user_id = userId;
 
+            //Tilføj bruger
             await mService.AddUser(userItem);
 
-            // Tømmer felter i formularen
+            //Tøm felter i formularen
             userItem = new();
         }
         catch (Exception ex)

@@ -4,8 +4,8 @@ namespace Client.Services
 {
 	public interface IRoleService
 	{
+        //Hent roller
         Task<IEnumerable<RoleDTO>> getRole();
-        //Task AddRole(RoleDTO role);
     }
 }
 

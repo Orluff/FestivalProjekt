@@ -9,7 +9,7 @@ using Server;
 
 namespace Server.Controllers
 {
-    // Dette repository vil håndtere datalagring og -hentning relateret til shifts i API'en
+    // Dette repository vil håndtere datalagring og -hentning relateret til brugere i API'en
     [ApiController]
     [Route("api/user")]
     public class UserController : ControllerBase
@@ -22,7 +22,8 @@ namespace Server.Controllers
         }
 
         //Post
-        //Poster informationer fra shifts formen til koordinator siden
+        //Poster informationer fra bruger formen til koordinator siden
+        //Tilføjer den modtagne bruger
         [EnableCors("policy")]
         [HttpPost]
         public void Add(UserDTO user)
@@ -30,8 +31,8 @@ namespace Server.Controllers
             userRepo.AddUser(user);
         }
 
-        //Post
-        //Poster informationer fra shifts formen til koordinator siden
+        //Put
+        //Opdater bruger
         [EnableCors("policy")]
         [HttpPut]
         public void Update(UserDTO user)
@@ -41,6 +42,7 @@ namespace Server.Controllers
 
         //Get
         //Fanger postede informationer til koordinator siden
+        //Returnerer en liste over UserDTO'er (brugerne)
         [EnableCors("policy")]
         [HttpGet]
         public IEnumerable<UserDTO> Get()
@@ -50,6 +52,7 @@ namespace Server.Controllers
 
         //Delete
         //Sletter informationer fra koordinator siden
+        //Slet den valgte bruger
         [HttpDelete]
         [Route("{id}")]
 

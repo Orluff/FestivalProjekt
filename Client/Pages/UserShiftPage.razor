@@ -48,7 +48,11 @@
                                                     }
                                                 else
                                                     {
-                                                        <td><button type="button" class="btn btn-link" @onclick="() => RemoveUserShift(shift)"><span class="oi oi-x"></span></button></td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-link" @onclick="() => RemoveUserShift(shift)">
+                                                                <span class="oi oi-x"></span>
+                                                            </button>
+                                                        </td>
                                                     }
                                             </tr>
                                         }
@@ -73,8 +77,6 @@
     private ShiftDTO shift = new ShiftDTO();
     private UserShiftDTO userShift = new UserShiftDTO();
     private ShiftCategoryDTO category = new ShiftCategoryDTO();
-
-    private EditContext aEditContext;
 
     //Tjenester til vores services
     [Inject]
@@ -106,6 +108,9 @@
             Console.WriteLine(ex);
         }
     }
+
+    //EditContext-objekt til validering af formularfelter
+    private EditContext aEditContext;
 
     protected override void OnInitialized()
     {

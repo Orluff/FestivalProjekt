@@ -9,7 +9,7 @@ using Server;
 
 namespace Server.Controllers
 {
-    // Dette repository vil håndtere datalagring og -hentning relateret til shifts i API'en
+    // Dette repository vil håndtere datalagring og -hentning relateret til kategorier i API'en
     [ApiController]
     [Route("api/category")]
     public class CategoryController : ControllerBase
@@ -21,8 +21,9 @@ namespace Server.Controllers
             this.cRepo = new CategoryRepository();
         }
 
-        //Get
-        //Fanger postede informationer til koordinator siden
+        // Get
+        // Fanger postede informationer til koordinator siden
+        // Returnerer en liste over ShiftCategoryDTO'er (kategorierne)
         [EnableCors("policy")]
         [HttpGet]
         public IEnumerable<ShiftCategoryDTO> Get()
@@ -31,7 +32,8 @@ namespace Server.Controllers
         }
 
         //Post
-        //Poster informationer fra shifts formen til koordinator siden
+        //Poster informationer fra kategori formen til koordinator siden
+        //Tilføjer den modtagne kategori
         [EnableCors("policy")]
         [HttpPost]
         public void Add(ShiftCategoryDTO cat)

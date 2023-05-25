@@ -56,8 +56,6 @@
     private RoleDTO roleItem = new RoleDTO();
     private RoleDTO[]? roleList = new RoleDTO[0];
 
-    private EditContext aEditContext;
-
     //Tjenester til vores services
     [Inject]
     private IUserService mService { get; set; }
@@ -85,6 +83,9 @@
             Console.WriteLine(ex);
         }
     }
+
+    //EditContext-objekt til validering af formularfelter
+    private EditContext aEditContext;
 
     protected override void OnInitialized()
     {

@@ -9,7 +9,7 @@ using Server;
 
 namespace Server.Controllers
 {
-    // Dette repository vil håndtere datalagring og -hentning relateret til shifts i API'en
+    // Dette repository vil håndtere datalagring og -hentning relateret til brugerens vagter i API'en
     [ApiController]
     [Route("api/usershift")]
     public class UserShiftController : ControllerBase
@@ -22,7 +22,8 @@ namespace Server.Controllers
         }
 
         //Post
-        //Poster informationer fra shifts formen til koordinator siden
+        //Poster informationer fra usershift formen til koordinator siden
+        //Tilføjer den valgte vagt til brugerens vagtliste
         [EnableCors("policy")]
         [HttpPost]
         public void Take(UserShiftDTO shift)
@@ -32,6 +33,7 @@ namespace Server.Controllers
 
         //Get
         //Fanger postede informationer til koordinator siden
+        //Returnerer en liste over UserShiftDTO'er (brugerens vagter)
         [EnableCors("policy")]
         [HttpGet]
         public IEnumerable<UserShiftDTO> Get()
@@ -41,6 +43,7 @@ namespace Server.Controllers
 
         //Delete
         //Sletter informationer fra koordinator siden
+        //Slet den valgte vagt fra brugerens vagtliste
         [EnableCors("policy")]
         [HttpDelete]
         [Route("{id}")]

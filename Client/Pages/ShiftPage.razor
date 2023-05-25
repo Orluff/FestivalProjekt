@@ -62,7 +62,7 @@
                         </tr>
                     }
 
-                    <!-- Hvis koordinatoren ikke redigerer -->
+                    <!-- Hvis koordinatoren ikke er i gang med at redigere -->
                     else
                     {
 
@@ -109,9 +109,6 @@
         private ShiftDTO shift = new ShiftDTO();
         private UserShiftDTO userShift = new UserShiftDTO();
         private ShiftCategoryDTO category = new ShiftCategoryDTO();
-
-        //EditContext-objekt til validering af formularfelter
-        private EditContext aEditContext;
 
         //Dictionary til at mappe sorteringsmetoder til handlinger
         Dictionary<string, Action> selectedSortDictionary;
@@ -214,6 +211,9 @@
                 Console.WriteLine(ex);
             }
         }
+
+        //EditContext-objekt til validering af formularfelter
+        private EditContext aEditContext;
 
         protected override void OnInitialized()
         {

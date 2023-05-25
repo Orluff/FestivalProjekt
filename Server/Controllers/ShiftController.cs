@@ -9,7 +9,7 @@ using Server;
 
 namespace Server.Controllers
 {
-    // Dette repository vil håndtere datalagring og -hentning relateret til shifts i API'en
+    // Dette repository vil håndtere datalagring og -hentning relateret til vagter i API'en
     [ApiController]
     [Route("api/shift")]
     public class ShiftController : ControllerBase
@@ -23,6 +23,7 @@ namespace Server.Controllers
 
         //Post
         //Poster informationer fra shifts formen til koordinator siden
+        //Tilføjer den modtagne vagt
         [EnableCors("policy")]
         [HttpPost]
         public void Add(ShiftDTO shift)
@@ -32,6 +33,7 @@ namespace Server.Controllers
 
         //Get
         //Fanger postede informationer til koordinator siden
+        //Returnerer en liste over ShiftDTO'er (vagterne)
         [EnableCors("policy")]
         [HttpGet]
         public IEnumerable<ShiftDTO> Get()
@@ -41,6 +43,7 @@ namespace Server.Controllers
 
         //Delete
         //Sletter informationer fra koordinator siden
+        //Sletter den valgte vagt
         [EnableCors("policy")]
         [HttpDelete]
         [Route("{id}")]
@@ -50,6 +53,8 @@ namespace Server.Controllers
             shiftRepo.RemoveShift(id);
         }
 
+        //Put
+        //Opdater antal pladser med en mindre ud fra vagtens id
         [EnableCors("policy")]
         [HttpPut("remove/{id}")]
         public void RemoveSpot(int id)
@@ -58,6 +63,8 @@ namespace Server.Controllers
             shiftRepo.RemoveSpot(shift);
         }
 
+        //Put
+        //Opdater antal pladser med en mere ud fra vagtens id
         [EnableCors("policy")]
         [HttpPut("add/{id}")]
         public void AddSpot(int id)
@@ -66,8 +73,8 @@ namespace Server.Controllers
             shiftRepo.AddSpot(shift);
         }
 
-        //Post
-        //Poster informationer fra shifts formen til koordinator siden
+        //Put
+        //Opdater vagt
         [EnableCors("policy")]
         [HttpPut]
         public void UpdateShift(ShiftDTO shift)

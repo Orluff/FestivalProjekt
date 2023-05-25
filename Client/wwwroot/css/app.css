@@ -180,16 +180,16 @@ a, .btn-link {
 
     .box form div:first-of-type {
     margin-bottom: 40px;
-}
+    }
 
-.box form div input {
+    .box form div input {
     font-size: 20px;
     outline: none;
     border: none;
     padding: 10px;
     min-width: 0;
     flex: 1;
-}
+    }
 
         .box form div input::placeholder {
             opacity: 1;
@@ -212,14 +212,10 @@ a, .btn-link {
         border-bottom-color: none;
     }
 
-    .box form button[type="submit"]:hover {
+        .box form button[type="submit"]:hover {
         background-image: var(--tertiary-color);
         cursor: pointer;
-    }
-
-
-
-
+        }
 
 
 /* redigerings sider (create shift, create user og user info) */
