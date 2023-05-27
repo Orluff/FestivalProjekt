@@ -42,7 +42,7 @@ namespace Client.Services
             await http.PostAsJsonAsync(Config.serverURL + "api/user", user);
         }
 
-        // Opdaterer en vagt på serveren.
+        // Opdaterer en bruger på serveren.
         // Laver en asynkron HTTP PUT-anmodning til serverens API-endepunkt
         public async Task UpdateUser(UserDTO user)
         {

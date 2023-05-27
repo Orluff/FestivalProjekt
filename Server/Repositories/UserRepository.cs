@@ -98,7 +98,7 @@ namespace Server.Repositories
                 connection.Open();
                 var command = connection.CreateCommand();
 
-                //SQL-Query: Opdater Shifts table med nye værdier
+                //SQL-Query: Opdater User table med nye værdier
                 command.CommandText = "UPDATE \"Users\" SET \"name\" = @name, \"lastName\" = @lastName, address = @address, email = @email, telephone = @telephone, \"birthDate\" = @birthDate, \"password\" = @password WHERE user_id = @id";
 
                 //Tilføj værdier
@@ -124,7 +124,7 @@ namespace Server.Repositories
 
                 var command = connection.CreateCommand();
 
-                //SQL-Query: Slet værdier fra Users table hvor vagt id'et = shift_id
+                //SQL-Query: Slet værdier fra Users table hvor user id'et = user_id
                 command.CommandText = $"DELETE FROM \"Users\" WHERE user_id = {user_id};";
 
                 command.ExecuteNonQuery();
