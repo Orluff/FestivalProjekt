@@ -6,6 +6,14 @@
 
 <div class="table-header">Bruger oversigt</div>
 
+<!-- Hvis brugeren man prøver på at slette har vagter skrives denne fejlbesked -->
+@if (errorMessage != null)
+{
+    <ul class="validation-errors">
+        <li class="validation-message">Brugeren kan ikke slettes, har vagter</li>
+    </ul>
+}
+
 <!-- Table over alle brugere-->
 <table class="styled-table">
     <thead>
@@ -49,6 +57,9 @@
 @code {
     //Variable til at holde brugerens ID
     public int userId { get; set; }
+
+    //Variable til at holde status for fejlbesked
+    public bool? errorMessage = null;
 
     //Egenskaber
     private UserDTO[]? userList = new UserDTO[0];
@@ -95,7 +106,14 @@
 
     private async Task RemoveUser(UserDTO user)
     {
-        await mService.RemoveUser(user);
+        try
+        {
+            await mService.RemoveUser(user);
+        }
+        catch (Exception ex)
+        {
+            errorMessage = true;
+        }
 
         //Sørger for at genindlæse UI'en så vagt listen opdateres med det samme
         userList = (await mService.getUsers()).ToArray();
