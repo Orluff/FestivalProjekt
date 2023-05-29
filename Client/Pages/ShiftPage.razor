@@ -99,9 +99,6 @@
         //Variable til at holde brugerens ID
         public int userId { get; set; }
 
-        //Gem sorteringsmetode
-        private string selectedSort;
-
         //Instans af ShiftDTO som gemmer de originale data, hvis redigeringen skulle annulleres
         ShiftDTO originalShiftItem = new ShiftDTO();
 
@@ -155,6 +152,9 @@
             shift.priority = originalShiftItem.priority;
             shift.spots = originalShiftItem.spots;
         }
+
+        //Gem sorteringsmetode
+        private string selectedSort;
 
         public string SelectedSort
         {
